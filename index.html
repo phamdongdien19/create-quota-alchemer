@@ -1,16 +1,17 @@
 <!DOCTYPE html>
 <html lang="vi">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alchemer Bulk Quota Creator</title>
+    <title>Alchemer Bulk Quota Manager</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
         }
-        
+
         body {
             font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
@@ -18,17 +19,17 @@
             color: #fff;
             padding: 20px;
         }
-        
+
         .container {
-            max-width: 900px;
+            max-width: 1000px;
             margin: 0 auto;
         }
-        
+
         header {
             text-align: center;
             margin-bottom: 30px;
         }
-        
+
         h1 {
             font-size: 2.5rem;
             background: linear-gradient(90deg, #00d9ff, #00ff88);
@@ -36,12 +37,48 @@
             -webkit-text-fill-color: transparent;
             margin-bottom: 10px;
         }
-        
+
         .subtitle {
             color: #8892b0;
             font-size: 1.1rem;
         }
-        
+
+        .tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tab {
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px 8px 0 0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #8892b0;
+            font-weight: 500;
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .tab.active {
+            background: rgba(0, 217, 255, 0.1);
+            border-color: #00d9ff;
+            color: #00d9ff;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
         .card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
@@ -50,7 +87,7 @@
             margin-bottom: 20px;
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
+
         .card-title {
             font-size: 1.2rem;
             margin-bottom: 16px;
@@ -59,7 +96,7 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .card-title::before {
             content: '';
             width: 4px;
@@ -67,15 +104,33 @@
             background: linear-gradient(180deg, #00d9ff, #00ff88);
             border-radius: 2px;
         }
-        
+
+        .card-title.danger::before {
+            background: linear-gradient(180deg, #ff5252, #ff8a80);
+        }
+
+        .card-title.danger {
+            color: #ff5252;
+        }
+
+        .card-title.warning::before {
+            background: linear-gradient(180deg, #ffc107, #ffeb3b);
+        }
+
+        .card-title.warning {
+            color: #ffc107;
+        }
+
         label {
             display: block;
             margin-bottom: 8px;
             color: #ccd6f6;
             font-weight: 500;
         }
-        
-        input, textarea, select {
+
+        input,
+        textarea,
+        select {
             width: 100%;
             padding: 12px 16px;
             border: 1px solid rgba(255, 255, 255, 0.1);
@@ -85,33 +140,43 @@
             font-size: 1rem;
             transition: all 0.3s ease;
         }
-        
-        input:focus, textarea:focus, select:focus {
+
+        input:focus,
+        textarea:focus,
+        select:focus {
             outline: none;
             border-color: #00d9ff;
             box-shadow: 0 0 0 3px rgba(0, 217, 255, 0.2);
         }
-        
+
         textarea {
-            min-height: 200px;
+            min-height: 150px;
             font-family: 'Consolas', 'Monaco', monospace;
             resize: vertical;
         }
-        
+
         .grid-2 {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 16px;
         }
-        
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 16px;
+        }
+
         @media (max-width: 600px) {
-            .grid-2 {
+
+            .grid-2,
+            .grid-3 {
                 grid-template-columns: 1fr;
             }
         }
-        
+
         .btn {
-            padding: 14px 28px;
+            padding: 12px 24px;
             border: none;
             border-radius: 8px;
             font-size: 1rem;
@@ -122,88 +187,121 @@
             align-items: center;
             gap: 8px;
         }
-        
+
         .btn-primary {
             background: linear-gradient(135deg, #00d9ff, #00ff88);
             color: #1a1a2e;
         }
-        
+
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(0, 217, 255, 0.3);
         }
-        
+
         .btn-primary:disabled {
             opacity: 0.5;
             cursor: not-allowed;
             transform: none;
         }
-        
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ffc107, #ffeb3b);
+            color: #1a1a2e;
+        }
+
+        .btn-warning:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 193, 7, 0.3);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff5252, #ff8a80);
+            color: #fff;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 82, 82, 0.3);
+        }
+
         .btn-secondary {
             background: rgba(255, 255, 255, 0.1);
             color: #fff;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
-        
+
         .btn-secondary:hover {
             background: rgba(255, 255, 255, 0.15);
         }
-        
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 0.9rem;
+        }
+
         .actions {
             display: flex;
             gap: 12px;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
-        
-        .preview-table {
+
+        .data-table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 16px;
         }
-        
-        .preview-table th,
-        .preview-table td {
+
+        .data-table th,
+        .data-table td {
             padding: 12px;
             text-align: left;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
-        
-        .preview-table th {
+
+        .data-table th {
             background: rgba(0, 217, 255, 0.1);
             color: #00d9ff;
             font-weight: 600;
         }
-        
-        .preview-table tr:hover td {
+
+        .data-table tr:hover td {
             background: rgba(255, 255, 255, 0.05);
         }
-        
+
+        .data-table input {
+            width: 80px;
+            padding: 6px 10px;
+            text-align: right;
+        }
+
         .status {
             padding: 4px 12px;
             border-radius: 20px;
             font-size: 0.85rem;
             font-weight: 500;
         }
-        
+
         .status-pending {
             background: rgba(255, 193, 7, 0.2);
             color: #ffc107;
         }
-        
+
         .status-success {
             background: rgba(0, 255, 136, 0.2);
             color: #00ff88;
         }
-        
+
         .status-error {
             background: rgba(255, 82, 82, 0.2);
             color: #ff5252;
         }
-        
-        .results {
-            margin-top: 20px;
+
+        .status-modified {
+            background: rgba(138, 43, 226, 0.2);
+            color: #da70d6;
         }
-        
+
         .result-summary {
             display: flex;
             gap: 20px;
@@ -212,25 +310,33 @@
             border-radius: 8px;
             margin-bottom: 16px;
         }
-        
+
         .result-stat {
             text-align: center;
         }
-        
+
         .result-stat-value {
             font-size: 2rem;
             font-weight: 700;
         }
-        
+
         .result-stat-label {
             color: #8892b0;
             font-size: 0.9rem;
         }
-        
-        .success-value { color: #00ff88; }
-        .error-value { color: #ff5252; }
-        .total-value { color: #00d9ff; }
-        
+
+        .success-value {
+            color: #00ff88;
+        }
+
+        .error-value {
+            color: #ff5252;
+        }
+
+        .total-value {
+            color: #00d9ff;
+        }
+
         .spinner {
             width: 20px;
             height: 20px;
@@ -239,17 +345,19 @@
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
-        
+
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
         }
-        
+
         .help-text {
             color: #8892b0;
             font-size: 0.9rem;
             margin-top: 8px;
         }
-        
+
         .info-box {
             background: rgba(0, 217, 255, 0.1);
             border-left: 3px solid #00d9ff;
@@ -257,23 +365,95 @@
             border-radius: 0 8px 8px 0;
             margin-bottom: 16px;
         }
-        
-        .info-box p {
+
+        .warning-box {
+            background: rgba(255, 193, 7, 0.1);
+            border-left: 3px solid #ffc107;
+            padding: 16px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 16px;
+        }
+
+        .danger-box {
+            background: rgba(255, 82, 82, 0.1);
+            border-left: 3px solid #ff5252;
+            padding: 16px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 16px;
+        }
+
+        .info-box p,
+        .warning-box p,
+        .danger-box p {
             color: #ccd6f6;
             line-height: 1.6;
         }
+
+        .adjust-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+
+        .adjust-controls input {
+            width: 80px;
+        }
+
+        .adjust-controls select {
+            width: 120px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .checkbox-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .change-indicator {
+            font-size: 0.8rem;
+            margin-left: 8px;
+        }
+
+        .change-up {
+            color: #00ff88;
+        }
+
+        .change-down {
+            color: #ff5252;
+        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <header>
-            <h1>🚀 Bulk Quota Creator</h1>
-            <p class="subtitle">Tạo quota Alchemer hàng loạt từ Google Sheet</p>
+            <h1>🚀 Bulk Quota Manager</h1>
+            <p class="subtitle">Tạo, chỉnh sửa và xoá quota Alchemer hàng loạt</p>
         </header>
-        
+
+        <!-- API CONFIG -->
         <div class="card">
             <div class="card-title">Cấu hình API</div>
-            <div class="grid-2">
+            <div class="grid-3">
                 <div>
                     <label>API Key</label>
                     <input type="text" id="apiKey" placeholder="Nhập API Key">
@@ -282,220 +462,436 @@
                     <label>API Secret</label>
                     <input type="password" id="apiSecret" placeholder="Nhập API Secret">
                 </div>
-            </div>
-            <div style="margin-top: 16px;">
-                <label>Survey ID</label>
-                <input type="text" id="surveyId" placeholder="VD: 8154556">
+                <div>
+                    <label>Survey ID</label>
+                    <input type="text" id="surveyId" placeholder="VD: 8154556">
+                </div>
             </div>
         </div>
-        
-        <div class="card">
-            <div class="card-title">Dữ liệu Quota</div>
-            <div class="info-box">
-                <p>📋 Copy từ Google Sheet và dán vào ô bên dưới.<br>
-                Format: <strong>Tên quota [TAB] Limit</strong> (mỗi dòng 1 quota)</p>
-            </div>
-            <label>Paste Data (từ Google Sheet)</label>
-            <textarea id="quotaData" placeholder="Hà Nội	25
+
+        <!-- TABS -->
+        <div class="tabs">
+            <div class="tab active" onclick="switchTab('create')">✨ Tạo mới</div>
+            <div class="tab" onclick="switchTab('manage')">📝 Quản lý & Sửa</div>
+            <div class="tab" onclick="switchTab('delete')">🗑️ Xoá</div>
+        </div>
+
+        <!-- CREATE TAB -->
+        <div id="createTab" class="tab-content active">
+            <div class="card">
+                <div class="card-title">Tạo Quota Mới</div>
+                <div class="info-box">
+                    <p>📋 Copy từ Google Sheet: <strong>Tên [TAB] Limit</strong></p>
+                </div>
+                <textarea id="quotaData" placeholder="Hà Nội	25
 TP. Hồ Chí Minh	50
 Hải Phòng	20"></textarea>
-            <p class="help-text">💡 Logic mặc định: "source is answered" - bạn có thể sửa logic sau trong Alchemer UI</p>
-        </div>
-        
-        <div class="card" id="previewCard" style="display: none;">
-            <div class="card-title">Xem trước</div>
-            <table class="preview-table">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>Tên Quota</th>
-                        <th>Limit</th>
-                        <th>Trạng thái</th>
-                    </tr>
-                </thead>
-                <tbody id="previewBody"></tbody>
-            </table>
-        </div>
-        
-        <div class="actions">
-            <button class="btn btn-secondary" onclick="parseData()">👁️ Xem trước</button>
-            <button class="btn btn-primary" id="createBtn" onclick="createQuotas()">
-                ✨ Tạo Quota
-            </button>
-        </div>
-        
-        <div class="card results" id="resultsCard" style="display: none;">
-            <div class="card-title">Kết quả</div>
-            <div class="result-summary">
-                <div class="result-stat">
-                    <div class="result-stat-value total-value" id="totalCount">0</div>
-                    <div class="result-stat-label">Tổng</div>
-                </div>
-                <div class="result-stat">
-                    <div class="result-stat-value success-value" id="successCount">0</div>
-                    <div class="result-stat-label">Thành công</div>
-                </div>
-                <div class="result-stat">
-                    <div class="result-stat-value error-value" id="errorCount">0</div>
-                    <div class="result-stat-label">Lỗi</div>
+                <p class="help-text">💡 Logic mặc định: "source is answered"</p>
+            </div>
+
+            <div class="card hidden" id="createPreviewCard">
+                <div class="card-title">Xem trước</div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Tên</th>
+                            <th>Limit</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody id="createPreviewBody"></tbody>
+                </table>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-secondary" onclick="parseCreateData()">👁️ Xem trước</button>
+                <button class="btn btn-primary" id="createBtn" onclick="createQuotas()">✨ Tạo Quota</button>
+            </div>
+
+            <div class="card hidden" id="createResultsCard">
+                <div class="card-title">Kết quả</div>
+                <div class="result-summary">
+                    <div class="result-stat">
+                        <div class="result-stat-value total-value" id="createTotal">0</div>
+                        <div class="result-stat-label">Tổng</div>
+                    </div>
+                    <div class="result-stat">
+                        <div class="result-stat-value success-value" id="createSuccess">0</div>
+                        <div class="result-stat-label">Thành công</div>
+                    </div>
+                    <div class="result-stat">
+                        <div class="result-stat-value error-value" id="createError">0</div>
+                        <div class="result-stat-label">Lỗi</div>
+                    </div>
                 </div>
             </div>
-            <a href="#" id="alchemerLink" target="_blank" class="btn btn-primary" style="text-decoration: none;">
-                🔗 Mở Alchemer để kiểm tra
-            </a>
+        </div>
+
+        <!-- MANAGE TAB -->
+        <div id="manageTab" class="tab-content">
+            <div class="card">
+                <div class="card-title warning">📝 Quản lý & Chỉnh sửa Quota</div>
+                <button class="btn btn-secondary" onclick="loadExistingQuotas()" id="loadManageBtn">🔄 Tải danh sách
+                    Quota</button>
+            </div>
+
+            <div class="card hidden" id="manageCard">
+                <div class="card-title">Điều chỉnh hàng loạt</div>
+                <div class="adjust-controls">
+                    <span>Thay đổi Limit:</span>
+                    <select id="adjustType">
+                        <option value="percent">Theo %</option>
+                        <option value="add">Cộng thêm</option>
+                        <option value="set">Đặt giá trị</option>
+                    </select>
+                    <input type="number" id="adjustValue" value="10" placeholder="Giá trị">
+                    <button class="btn btn-sm btn-secondary" onclick="applyAdjustment()">Áp dụng</button>
+                    <button class="btn btn-sm btn-secondary" onclick="resetLimits()">↩️ Reset</button>
+                </div>
+
+                <div class="warning-box">
+                    <p>⚠️ Chỉnh sửa Limit bên dưới, sau đó nhấn <strong>"Cập nhật"</strong> để lưu thay đổi.</p>
+                </div>
+
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" id="selectAllManage" onchange="toggleSelectAllManage()"></th>
+                            <th>ID</th>
+                            <th>Tên Quota</th>
+                            <th>Limit hiện tại</th>
+                            <th>Limit mới</th>
+                            <th>Trạng thái</th>
+                        </tr>
+                    </thead>
+                    <tbody id="manageBody"></tbody>
+                </table>
+            </div>
+
+            <div class="actions hidden" id="manageActions">
+                <button class="btn btn-warning" id="updateBtn" onclick="updateQuotas()">💾 Cập nhật Quota đã
+                    chọn</button>
+            </div>
+
+            <div class="card hidden" id="updateResultsCard">
+                <div class="card-title">Kết quả cập nhật</div>
+                <div class="result-summary">
+                    <div class="result-stat">
+                        <div class="result-stat-value total-value" id="updateTotal">0</div>
+                        <div class="result-stat-label">Tổng</div>
+                    </div>
+                    <div class="result-stat">
+                        <div class="result-stat-value success-value" id="updateSuccess">0</div>
+                        <div class="result-stat-label">Thành công</div>
+                    </div>
+                    <div class="result-stat">
+                        <div class="result-stat-value error-value" id="updateError">0</div>
+                        <div class="result-stat-label">Lỗi</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DELETE TAB -->
+        <div id="deleteTab" class="tab-content">
+            <div class="card">
+                <div class="card-title danger">🗑️ Xoá Quota Hàng Loạt</div>
+                <div class="danger-box">
+                    <p>🚨 <strong>Cẩn thận!</strong> Hành động xoá không thể hoàn tác.</p>
+                </div>
+                <button class="btn btn-secondary" onclick="loadDeleteQuotas()" id="loadDeleteBtn">🔄 Tải danh
+                    sách</button>
+
+                <div id="deleteList" class="hidden" style="margin-top: 20px;">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="selectAllDelete" onchange="toggleSelectAllDelete()">
+                        <label for="selectAllDelete"><strong>Chọn tất cả</strong></label>
+                    </div>
+                    <div id="deleteCheckboxes"></div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-danger hidden" id="deleteBtn" onclick="deleteSelectedQuotas()">🗑️ Xoá
+                    Quota</button>
+            </div>
+
+            <div class="card hidden" id="deleteResultsCard">
+                <div class="card-title">Kết quả xoá</div>
+                <div class="result-summary">
+                    <div class="result-stat">
+                        <div class="result-stat-value total-value" id="deleteTotal">0</div>
+                        <div class="result-stat-label">Tổng</div>
+                    </div>
+                    <div class="result-stat">
+                        <div class="result-stat-value success-value" id="deleteSuccess">0</div>
+                        <div class="result-stat-label">Đã xoá</div>
+                    </div>
+                    <div class="result-stat">
+                        <div class="result-stat-value error-value" id="deleteError">0</div>
+                        <div class="result-stat-label">Lỗi</div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    
+
     <script>
-        let quotas = [];
-        
-        // Load saved settings from localStorage
-        window.onload = function() {
+        let createQuotasList = [];
+        let manageQuotasList = [];
+        let deleteQuotasList = [];
+
+        // Load settings
+        window.onload = () => {
             document.getElementById('apiKey').value = localStorage.getItem('alchemer_apiKey') || '';
             document.getElementById('apiSecret').value = localStorage.getItem('alchemer_apiSecret') || '';
             document.getElementById('surveyId').value = localStorage.getItem('alchemer_surveyId') || '';
         };
-        
+
         function saveSettings() {
             localStorage.setItem('alchemer_apiKey', document.getElementById('apiKey').value);
             localStorage.setItem('alchemer_apiSecret', document.getElementById('apiSecret').value);
             localStorage.setItem('alchemer_surveyId', document.getElementById('surveyId').value);
         }
-        
-        function parseData() {
-            const data = document.getElementById('quotaData').value.trim();
-            if (!data) {
-                alert('Vui lòng dán dữ liệu quota');
-                return;
-            }
-            
-            const lines = data.split('\n');
-            quotas = [];
-            
-            for (const line of lines) {
-                const parts = line.split('\t');
-                if (parts.length >= 2) {
-                    quotas.push({
-                        name: parts[0].trim(),
-                        limit: parseInt(parts[1].trim()) || 100,
-                        status: 'pending'
-                    });
-                }
-            }
-            
-            renderPreview();
-        }
-        
-        function renderPreview() {
-            const tbody = document.getElementById('previewBody');
-            tbody.innerHTML = quotas.map((q, i) => `
-                <tr id="row-${i}">
-                    <td>${i + 1}</td>
-                    <td>${q.name}</td>
-                    <td>${q.limit}</td>
-                    <td><span class="status status-${q.status}">${getStatusText(q.status)}</span></td>
-                </tr>
-            `).join('');
-            
-            document.getElementById('previewCard').style.display = 'block';
-        }
-        
-        function getStatusText(status) {
-            const texts = {
-                'pending': '⏳ Chờ',
-                'success': '✅ OK',
-                'error': '❌ Lỗi'
+
+        function getApiParams() {
+            return {
+                apiKey: document.getElementById('apiKey').value,
+                apiSecret: document.getElementById('apiSecret').value,
+                surveyId: document.getElementById('surveyId').value
             };
-            return texts[status] || status;
         }
-        
-        function updateRowStatus(index, status) {
-            quotas[index].status = status;
-            const row = document.getElementById(`row-${index}`);
-            if (row) {
-                const statusCell = row.querySelector('.status');
-                statusCell.className = `status status-${status}`;
-                statusCell.textContent = getStatusText(status);
-            }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab').forEach((t, i) => {
+                t.classList.toggle('active',
+                    (tab === 'create' && i === 0) ||
+                    (tab === 'manage' && i === 1) ||
+                    (tab === 'delete' && i === 2));
+            });
+            document.getElementById('createTab').classList.toggle('active', tab === 'create');
+            document.getElementById('manageTab').classList.toggle('active', tab === 'manage');
+            document.getElementById('deleteTab').classList.toggle('active', tab === 'delete');
         }
-        
+
+        // ========== CREATE ==========
+        function parseCreateData() {
+            const data = document.getElementById('quotaData').value.trim();
+            if (!data) return alert('Vui lòng dán dữ liệu quota');
+
+            createQuotasList = data.split('\n').map(line => {
+                const parts = line.split('\t');
+                return parts.length >= 2 ? { name: parts[0].trim(), limit: parseInt(parts[1]) || 100, status: 'pending' } : null;
+            }).filter(Boolean);
+
+            document.getElementById('createPreviewBody').innerHTML = createQuotasList.map((q, i) =>
+                `<tr id="create-row-${i}"><td>${i + 1}</td><td>${q.name}</td><td>${q.limit}</td><td><span class="status status-pending">⏳ Chờ</span></td></tr>`
+            ).join('');
+            document.getElementById('createPreviewCard').classList.remove('hidden');
+        }
+
         async function createQuotas() {
-            if (quotas.length === 0) {
-                parseData();
-                if (quotas.length === 0) return;
-            }
-            
-            const apiKey = document.getElementById('apiKey').value;
-            const apiSecret = document.getElementById('apiSecret').value;
-            const surveyId = document.getElementById('surveyId').value;
-            
-            if (!apiKey || !apiSecret || !surveyId) {
-                alert('Vui lòng nhập đầy đủ API Key, API Secret và Survey ID');
-                return;
-            }
-            
+            if (!createQuotasList.length) { parseCreateData(); if (!createQuotasList.length) return; }
+            const { apiKey, apiSecret, surveyId } = getApiParams();
+            if (!apiKey || !apiSecret || !surveyId) return alert('Vui lòng nhập đầy đủ API credentials');
             saveSettings();
-            
+
             const btn = document.getElementById('createBtn');
-            btn.disabled = true;
-            btn.innerHTML = '<span class="spinner"></span> Đang tạo...';
-            
-            let success = 0;
-            let errors = 0;
-            
-            // Default logic: source (Q212) is answered
-            const defaultGroups = JSON.stringify([[{
-                input_value: "212",
-                operator: "20",
-                answers_type: "17",
-                answers_values: []
-            }]]);
-            
-            for (let i = 0; i < quotas.length; i++) {
-                const quota = quotas[i];
-                
+            btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Đang tạo...';
+
+            const defaultGroups = JSON.stringify([[{ input_value: "212", operator: "20", answers_type: "17", answers_values: [] }]]);
+            let success = 0, errors = 0;
+
+            for (let i = 0; i < createQuotasList.length; i++) {
+                const q = createQuotasList[i];
                 try {
-                    const params = new URLSearchParams();
-                    params.append('api_token', apiKey);
-                    params.append('api_token_secret', apiSecret);
-                    params.append('_method', 'PUT');
-                    params.append('name', quota.name);
-                    params.append('limit', quota.limit);
-                    params.append('groups', defaultGroups);
-                    
-                    const url = `https://api.alchemer.com/v5/survey/${surveyId}/quotas?${params.toString()}`;
-                    
-                    const response = await fetch(url);
-                    const data = await response.json();
-                    
-                    if (data.result_ok) {
-                        updateRowStatus(i, 'success');
-                        success++;
-                    } else {
-                        updateRowStatus(i, 'error');
-                        errors++;
-                        console.error(`Error creating ${quota.name}:`, data.message);
-                    }
-                } catch (error) {
-                    updateRowStatus(i, 'error');
-                    errors++;
-                    console.error(`Error creating ${quota.name}:`, error);
-                }
-                
-                // Delay to avoid rate limit
-                await new Promise(resolve => setTimeout(resolve, 300));
+                    const params = new URLSearchParams({ api_token: apiKey, api_token_secret: apiSecret, _method: 'PUT', name: q.name, limit: q.limit, groups: defaultGroups });
+                    const res = await fetch(`https://api.alchemer.com/v5/survey/${surveyId}/quotas?${params}`);
+                    const data = await res.json();
+                    const row = document.querySelector(`#create-row-${i} .status`);
+                    if (data.result_ok) { row.className = 'status status-success'; row.textContent = '✅ OK'; success++; }
+                    else { row.className = 'status status-error'; row.textContent = '❌ Lỗi'; errors++; }
+                } catch (e) { errors++; }
+                await new Promise(r => setTimeout(r, 300));
             }
-            
-            // Show results
-            document.getElementById('totalCount').textContent = quotas.length;
-            document.getElementById('successCount').textContent = success;
-            document.getElementById('errorCount').textContent = errors;
-            document.getElementById('alchemerLink').href = `https://app.alchemer.com/projects/setup/id/${surveyId}/tab/quotas`;
-            document.getElementById('resultsCard').style.display = 'block';
-            
-            btn.disabled = false;
-            btn.innerHTML = '✨ Tạo Quota';
+
+            document.getElementById('createTotal').textContent = createQuotasList.length;
+            document.getElementById('createSuccess').textContent = success;
+            document.getElementById('createError').textContent = errors;
+            document.getElementById('createResultsCard').classList.remove('hidden');
+            btn.disabled = false; btn.innerHTML = '✨ Tạo Quota';
+        }
+
+        // ========== MANAGE ==========
+        async function loadExistingQuotas() {
+            const { apiKey, apiSecret, surveyId } = getApiParams();
+            if (!apiKey || !apiSecret || !surveyId) return alert('Vui lòng nhập đầy đủ API credentials');
+            saveSettings();
+
+            const btn = document.getElementById('loadManageBtn');
+            btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Đang tải...';
+
+            try {
+                const params = new URLSearchParams({ api_token: apiKey, api_token_secret: apiSecret });
+                const res = await fetch(`https://api.alchemer.com/v5/survey/${surveyId}/quotas?${params}`);
+                const data = await res.json();
+
+                if (data.result_ok) {
+                    // API returns quotas in data.quotas or data.data depending on version
+                    const quotas = data.quotas || data.data || [];
+                    manageQuotasList = quotas.map(q => ({ ...q, originalLimit: parseInt(q.limit), newLimit: parseInt(q.limit), status: '' }));
+                    renderManageTable();
+                    document.getElementById('manageCard').classList.remove('hidden');
+                    document.getElementById('manageActions').classList.remove('hidden');
+                } else alert('Lỗi: ' + data.message);
+            } catch (e) { alert('Lỗi: ' + e.message); }
+
+            btn.disabled = false; btn.innerHTML = '🔄 Tải danh sách Quota';
+        }
+
+        function renderManageTable() {
+            document.getElementById('manageBody').innerHTML = manageQuotasList.map((q, i) => {
+                const change = q.newLimit - q.originalLimit;
+                const changeText = change !== 0 ? `<span class="change-indicator ${change > 0 ? 'change-up' : 'change-down'}">${change > 0 ? '+' : ''}${change}</span>` : '';
+                const statusClass = change !== 0 ? 'status-modified' : '';
+                const statusText = q.status || (change !== 0 ? '📝 Đã sửa' : '');
+                return `<tr id="manage-row-${i}">
+                    <td><input type="checkbox" class="manage-check" data-index="${i}"></td>
+                    <td>${q.id}</td>
+                    <td>${q.name}</td>
+                    <td>${q.originalLimit}</td>
+                    <td><input type="number" value="${q.newLimit}" onchange="updateNewLimit(${i}, this.value)">${changeText}</td>
+                    <td><span class="status ${statusClass}">${statusText}</span></td>
+                </tr>`;
+            }).join('');
+        }
+
+        function updateNewLimit(index, value) {
+            manageQuotasList[index].newLimit = parseInt(value) || 0;
+            renderManageTable();
+        }
+
+        function applyAdjustment() {
+            const type = document.getElementById('adjustType').value;
+            const value = parseFloat(document.getElementById('adjustValue').value) || 0;
+
+            const checked = document.querySelectorAll('.manage-check:checked');
+            const indices = checked.length > 0 ? Array.from(checked).map(c => parseInt(c.dataset.index)) : manageQuotasList.map((_, i) => i);
+
+            indices.forEach(i => {
+                const q = manageQuotasList[i];
+                if (type === 'percent') q.newLimit = Math.round(q.originalLimit * (1 + value / 100));
+                else if (type === 'add') q.newLimit = q.originalLimit + value;
+                else if (type === 'set') q.newLimit = value;
+            });
+            renderManageTable();
+        }
+
+        function resetLimits() {
+            manageQuotasList.forEach(q => q.newLimit = q.originalLimit);
+            renderManageTable();
+        }
+
+        function toggleSelectAllManage() {
+            const checked = document.getElementById('selectAllManage').checked;
+            document.querySelectorAll('.manage-check').forEach(c => c.checked = checked);
+        }
+
+        async function updateQuotas() {
+            const { apiKey, apiSecret, surveyId } = getApiParams();
+            const toUpdate = manageQuotasList.filter((q, i) => {
+                const checkbox = document.querySelector(`.manage-check[data-index="${i}"]`);
+                return checkbox?.checked && q.newLimit !== q.originalLimit;
+            });
+
+            if (!toUpdate.length) return alert('Vui lòng chọn quota đã chỉnh sửa để cập nhật');
+
+            const btn = document.getElementById('updateBtn');
+            btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Đang cập nhật...';
+
+            let success = 0, errors = 0;
+
+            for (const q of toUpdate) {
+                try {
+                    const params = new URLSearchParams({ api_token: apiKey, api_token_secret: apiSecret, _method: 'POST', limit: q.newLimit });
+                    const res = await fetch(`https://api.alchemer.com/v5/survey/${surveyId}/quotas/${q.id}?${params}`);
+                    const data = await res.json();
+
+                    if (data.result_ok) { q.originalLimit = q.newLimit; q.status = '✅ Đã lưu'; success++; }
+                    else { q.status = '❌ Lỗi'; errors++; }
+                } catch (e) { q.status = '❌ Lỗi'; errors++; }
+                await new Promise(r => setTimeout(r, 300));
+            }
+
+            renderManageTable();
+            document.getElementById('updateTotal').textContent = toUpdate.length;
+            document.getElementById('updateSuccess').textContent = success;
+            document.getElementById('updateError').textContent = errors;
+            document.getElementById('updateResultsCard').classList.remove('hidden');
+            btn.disabled = false; btn.innerHTML = '💾 Cập nhật Quota đã chọn';
+        }
+
+        // ========== DELETE ==========
+        async function loadDeleteQuotas() {
+            const { apiKey, apiSecret, surveyId } = getApiParams();
+            if (!apiKey || !apiSecret || !surveyId) return alert('Vui lòng nhập đầy đủ API credentials');
+            saveSettings();
+
+            const btn = document.getElementById('loadDeleteBtn');
+            btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Đang tải...';
+
+            try {
+                const params = new URLSearchParams({ api_token: apiKey, api_token_secret: apiSecret });
+                const res = await fetch(`https://api.alchemer.com/v5/survey/${surveyId}/quotas?${params}`);
+                const data = await res.json();
+
+                if (data.result_ok) {
+                    deleteQuotasList = data.quotas || data.data || [];
+                    document.getElementById('deleteCheckboxes').innerHTML = deleteQuotasList.map(q =>
+                        `<div class="checkbox-item"><input type="checkbox" id="del-${q.id}" value="${q.id}" class="delete-check"><label for="del-${q.id}">${q.name} (ID: ${q.id}, Limit: ${q.limit})</label></div>`
+                    ).join('');
+                    document.getElementById('deleteList').classList.remove('hidden');
+                    document.getElementById('deleteBtn').classList.remove('hidden');
+                } else alert('Lỗi: ' + data.message);
+            } catch (e) { alert('Lỗi: ' + e.message); }
+
+            btn.disabled = false; btn.innerHTML = '🔄 Tải danh sách';
+        }
+
+        function toggleSelectAllDelete() {
+            const checked = document.getElementById('selectAllDelete').checked;
+            document.querySelectorAll('.delete-check').forEach(c => c.checked = checked);
+        }
+
+        async function deleteSelectedQuotas() {
+            const selected = Array.from(document.querySelectorAll('.delete-check:checked')).map(c => c.value);
+            if (!selected.length) return alert('Chọn ít nhất 1 quota');
+            if (!confirm(`Xoá ${selected.length} quota? Không thể hoàn tác!`)) return;
+
+            const { apiKey, apiSecret, surveyId } = getApiParams();
+            const btn = document.getElementById('deleteBtn');
+            btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Đang xoá...';
+
+            let success = 0, errors = 0;
+            for (const id of selected) {
+                try {
+                    const params = new URLSearchParams({ api_token: apiKey, api_token_secret: apiSecret, _method: 'DELETE' });
+                    const res = await fetch(`https://api.alchemer.com/v5/survey/${surveyId}/quotas/${id}?${params}`);
+                    const data = await res.json();
+                    if (data.result_ok) { document.querySelector(`#del-${id}`)?.closest('.checkbox-item')?.remove(); success++; }
+                    else errors++;
+                } catch (e) { errors++; }
+                await new Promise(r => setTimeout(r, 300));
+            }
+
+            document.getElementById('deleteTotal').textContent = selected.length;
+            document.getElementById('deleteSuccess').textContent = success;
+            document.getElementById('deleteError').textContent = errors;
+            document.getElementById('deleteResultsCard').classList.remove('hidden');
+            btn.disabled = false; btn.innerHTML = '🗑️ Xoá Quota';
         }
     </script>
 </body>
+
 </html>

@@ -1,0 +1,3503 @@
+[
+  {
+    "id": 27,
+    "title": "device_os",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10001,
+        "value": "1",
+        "title": "iPhone"
+      },
+      {
+        "id": 10002,
+        "value": "2",
+        "title": "iPod"
+      },
+      {
+        "id": 10003,
+        "value": "3",
+        "title": "iPad"
+      },
+      {
+        "id": 10004,
+        "value": "4",
+        "title": "Windows Phone"
+      },
+      {
+        "id": 10005,
+        "value": "5",
+        "title": "Android"
+      },
+      {
+        "id": 10006,
+        "value": "6",
+        "title": "Windows 10"
+      },
+      {
+        "id": 10007,
+        "value": "7",
+        "title": "Windows 8.1"
+      },
+      {
+        "id": 10008,
+        "value": "8",
+        "title": "Windows 8"
+      },
+      {
+        "id": 10009,
+        "value": "9",
+        "title": "Windows 7"
+      },
+      {
+        "id": 10010,
+        "value": "10",
+        "title": "Windows Vista"
+      },
+      {
+        "id": 10011,
+        "value": "11",
+        "title": "Windows Server 2003/XP x64"
+      },
+      {
+        "id": 10012,
+        "value": "12",
+        "title": "Windows XP"
+      },
+      {
+        "id": 10013,
+        "value": "13",
+        "title": "Windows 2000"
+      },
+      {
+        "id": 10014,
+        "value": "14",
+        "title": "Windows ME"
+      },
+      {
+        "id": 10015,
+        "value": "15",
+        "title": "Windows 98"
+      },
+      {
+        "id": 10016,
+        "value": "16",
+        "title": "Windows 95"
+      },
+      {
+        "id": 10017,
+        "value": "17",
+        "title": "Windows 3.11"
+      },
+      {
+        "id": 10018,
+        "value": "18",
+        "title": "Mac OS X"
+      },
+      {
+        "id": 10019,
+        "value": "19",
+        "title": "Mac OS 9"
+      },
+      {
+        "id": 10020,
+        "value": "20",
+        "title": "Linux"
+      },
+      {
+        "id": 10021,
+        "value": "21",
+        "title": "Ubuntu"
+      },
+      {
+        "id": 10022,
+        "value": "22",
+        "title": "BlackBerry"
+      },
+      {
+        "id": 10023,
+        "value": "23",
+        "title": "webOS"
+      },
+      {
+        "id": 10024,
+        "value": "99",
+        "title": "Unknown"
+      }
+    ]
+  },
+  {
+    "id": 28,
+    "title": "device type",
+    "type": "CHECKBOX",
+    "options": [
+      {
+        "id": 10025,
+        "value": "mobile",
+        "title": "mobile"
+      },
+      {
+        "id": 10026,
+        "value": "non-mobile",
+        "title": "non-mobile"
+      }
+    ]
+  },
+  {
+    "id": 44,
+    "title": "db.gender",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10039,
+        "value": "1",
+        "title": "Male"
+      },
+      {
+        "id": 10040,
+        "value": "2",
+        "title": "Female"
+      }
+    ]
+  },
+  {
+    "id": 45,
+    "title": "db.province",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10041,
+        "value": "1",
+        "title": "An Giang - An Giang"
+      },
+      {
+        "id": 10042,
+        "value": "2",
+        "title": "Bà Rịa Vũng Tàu - Ba Ria Vung Tau"
+      },
+      {
+        "id": 10043,
+        "value": "3",
+        "title": "Bắc Giang - Bac Giang"
+      },
+      {
+        "id": 10044,
+        "value": "4",
+        "title": "Bắc Kạn - Bac Kan"
+      },
+      {
+        "id": 10045,
+        "value": "5",
+        "title": "Bạc Liêu - Bac Lieu"
+      },
+      {
+        "id": 10046,
+        "value": "6",
+        "title": "Bắc Ninh - Bac Ninh"
+      },
+      {
+        "id": 10047,
+        "value": "7",
+        "title": "Bến Tre - Ben Tre"
+      },
+      {
+        "id": 10048,
+        "value": "8",
+        "title": "Bình Định - Binh Dinh"
+      },
+      {
+        "id": 10049,
+        "value": "9",
+        "title": "Bình Dương - Binh Duong"
+      },
+      {
+        "id": 10050,
+        "value": "10",
+        "title": "Bình Phước - Binh Phuoc"
+      },
+      {
+        "id": 10051,
+        "value": "11",
+        "title": "Bình Thuận - Binh Thuan"
+      },
+      {
+        "id": 10052,
+        "value": "12",
+        "title": "Cà Mau - Ca Mau"
+      },
+      {
+        "id": 10053,
+        "value": "13",
+        "title": "Cần Thơ - Can Tho"
+      },
+      {
+        "id": 10054,
+        "value": "14",
+        "title": "Cao Bằng - Cao Bang"
+      },
+      {
+        "id": 10055,
+        "value": "15",
+        "title": "Đà Nẵng - Da Nang"
+      },
+      {
+        "id": 10056,
+        "value": "16",
+        "title": "Đắk Lắk - Dak Lak"
+      },
+      {
+        "id": 10057,
+        "value": "17",
+        "title": "Đắk Nông - Dak Nong"
+      },
+      {
+        "id": 10058,
+        "value": "18",
+        "title": "Điện Biên - Dien Bien"
+      },
+      {
+        "id": 10059,
+        "value": "19",
+        "title": "Đồng Nai - Dong Nai"
+      },
+      {
+        "id": 10060,
+        "value": "20",
+        "title": "Đồng Tháp - Dong Thap"
+      },
+      {
+        "id": 10061,
+        "value": "21",
+        "title": "Gia Lai - Gia Lai"
+      },
+      {
+        "id": 10062,
+        "value": "22",
+        "title": "Hà Giang - Ha Giang"
+      },
+      {
+        "id": 10063,
+        "value": "23",
+        "title": "Hà Nam - Ha Nam"
+      },
+      {
+        "id": 10064,
+        "value": "24",
+        "title": "Hà Nội - Ha Noi"
+      },
+      {
+        "id": 10065,
+        "value": "25",
+        "title": "Hà Tĩnh - Ha Tinh"
+      },
+      {
+        "id": 10066,
+        "value": "26",
+        "title": "Hải Dương - Hai Duong"
+      },
+      {
+        "id": 10067,
+        "value": "27",
+        "title": "Hải Phòng - Hai Phong"
+      },
+      {
+        "id": 10068,
+        "value": "28",
+        "title": "Hậu Giang - Hau Giang"
+      },
+      {
+        "id": 10069,
+        "value": "29",
+        "title": "Hồ Chí Minh - Ho Chi Minh"
+      },
+      {
+        "id": 10070,
+        "value": "30",
+        "title": "Hòa Bình - Hoa Binh"
+      },
+      {
+        "id": 10071,
+        "value": "31",
+        "title": "Hưng Yên - Hung Yen"
+      },
+      {
+        "id": 10072,
+        "value": "32",
+        "title": "Khánh Hòa - Khanh Hoa"
+      },
+      {
+        "id": 10073,
+        "value": "33",
+        "title": "Kiên Giang - Kien Giang"
+      },
+      {
+        "id": 10074,
+        "value": "34",
+        "title": "Kon Tum - Kon Tum"
+      },
+      {
+        "id": 10075,
+        "value": "35",
+        "title": "Lai Châu - Lai Chau"
+      },
+      {
+        "id": 10076,
+        "value": "36",
+        "title": "Lâm Đồng - Lam Dong"
+      },
+      {
+        "id": 10077,
+        "value": "37",
+        "title": "Lạng Sơn - Lang Son"
+      },
+      {
+        "id": 10078,
+        "value": "38",
+        "title": "Lào Cai - Lao Cai"
+      },
+      {
+        "id": 10079,
+        "value": "39",
+        "title": "Long An - Long An"
+      },
+      {
+        "id": 10080,
+        "value": "40",
+        "title": "Nam Định - Nam Dinh"
+      },
+      {
+        "id": 10081,
+        "value": "41",
+        "title": "Nghệ An - Nghe An"
+      },
+      {
+        "id": 10082,
+        "value": "42",
+        "title": "Ninh Bình - Ninh Binh"
+      },
+      {
+        "id": 10083,
+        "value": "43",
+        "title": "Ninh Thuận - Ninh Thuan"
+      },
+      {
+        "id": 10084,
+        "value": "44",
+        "title": "Phú Thọ - Phu Tho"
+      },
+      {
+        "id": 10085,
+        "value": "45",
+        "title": "Phú Yên - Phu Yen"
+      },
+      {
+        "id": 10086,
+        "value": "46",
+        "title": "Quảng Bình - Quang Binh"
+      },
+      {
+        "id": 10087,
+        "value": "47",
+        "title": "Quảng Nam - Quang Nam"
+      },
+      {
+        "id": 10088,
+        "value": "48",
+        "title": "Quảng Ngãi - Quang Ngai"
+      },
+      {
+        "id": 10089,
+        "value": "49",
+        "title": "Quảng Ninh - Quang Ninh"
+      },
+      {
+        "id": 10090,
+        "value": "50",
+        "title": "Quảng Trị - Quang Tri"
+      },
+      {
+        "id": 10091,
+        "value": "51",
+        "title": "Sóc Trăng - Soc Trang"
+      },
+      {
+        "id": 10092,
+        "value": "52",
+        "title": "Sơn La - Son La"
+      },
+      {
+        "id": 10093,
+        "value": "53",
+        "title": "Tây Ninh - Tay Ninh"
+      },
+      {
+        "id": 10094,
+        "value": "54",
+        "title": "Thái Bình - Thai Binh"
+      },
+      {
+        "id": 10095,
+        "value": "55",
+        "title": "Thái Nguyên - Thai Nguyen"
+      },
+      {
+        "id": 10096,
+        "value": "56",
+        "title": "Thanh Hóa - Thanh Hoa"
+      },
+      {
+        "id": 10097,
+        "value": "57",
+        "title": "Thừa Thiên Huế - Thua Thien Hue"
+      },
+      {
+        "id": 10098,
+        "value": "58",
+        "title": "Tiền Giang - Tien Giang"
+      },
+      {
+        "id": 10099,
+        "value": "59",
+        "title": "Trà Vinh - Tra Vinh"
+      },
+      {
+        "id": 10100,
+        "value": "60",
+        "title": "Tuyên Quang - Tuyen Quang"
+      },
+      {
+        "id": 10101,
+        "value": "61",
+        "title": "Vĩnh Long - Vinh Long"
+      },
+      {
+        "id": 10102,
+        "value": "62",
+        "title": "Vĩnh Phúc - Vinh Phuc"
+      },
+      {
+        "id": 10103,
+        "value": "63",
+        "title": "Yên Bái - Yen Bai"
+      }
+    ]
+  },
+  {
+    "id": 160,
+    "title": "db.location_outdated",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10654,
+        "value": "1",
+        "title": "Yes"
+      },
+      {
+        "id": 10655,
+        "value": "0",
+        "title": "No"
+      }
+    ]
+  },
+  {
+    "id": 47,
+    "title": "db.fincome",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10106,
+        "value": "14",
+        "title": "Above 200,000,001 VND"
+      },
+      {
+        "id": 10107,
+        "value": "13",
+        "title": "150,000,001 - 200,000,000 VND"
+      },
+      {
+        "id": 10108,
+        "value": "12",
+        "title": "100,000,001 - 150,000,000 VND"
+      },
+      {
+        "id": 10109,
+        "value": "11",
+        "title": "70,000,001 - 100,000,000 VND"
+      },
+      {
+        "id": 10110,
+        "value": "10",
+        "title": "50,000,001 - 70,000,000 VND"
+      },
+      {
+        "id": 10111,
+        "value": "9",
+        "title": "40,000,001 - 50,000,000 VND"
+      },
+      {
+        "id": 10112,
+        "value": "8",
+        "title": "30,000,001 - 40,000,000 VND"
+      },
+      {
+        "id": 10113,
+        "value": "7",
+        "title": "25,000,001 - 30,000,000 VND"
+      },
+      {
+        "id": 10114,
+        "value": "6",
+        "title": "20,000,001 - 25,000,000 VND"
+      },
+      {
+        "id": 10115,
+        "value": "5",
+        "title": "15,000,001 - 20,000,000 VND"
+      },
+      {
+        "id": 10116,
+        "value": "4",
+        "title": "10,000,001 -15,000,000 VND"
+      },
+      {
+        "id": 10117,
+        "value": "3",
+        "title": "5,000,001 - 10,000,000 VND"
+      },
+      {
+        "id": 10118,
+        "value": "2",
+        "title": "3,000,001 - 5,000,000 VND"
+      },
+      {
+        "id": 10119,
+        "value": "1",
+        "title": "Below 3,000,000 VND"
+      }
+    ]
+  },
+  {
+    "id": 48,
+    "title": "db.pincome",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10120,
+        "value": "14",
+        "title": "Above 200,000,001 VND"
+      },
+      {
+        "id": 10121,
+        "value": "13",
+        "title": "150,000,001 - 200,000,000 VND"
+      },
+      {
+        "id": 10122,
+        "value": "12",
+        "title": "100,000,001 - 150,000,000 VND"
+      },
+      {
+        "id": 10123,
+        "value": "11",
+        "title": "70,000,001 - 100,000,000 VND"
+      },
+      {
+        "id": 10124,
+        "value": "10",
+        "title": "50,000,001 - 70,000,000 VND"
+      },
+      {
+        "id": 10125,
+        "value": "9",
+        "title": "40,000,001 - 50,000,000 VND"
+      },
+      {
+        "id": 10126,
+        "value": "8",
+        "title": "30,000,001 - 40,000,000 VND"
+      },
+      {
+        "id": 10127,
+        "value": "7",
+        "title": "25,000,001 - 30,000,000 VND"
+      },
+      {
+        "id": 10128,
+        "value": "6",
+        "title": "20,000,001 - 25,000,000 VND"
+      },
+      {
+        "id": 10129,
+        "value": "5",
+        "title": "15,000,001 - 20,000,000 VND"
+      },
+      {
+        "id": 10130,
+        "value": "4",
+        "title": "10,000,001 -15,000,000 VND"
+      },
+      {
+        "id": 10131,
+        "value": "3",
+        "title": "5,000,001 - 10,000,000 VND"
+      },
+      {
+        "id": 10132,
+        "value": "2",
+        "title": "3,000,001 - 5,000,000 VND"
+      },
+      {
+        "id": 10133,
+        "value": "1",
+        "title": "Below 3,000,000 VND"
+      }
+    ]
+  },
+  {
+    "id": 49,
+    "title": "db.marital_status",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10134,
+        "value": "1",
+        "title": "Single with no children"
+      },
+      {
+        "id": 10135,
+        "value": "2",
+        "title": "Single with children"
+      },
+      {
+        "id": 10140,
+        "value": "3",
+        "title": "Married with no children"
+      },
+      {
+        "id": 10141,
+        "value": "4",
+        "title": "Married with children"
+      }
+    ]
+  },
+  {
+    "id": 50,
+    "title": "db.industry",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10142,
+        "value": "1",
+        "title": "IT"
+      },
+      {
+        "id": 10143,
+        "value": "2",
+        "title": "HR"
+      },
+      {
+        "id": 10144,
+        "value": "3",
+        "title": "Financial Services (Banking/ Finance / Insurance / Accounting)"
+      },
+      {
+        "id": 10145,
+        "value": "4",
+        "title": "Healthcare & Beauty"
+      },
+      {
+        "id": 10146,
+        "value": "5",
+        "title": "Education"
+      },
+      {
+        "id": 10147,
+        "value": "6",
+        "title": "Construction"
+      },
+      {
+        "id": 10148,
+        "value": "7",
+        "title": "Entertainment"
+      },
+      {
+        "id": 10149,
+        "value": "8",
+        "title": "Government Services & Public Sector"
+      },
+      {
+        "id": 10150,
+        "value": "9",
+        "title": "Manufacturing / Factory Work"
+      },
+      {
+        "id": 10151,
+        "value": "10",
+        "title": "Retail"
+      },
+      {
+        "id": 10152,
+        "value": "11",
+        "title": "Agricultures / Fishing / Farming"
+      },
+      {
+        "id": 10153,
+        "value": "12",
+        "title": "Oil & Gas"
+      },
+      {
+        "id": 10154,
+        "value": "13",
+        "title": "Mining & Metallurgy"
+      },
+      {
+        "id": 10155,
+        "value": "14",
+        "title": "Marketing / Advertising / Research"
+      },
+      {
+        "id": 10156,
+        "value": "15",
+        "title": "Transportation"
+      },
+      {
+        "id": 10157,
+        "value": "16",
+        "title": "Hospitality (Travel, Hotel, Restaurant...)"
+      },
+      {
+        "id": 10158,
+        "value": "17",
+        "title": "Sport"
+      },
+      {
+        "id": 10159,
+        "value": "18",
+        "title": "Media & Press (TV, Newspaper, Magazine, Radio Station...)"
+      },
+      {
+        "id": 10160,
+        "value": "19",
+        "title": "Science & Technology"
+      },
+      {
+        "id": 10161,
+        "value": "20",
+        "title": "Resource & environment"
+      },
+      {
+        "id": 10162,
+        "value": "21",
+        "title": "Real estate"
+      },
+      {
+        "id": 10163,
+        "value": "22",
+        "title": "Security"
+      },
+      {
+        "id": 10164,
+        "value": "23",
+        "title": "Management"
+      },
+      {
+        "id": 10165,
+        "value": "24",
+        "title": "Wholesale / Distribution"
+      },
+      {
+        "id": 10166,
+        "value": "25",
+        "title": "Pharmacy"
+      },
+      {
+        "id": 10167,
+        "value": "26",
+        "title": "FMCG"
+      },
+      {
+        "id": 10168,
+        "value": "99",
+        "title": "Other - Write In"
+      }
+    ]
+  },
+  {
+    "id": 51,
+    "title": "db.occupation",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10169,
+        "value": "1",
+        "title": "Accountant"
+      },
+      {
+        "id": 10170,
+        "value": "2",
+        "title": "Doctor"
+      },
+      {
+        "id": 10171,
+        "value": "3",
+        "title": "Engineer"
+      },
+      {
+        "id": 10172,
+        "value": "4",
+        "title": "Pharmacist"
+      },
+      {
+        "id": 10173,
+        "value": "5",
+        "title": "Saleman"
+      },
+      {
+        "id": 10174,
+        "value": "6",
+        "title": "Security guard"
+      },
+      {
+        "id": 10175,
+        "value": "7",
+        "title": "Consultant"
+      },
+      {
+        "id": 10176,
+        "value": "8",
+        "title": "Customer service"
+      },
+      {
+        "id": 10177,
+        "value": "9",
+        "title": "Teller"
+      },
+      {
+        "id": 10178,
+        "value": "10",
+        "title": "IT Infrastructure (Helpdesk, Network, Technician, Administrator...)"
+      },
+      {
+        "id": 10179,
+        "value": "11",
+        "title": "IT Programming (Developer, Tester, DevOps, BA...)"
+      },
+      {
+        "id": 10180,
+        "value": "12",
+        "title": "Auditor"
+      },
+      {
+        "id": 10181,
+        "value": "13",
+        "title": "Unskilled worker"
+      },
+      {
+        "id": 10182,
+        "value": "14",
+        "title": "Actor/actress/singer"
+      },
+      {
+        "id": 10183,
+        "value": "15",
+        "title": "Mechanic"
+      },
+      {
+        "id": 10184,
+        "value": "16",
+        "title": "Athele"
+      },
+      {
+        "id": 10185,
+        "value": "17",
+        "title": "Office worker"
+      },
+      {
+        "id": 10186,
+        "value": "18",
+        "title": "Tailor"
+      },
+      {
+        "id": 10187,
+        "value": "19",
+        "title": "Tour guide"
+      },
+      {
+        "id": 10188,
+        "value": "20",
+        "title": "Steward/stewardess"
+      },
+      {
+        "id": 10189,
+        "value": "21",
+        "title": "Pilot"
+      },
+      {
+        "id": 10190,
+        "value": "22",
+        "title": "Freelancer"
+      },
+      {
+        "id": 10191,
+        "value": "23",
+        "title": "Teacher/lecturer"
+      },
+      {
+        "id": 10192,
+        "value": "24",
+        "title": "Delivery person"
+      },
+      {
+        "id": 10193,
+        "value": "25",
+        "title": "Driver"
+      },
+      {
+        "id": 10194,
+        "value": "26",
+        "title": "Marketer"
+      },
+      {
+        "id": 10195,
+        "value": "27",
+        "title": "Student"
+      },
+      {
+        "id": 10196,
+        "value": "28",
+        "title": "Housewife"
+      },
+      {
+        "id": 10197,
+        "value": "29",
+        "title": "Retailer"
+      },
+      {
+        "id": 10198,
+        "value": "30",
+        "title": "Entrepreneur / Businessman"
+      },
+      {
+        "id": 10199,
+        "value": "31",
+        "title": "IT Manager / Director"
+      },
+      {
+        "id": 10200,
+        "value": "32",
+        "title": "Lawyer"
+      },
+      {
+        "id": 10201,
+        "value": "33",
+        "title": "Professional Skilled worker"
+      },
+      {
+        "id": 10202,
+        "value": "99",
+        "title": "Other - Write In (Required)"
+      }
+    ]
+  },
+  {
+    "id": 52,
+    "title": "db.education",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10203,
+        "value": "1",
+        "title": "Graduated Post University (MBA / PHD)"
+      },
+      {
+        "id": 10204,
+        "value": "2",
+        "title": "Graduated Undergraduate University"
+      },
+      {
+        "id": 10205,
+        "value": "3",
+        "title": "Graduated Vocational Graduate (College)"
+      },
+      {
+        "id": 10206,
+        "value": "4",
+        "title": "Graduated High school"
+      },
+      {
+        "id": 10207,
+        "value": "5",
+        "title": "Graduated Secondary School"
+      },
+      {
+        "id": 10208,
+        "value": "6",
+        "title": "Studying Secondary School"
+      },
+      {
+        "id": 10209,
+        "value": "7",
+        "title": "Studying High School"
+      },
+      {
+        "id": 10210,
+        "value": "8",
+        "title": "Studying University"
+      },
+      {
+        "id": 10211,
+        "value": "9",
+        "title": "Studying elementary/primary school"
+      },
+      {
+        "id": 10212,
+        "value": "10",
+        "title": "Graduated elementary/primary school"
+      },
+      {
+        "id": 10213,
+        "value": "11",
+        "title": "Other"
+      }
+    ]
+  },
+  {
+    "id": 53,
+    "title": "db.employment_position",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10214,
+        "value": "1",
+        "title": "Business owner/ Entrepreneur"
+      },
+      {
+        "id": 10215,
+        "value": "2",
+        "title": "CEO / General Manager / Managing Director"
+      },
+      {
+        "id": 10216,
+        "value": "3",
+        "title": "Manager"
+      },
+      {
+        "id": 10217,
+        "value": "4",
+        "title": "Senior Manager"
+      },
+      {
+        "id": 10218,
+        "value": "5",
+        "title": "Employee"
+      },
+      {
+        "id": 10219,
+        "value": "6",
+        "title": "Unemployed"
+      },
+      {
+        "id": 10220,
+        "value": "7",
+        "title": "Retired"
+      },
+      {
+        "id": 10221,
+        "value": "99",
+        "title": "Other"
+      }
+    ]
+  },
+  {
+    "id": 54,
+    "title": "db.pl_status",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10222,
+        "value": "1",
+        "title": "blocked"
+      },
+      {
+        "id": 10223,
+        "value": "2",
+        "title": "active"
+      },
+      {
+        "id": 10224,
+        "value": "3",
+        "title": "test"
+      },
+      {
+        "id": 10225,
+        "value": "4",
+        "title": "mobileonly"
+      },
+      {
+        "id": 10226,
+        "value": "5",
+        "title": "pending / new"
+      },
+      {
+        "id": 10672,
+        "value": "6",
+        "title": "inactive"
+      },
+      {
+        "id": 10673,
+        "value": "11",
+        "title": "unsubscribed"
+      }
+    ]
+  },
+  {
+    "id": 163,
+    "title": "db.verified",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10666,
+        "value": "1",
+        "title": "TRUE"
+      }
+    ]
+  },
+  {
+    "id": 58,
+    "title": "already completed this survey?",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10227,
+        "value": "1",
+        "title": "TRUE"
+      }
+    ]
+  },
+  {
+    "id": 225,
+    "title": "test",
+    "type": "CHECKBOX",
+    "options": [
+      {
+        "id": 10899,
+        "value": "a",
+        "title": "a"
+      },
+      {
+        "id": 10900,
+        "value": "b",
+        "title": "b"
+      }
+    ]
+  },
+  {
+    "id": 229,
+    "title": "Enable auto submit on page",
+    "type": "CHECKBOX",
+    "options": [
+      {
+        "id": 10903,
+        "value": "a",
+        "title": "a"
+      },
+      {
+        "id": 10904,
+        "value": "b",
+        "title": "b"
+      }
+    ]
+  },
+  {
+    "id": 63,
+    "title": "<span style=\"background-color:#cc99cc;\">[Logic: Notification for IFM panel only]</span><br />\nYou will receive mobile top-up or E-Voucher GotIt <span style=\"color:#0033ff;\"><strong>[question('title'), id='5'] VND</strong></span> sent to mobile number <strong><span style=\"color:#0033ff;\">0[question('value'), id='40']</span></strong> after your complete answer is verified.<br /><br /><span style=\"color:#0033ff;\"><u><em>How to use voucher GotIT</em></u></span><br /><br />\nPlease choose the reward for this survey",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10229,
+        "value": "Mobile card",
+        "title": "Mobile card"
+      },
+      {
+        "id": 10232,
+        "value": "Mobile topup",
+        "title": "Mobile topup"
+      },
+      {
+        "id": 10231,
+        "value": "Evoucher GOTIT",
+        "title": "Evoucher GOTIT"
+      }
+    ]
+  },
+  {
+    "id": 239,
+    "title": "Enable auto-submit.",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10910,
+        "value": "a",
+        "title": "a"
+      },
+      {
+        "id": 10911,
+        "value": "b",
+        "title": "b"
+      }
+    ]
+  },
+  {
+    "id": 143,
+    "title": "Giới tính:",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10636,
+        "value": "1",
+        "title": "Nam"
+      },
+      {
+        "id": 10637,
+        "value": "2",
+        "title": "Nữ"
+      }
+    ]
+  },
+  {
+    "id": 144,
+    "title": "True/False",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10638,
+        "value": "1",
+        "title": "True"
+      },
+      {
+        "id": 10639,
+        "value": "2",
+        "title": "False"
+      }
+    ]
+  },
+  {
+    "id": 145,
+    "title": "None info",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10640,
+        "value": "1",
+        "title": "Yes"
+      }
+    ]
+  },
+  {
+    "id": 71,
+    "title": "Gender",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10241,
+        "value": "1",
+        "title": "Male"
+      },
+      {
+        "id": 10242,
+        "value": "2",
+        "title": "Female"
+      }
+    ]
+  },
+  {
+    "id": 72,
+    "title": "PROV. Which city/province are you living in?",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10243,
+        "value": "An Giang - An Giang",
+        "title": "An Giang - An Giang"
+      },
+      {
+        "id": 10244,
+        "value": "Bà Rịa Vũng Tàu - Ba Ria Vung Tau",
+        "title": "Bà Rịa Vũng Tàu - Ba Ria Vung Tau"
+      },
+      {
+        "id": 10245,
+        "value": "Bắc Giang - Bac Giang",
+        "title": "Bắc Giang - Bac Giang"
+      },
+      {
+        "id": 10246,
+        "value": "Bắc Kạn - Bac Kan",
+        "title": "Bắc Kạn - Bac Kan"
+      },
+      {
+        "id": 10247,
+        "value": "Bạc Liêu - Bac Lieu",
+        "title": "Bạc Liêu - Bac Lieu"
+      },
+      {
+        "id": 10248,
+        "value": "Bắc Ninh - Bac Ninh",
+        "title": "Bắc Ninh - Bac Ninh"
+      },
+      {
+        "id": 10249,
+        "value": "Bến Tre - Ben Tre",
+        "title": "Bến Tre - Ben Tre"
+      },
+      {
+        "id": 10250,
+        "value": "Bình Định - Binh Dinh",
+        "title": "Bình Định - Binh Dinh"
+      },
+      {
+        "id": 10251,
+        "value": "Bình Dương - Binh Duong",
+        "title": "Bình Dương - Binh Duong"
+      },
+      {
+        "id": 10252,
+        "value": "Bình Phước - Binh Phuoc",
+        "title": "Bình Phước - Binh Phuoc"
+      },
+      {
+        "id": 10253,
+        "value": "Bình Thuận - Binh Thuan",
+        "title": "Bình Thuận - Binh Thuan"
+      },
+      {
+        "id": 10254,
+        "value": "Cà Mau - Ca Mau",
+        "title": "Cà Mau - Ca Mau"
+      },
+      {
+        "id": 10255,
+        "value": "Cần Thơ - Can Tho",
+        "title": "Cần Thơ - Can Tho"
+      },
+      {
+        "id": 10256,
+        "value": "Cao Bằng - Cao Bang",
+        "title": "Cao Bằng - Cao Bang"
+      },
+      {
+        "id": 10257,
+        "value": "Đà Nẵng - Da Nang",
+        "title": "Đà Nẵng - Da Nang"
+      },
+      {
+        "id": 10258,
+        "value": "Đắk Lắk - Dak Lak",
+        "title": "Đắk Lắk - Dak Lak"
+      },
+      {
+        "id": 10259,
+        "value": "Đắk Nông - Dak Nong",
+        "title": "Đắk Nông - Dak Nong"
+      },
+      {
+        "id": 10260,
+        "value": "Điện Biên - Dien Bien",
+        "title": "Điện Biên - Dien Bien"
+      },
+      {
+        "id": 10261,
+        "value": "Đồng Nai - Dong Nai",
+        "title": "Đồng Nai - Dong Nai"
+      },
+      {
+        "id": 10262,
+        "value": "Đồng Tháp - Dong Thap",
+        "title": "Đồng Tháp - Dong Thap"
+      },
+      {
+        "id": 10263,
+        "value": "Gia Lai - Gia Lai",
+        "title": "Gia Lai - Gia Lai"
+      },
+      {
+        "id": 10264,
+        "value": "Hà Giang - Ha Giang",
+        "title": "Hà Giang - Ha Giang"
+      },
+      {
+        "id": 10265,
+        "value": "Hà Nam - Ha Nam",
+        "title": "Hà Nam - Ha Nam"
+      },
+      {
+        "id": 10266,
+        "value": "Hà Nội - Ha Noi",
+        "title": "Hà Nội - Ha Noi"
+      },
+      {
+        "id": 10267,
+        "value": "Hà Tĩnh - Ha Tinh",
+        "title": "Hà Tĩnh - Ha Tinh"
+      },
+      {
+        "id": 10268,
+        "value": "Hải Dương - Hai Duong",
+        "title": "Hải Dương - Hai Duong"
+      },
+      {
+        "id": 10269,
+        "value": "Hải Phòng - Hai Phong",
+        "title": "Hải Phòng - Hai Phong"
+      },
+      {
+        "id": 10270,
+        "value": "Hậu Giang - Hau Giang",
+        "title": "Hậu Giang - Hau Giang"
+      },
+      {
+        "id": 10271,
+        "value": "Hồ Chí Minh - Ho Chi Minh",
+        "title": "Hồ Chí Minh - Ho Chi Minh"
+      },
+      {
+        "id": 10272,
+        "value": "Hòa Bình - Hoa Binh",
+        "title": "Hòa Bình - Hoa Binh"
+      },
+      {
+        "id": 10273,
+        "value": "Hưng Yên - Hung Yen",
+        "title": "Hưng Yên - Hung Yen"
+      },
+      {
+        "id": 10274,
+        "value": "Khánh Hòa - Khanh Hoa",
+        "title": "Khánh Hòa - Khanh Hoa"
+      },
+      {
+        "id": 10275,
+        "value": "Kiên Giang - Kien Giang",
+        "title": "Kiên Giang - Kien Giang"
+      },
+      {
+        "id": 10276,
+        "value": "Kon Tum - Kon Tum",
+        "title": "Kon Tum - Kon Tum"
+      },
+      {
+        "id": 10277,
+        "value": "Lai Châu - Lai Chau",
+        "title": "Lai Châu - Lai Chau"
+      },
+      {
+        "id": 10278,
+        "value": "Lâm Đồng - Lam Dong",
+        "title": "Lâm Đồng - Lam Dong"
+      },
+      {
+        "id": 10279,
+        "value": "Lạng Sơn - Lang Son",
+        "title": "Lạng Sơn - Lang Son"
+      },
+      {
+        "id": 10280,
+        "value": "Lào Cai - Lao Cai",
+        "title": "Lào Cai - Lao Cai"
+      },
+      {
+        "id": 10281,
+        "value": "Long An - Long An",
+        "title": "Long An - Long An"
+      },
+      {
+        "id": 10282,
+        "value": "Nam Định - Nam Dinh",
+        "title": "Nam Định - Nam Dinh"
+      },
+      {
+        "id": 10283,
+        "value": "Nghệ An - Nghe An",
+        "title": "Nghệ An - Nghe An"
+      },
+      {
+        "id": 10284,
+        "value": "Ninh Bình - Ninh Binh",
+        "title": "Ninh Bình - Ninh Binh"
+      },
+      {
+        "id": 10285,
+        "value": "Ninh Thuận - Ninh Thuan",
+        "title": "Ninh Thuận - Ninh Thuan"
+      },
+      {
+        "id": 10286,
+        "value": "Phú Thọ - Phu Tho",
+        "title": "Phú Thọ - Phu Tho"
+      },
+      {
+        "id": 10287,
+        "value": "Phú Yên - Phu Yen",
+        "title": "Phú Yên - Phu Yen"
+      },
+      {
+        "id": 10288,
+        "value": "Quảng Bình - Quang Binh",
+        "title": "Quảng Bình - Quang Binh"
+      },
+      {
+        "id": 10289,
+        "value": "Quảng Nam - Quang Nam",
+        "title": "Quảng Nam - Quang Nam"
+      },
+      {
+        "id": 10290,
+        "value": "Quảng Ngãi - Quang Ngai",
+        "title": "Quảng Ngãi - Quang Ngai"
+      },
+      {
+        "id": 10291,
+        "value": "Quảng Ninh - Quang Ninh",
+        "title": "Quảng Ninh - Quang Ninh"
+      },
+      {
+        "id": 10292,
+        "value": "Quảng Trị - Quang Tri",
+        "title": "Quảng Trị - Quang Tri"
+      },
+      {
+        "id": 10293,
+        "value": "Sóc Trăng - Soc Trang",
+        "title": "Sóc Trăng - Soc Trang"
+      },
+      {
+        "id": 10294,
+        "value": "Sơn La - Son La",
+        "title": "Sơn La - Son La"
+      },
+      {
+        "id": 10295,
+        "value": "Tây Ninh - Tay Ninh",
+        "title": "Tây Ninh - Tay Ninh"
+      },
+      {
+        "id": 10296,
+        "value": "Thái Bình - Thai Binh",
+        "title": "Thái Bình - Thai Binh"
+      },
+      {
+        "id": 10297,
+        "value": "Thái Nguyên - Thai Nguyen",
+        "title": "Thái Nguyên - Thai Nguyen"
+      },
+      {
+        "id": 10298,
+        "value": "Thanh Hóa - Thanh Hoa",
+        "title": "Thanh Hóa - Thanh Hoa"
+      },
+      {
+        "id": 10299,
+        "value": "Thừa Thiên Huế - Thua Thien Hue",
+        "title": "Thừa Thiên Huế - Thua Thien Hue"
+      },
+      {
+        "id": 10300,
+        "value": "Tiền Giang - Tien Giang",
+        "title": "Tiền Giang - Tien Giang"
+      },
+      {
+        "id": 10301,
+        "value": "Trà Vinh - Tra Vinh",
+        "title": "Trà Vinh - Tra Vinh"
+      },
+      {
+        "id": 10302,
+        "value": "Tuyên Quang - Tuyen Quang",
+        "title": "Tuyên Quang - Tuyen Quang"
+      },
+      {
+        "id": 10303,
+        "value": "Vĩnh Long - Vinh Long",
+        "title": "Vĩnh Long - Vinh Long"
+      },
+      {
+        "id": 10304,
+        "value": "Vĩnh Phúc - Vinh Phuc",
+        "title": "Vĩnh Phúc - Vinh Phuc"
+      },
+      {
+        "id": 10305,
+        "value": "Yên Bái - Yen Bai",
+        "title": "Yên Bái - Yen Bai"
+      }
+    ]
+  },
+  {
+    "id": 74,
+    "title": "MAS. What is your marital status?",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10308,
+        "value": "1",
+        "title": "Unmarried/Single without kids"
+      },
+      {
+        "id": 10309,
+        "value": "2",
+        "title": "Unmarried/Single with kids"
+      },
+      {
+        "id": 10310,
+        "value": "3",
+        "title": "Married without kids"
+      },
+      {
+        "id": 10311,
+        "value": "4",
+        "title": "Married with kids"
+      }
+    ]
+  },
+  {
+    "id": 75,
+    "title": "FIN. Which of the below best describes your <span style=\"color:#0033ff;\"><strong>FAMILIES</strong></span> household <span style=\"color:#0033ff;\"><strong>monthly</strong></span> income?",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10312,
+        "value": "14",
+        "title": "Above 200,000,001 VND"
+      },
+      {
+        "id": 10313,
+        "value": "13",
+        "title": "150,000,001 - 200,000,000 VND"
+      },
+      {
+        "id": 10314,
+        "value": "12",
+        "title": "100,000,001 - 150,000,000 VND"
+      },
+      {
+        "id": 10315,
+        "value": "11",
+        "title": "70,000,001 - 100,000,000 VND"
+      },
+      {
+        "id": 10316,
+        "value": "10",
+        "title": "50,000,001 - 70,000,000 VND"
+      },
+      {
+        "id": 10317,
+        "value": "9",
+        "title": "40,000,001 - 50,000,000 VND"
+      },
+      {
+        "id": 10318,
+        "value": "8",
+        "title": "30,000,001 - 40,000,000 VND"
+      },
+      {
+        "id": 10319,
+        "value": "7",
+        "title": "25,000,001 - 30,000,000 VND"
+      },
+      {
+        "id": 10320,
+        "value": "6",
+        "title": "20,000,001 - 25,000,000 VND"
+      },
+      {
+        "id": 10321,
+        "value": "5",
+        "title": "15,000,001 - 20,000,000 VND"
+      },
+      {
+        "id": 10322,
+        "value": "4",
+        "title": "10,000,001 -15,000,000 VND"
+      },
+      {
+        "id": 10323,
+        "value": "3",
+        "title": "5,000,001 - 10,000,000 VND"
+      },
+      {
+        "id": 10324,
+        "value": "2",
+        "title": "3,000,001 - 5,000,000 VND"
+      },
+      {
+        "id": 10325,
+        "value": "1",
+        "title": "Below 3,000,000 VND"
+      }
+    ]
+  },
+  {
+    "id": 77,
+    "title": "PIN. Which of the below best describes your <span style=\"color:#0033ff;\"><strong>PERSONAL monthly</strong></span> income?",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10326,
+        "value": "14",
+        "title": "Above 200,000,001 VND"
+      },
+      {
+        "id": 10327,
+        "value": "13",
+        "title": "150,000,001 - 200,000,000 VND"
+      },
+      {
+        "id": 10328,
+        "value": "12",
+        "title": "100,000,001 - 150,000,000 VND"
+      },
+      {
+        "id": 10329,
+        "value": "11",
+        "title": "70,000,001 - 100,000,000 VND"
+      },
+      {
+        "id": 10330,
+        "value": "10",
+        "title": "50,000,001 - 70,000,000 VND"
+      },
+      {
+        "id": 10331,
+        "value": "9",
+        "title": "40,000,001 - 50,000,000 VND"
+      },
+      {
+        "id": 10332,
+        "value": "8",
+        "title": "30,000,001 - 40,000,000 VND"
+      },
+      {
+        "id": 10333,
+        "value": "7",
+        "title": "25,000,001 - 30,000,000 VND"
+      },
+      {
+        "id": 10334,
+        "value": "6",
+        "title": "20,000,001 - 25,000,000 VND"
+      },
+      {
+        "id": 10335,
+        "value": "5",
+        "title": "15,000,001 - 20,000,000 VND"
+      },
+      {
+        "id": 10336,
+        "value": "4",
+        "title": "10,000,001 -15,000,000 VND"
+      },
+      {
+        "id": 10337,
+        "value": "3",
+        "title": "5,000,001 - 10,000,000 VND"
+      },
+      {
+        "id": 10338,
+        "value": "2",
+        "title": "3,000,001 - 5,000,000 VND"
+      },
+      {
+        "id": 10339,
+        "value": "1",
+        "title": "Below 3,000,000 VND"
+      }
+    ]
+  },
+  {
+    "id": 150,
+    "title": "Nhập giới tính - câu giả: set logic cho Q-gender",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10644,
+        "value": "1",
+        "title": "Nam"
+      },
+      {
+        "id": 10645,
+        "value": "2",
+        "title": "Nữ"
+      }
+    ]
+  },
+  {
+    "id": 85,
+    "title": "dist_name_hcm (dropdown)",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10346,
+        "value": "Quận 1",
+        "title": "Quận 1"
+      },
+      {
+        "id": 10347,
+        "value": "Quận 12",
+        "title": "Quận 12"
+      },
+      {
+        "id": 10348,
+        "value": "Quận Thủ Đức",
+        "title": "Quận Thủ Đức"
+      },
+      {
+        "id": 10349,
+        "value": "Quận 9",
+        "title": "Quận 9"
+      },
+      {
+        "id": 10350,
+        "value": "Quận Gò Vấp",
+        "title": "Quận Gò Vấp"
+      },
+      {
+        "id": 10351,
+        "value": "Quận Bình Thạnh",
+        "title": "Quận Bình Thạnh"
+      },
+      {
+        "id": 10352,
+        "value": "Quận Tân Bình",
+        "title": "Quận Tân Bình"
+      },
+      {
+        "id": 10353,
+        "value": "Quận Tân Phú",
+        "title": "Quận Tân Phú"
+      },
+      {
+        "id": 10354,
+        "value": "Quận Phú Nhuận",
+        "title": "Quận Phú Nhuận"
+      },
+      {
+        "id": 10355,
+        "value": "Quận 2",
+        "title": "Quận 2"
+      },
+      {
+        "id": 10356,
+        "value": "Quận 3",
+        "title": "Quận 3"
+      },
+      {
+        "id": 10357,
+        "value": "Quận 10",
+        "title": "Quận 10"
+      },
+      {
+        "id": 10358,
+        "value": "Quận 11",
+        "title": "Quận 11"
+      },
+      {
+        "id": 10359,
+        "value": "Quận 4",
+        "title": "Quận 4"
+      },
+      {
+        "id": 10360,
+        "value": "Quận 5",
+        "title": "Quận 5"
+      },
+      {
+        "id": 10361,
+        "value": "Quận 6",
+        "title": "Quận 6"
+      },
+      {
+        "id": 10362,
+        "value": "Quận 8",
+        "title": "Quận 8"
+      },
+      {
+        "id": 10363,
+        "value": "Quận Bình Tân",
+        "title": "Quận Bình Tân"
+      },
+      {
+        "id": 10364,
+        "value": "Quận 7",
+        "title": "Quận 7"
+      },
+      {
+        "id": 10365,
+        "value": "Huyện Củ Chi",
+        "title": "Huyện Củ Chi"
+      },
+      {
+        "id": 10366,
+        "value": "Huyện Hóc Môn",
+        "title": "Huyện Hóc Môn"
+      },
+      {
+        "id": 10367,
+        "value": "Huyện Bình Chánh",
+        "title": "Huyện Bình Chánh"
+      },
+      {
+        "id": 10368,
+        "value": "Huyện Nhà Bè",
+        "title": "Huyện Nhà Bè"
+      },
+      {
+        "id": 10369,
+        "value": "Huyện Cần Giờ",
+        "title": "Huyện Cần Giờ"
+      }
+    ]
+  },
+  {
+    "id": 86,
+    "title": "dist_name_hn (dropdown)",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10370,
+        "value": "Quận Ba Đình",
+        "title": "Quận Ba Đình"
+      },
+      {
+        "id": 10371,
+        "value": "Quận Hoàn Kiếm",
+        "title": "Quận Hoàn Kiếm"
+      },
+      {
+        "id": 10372,
+        "value": "Quận Tây Hồ",
+        "title": "Quận Tây Hồ"
+      },
+      {
+        "id": 10373,
+        "value": "Quận Long Biên",
+        "title": "Quận Long Biên"
+      },
+      {
+        "id": 10374,
+        "value": "Quận Cầu Giấy",
+        "title": "Quận Cầu Giấy"
+      },
+      {
+        "id": 10375,
+        "value": "Quận Đống Đa",
+        "title": "Quận Đống Đa"
+      },
+      {
+        "id": 10376,
+        "value": "Quận Hai Bà Trưng",
+        "title": "Quận Hai Bà Trưng"
+      },
+      {
+        "id": 10377,
+        "value": "Quận Hoàng Mai",
+        "title": "Quận Hoàng Mai"
+      },
+      {
+        "id": 10378,
+        "value": "Quận Thanh Xuân",
+        "title": "Quận Thanh Xuân"
+      },
+      {
+        "id": 10379,
+        "value": "Huyện Sóc Sơn",
+        "title": "Huyện Sóc Sơn"
+      },
+      {
+        "id": 10380,
+        "value": "Huyện Đông Anh",
+        "title": "Huyện Đông Anh"
+      },
+      {
+        "id": 10381,
+        "value": "Huyện Gia Lâm",
+        "title": "Huyện Gia Lâm"
+      },
+      {
+        "id": 10382,
+        "value": "Quận Nam Từ Liêm",
+        "title": "Quận Nam Từ Liêm"
+      },
+      {
+        "id": 10383,
+        "value": "Huyện Thanh Trì",
+        "title": "Huyện Thanh Trì"
+      },
+      {
+        "id": 10384,
+        "value": "Quận Bắc Từ Liêm",
+        "title": "Quận Bắc Từ Liêm"
+      },
+      {
+        "id": 10385,
+        "value": "Huyện Mê Linh",
+        "title": "Huyện Mê Linh"
+      },
+      {
+        "id": 10386,
+        "value": "Quận Hà Đông",
+        "title": "Quận Hà Đông"
+      },
+      {
+        "id": 10387,
+        "value": "Thị xã Sơn Tây",
+        "title": "Thị xã Sơn Tây"
+      },
+      {
+        "id": 10388,
+        "value": "Huyện Ba Vì",
+        "title": "Huyện Ba Vì"
+      },
+      {
+        "id": 10389,
+        "value": "Huyện Phúc Thọ",
+        "title": "Huyện Phúc Thọ"
+      },
+      {
+        "id": 10390,
+        "value": "Huyện Đan Phượng",
+        "title": "Huyện Đan Phượng"
+      },
+      {
+        "id": 10391,
+        "value": "Huyện Hoài Đức",
+        "title": "Huyện Hoài Đức"
+      },
+      {
+        "id": 10392,
+        "value": "Huyện Quốc Oai",
+        "title": "Huyện Quốc Oai"
+      },
+      {
+        "id": 10393,
+        "value": "Huyện Thạch Thất",
+        "title": "Huyện Thạch Thất"
+      },
+      {
+        "id": 10394,
+        "value": "Huyện Chương Mỹ",
+        "title": "Huyện Chương Mỹ"
+      },
+      {
+        "id": 10395,
+        "value": "Huyện Thanh Oai",
+        "title": "Huyện Thanh Oai"
+      },
+      {
+        "id": 10396,
+        "value": "Huyện Thường Tín",
+        "title": "Huyện Thường Tín"
+      },
+      {
+        "id": 10397,
+        "value": "Huyện Phú Xuyên",
+        "title": "Huyện Phú Xuyên"
+      },
+      {
+        "id": 10398,
+        "value": "Huyện Ứng Hòa",
+        "title": "Huyện Ứng Hòa"
+      },
+      {
+        "id": 10399,
+        "value": "Huyện Mỹ Đức",
+        "title": "Huyện Mỹ Đức"
+      }
+    ]
+  },
+  {
+    "id": 87,
+    "title": "prov_name",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10400,
+        "value": "An Giang",
+        "title": "An Giang"
+      },
+      {
+        "id": 10401,
+        "value": "Bà Rịa Vũng Tàu",
+        "title": "Bà Rịa Vũng Tàu"
+      },
+      {
+        "id": 10402,
+        "value": "Bắc Giang",
+        "title": "Bắc Giang"
+      },
+      {
+        "id": 10403,
+        "value": "Bắc Kạn",
+        "title": "Bắc Kạn"
+      },
+      {
+        "id": 10404,
+        "value": "Bạc Liêu",
+        "title": "Bạc Liêu"
+      },
+      {
+        "id": 10405,
+        "value": "Bắc Ninh",
+        "title": "Bắc Ninh"
+      },
+      {
+        "id": 10406,
+        "value": "Bến Tre",
+        "title": "Bến Tre"
+      },
+      {
+        "id": 10407,
+        "value": "Bình Định",
+        "title": "Bình Định"
+      },
+      {
+        "id": 10408,
+        "value": "Bình Dương",
+        "title": "Bình Dương"
+      },
+      {
+        "id": 10409,
+        "value": "Bình Phước",
+        "title": "Bình Phước"
+      },
+      {
+        "id": 10410,
+        "value": "Bình Thuận",
+        "title": "Bình Thuận"
+      },
+      {
+        "id": 10411,
+        "value": "Cà Mau",
+        "title": "Cà Mau"
+      },
+      {
+        "id": 10412,
+        "value": "Cần Thơ",
+        "title": "Cần Thơ"
+      },
+      {
+        "id": 10413,
+        "value": "Cao Bằng",
+        "title": "Cao Bằng"
+      },
+      {
+        "id": 10414,
+        "value": "Đà Nẵng",
+        "title": "Đà Nẵng"
+      },
+      {
+        "id": 10415,
+        "value": "Đắk Lắk",
+        "title": "Đắk Lắk"
+      },
+      {
+        "id": 10416,
+        "value": "Đắk Nông",
+        "title": "Đắk Nông"
+      },
+      {
+        "id": 10417,
+        "value": "Điện Biên",
+        "title": "Điện Biên"
+      },
+      {
+        "id": 10418,
+        "value": "Đồng Nai",
+        "title": "Đồng Nai"
+      },
+      {
+        "id": 10419,
+        "value": "Đồng Tháp",
+        "title": "Đồng Tháp"
+      },
+      {
+        "id": 10420,
+        "value": "Gia Lai",
+        "title": "Gia Lai"
+      },
+      {
+        "id": 10421,
+        "value": "Hà Giang",
+        "title": "Hà Giang"
+      },
+      {
+        "id": 10422,
+        "value": "Hà Nam",
+        "title": "Hà Nam"
+      },
+      {
+        "id": 10423,
+        "value": "Hà Nội",
+        "title": "Hà Nội"
+      },
+      {
+        "id": 10424,
+        "value": "Hà Tĩnh",
+        "title": "Hà Tĩnh"
+      },
+      {
+        "id": 10425,
+        "value": "Hải Dương",
+        "title": "Hải Dương"
+      },
+      {
+        "id": 10426,
+        "value": "Hải Phòng",
+        "title": "Hải Phòng"
+      },
+      {
+        "id": 10427,
+        "value": "Hậu Giang",
+        "title": "Hậu Giang"
+      },
+      {
+        "id": 10428,
+        "value": "Hồ Chí Minh",
+        "title": "Hồ Chí Minh"
+      },
+      {
+        "id": 10429,
+        "value": "Hòa Bình",
+        "title": "Hòa Bình"
+      },
+      {
+        "id": 10430,
+        "value": "Hưng Yên",
+        "title": "Hưng Yên"
+      },
+      {
+        "id": 10431,
+        "value": "Khánh Hòa",
+        "title": "Khánh Hòa"
+      },
+      {
+        "id": 10432,
+        "value": "Kiên Giang",
+        "title": "Kiên Giang"
+      },
+      {
+        "id": 10433,
+        "value": "Kon Tum",
+        "title": "Kon Tum"
+      },
+      {
+        "id": 10434,
+        "value": "Lai Châu",
+        "title": "Lai Châu"
+      },
+      {
+        "id": 10435,
+        "value": "Lâm Đồng",
+        "title": "Lâm Đồng"
+      },
+      {
+        "id": 10436,
+        "value": "Lạng Sơn",
+        "title": "Lạng Sơn"
+      },
+      {
+        "id": 10437,
+        "value": "Lào Cai",
+        "title": "Lào Cai"
+      },
+      {
+        "id": 10438,
+        "value": "Long An",
+        "title": "Long An"
+      },
+      {
+        "id": 10439,
+        "value": "Nam Định",
+        "title": "Nam Định"
+      },
+      {
+        "id": 10440,
+        "value": "Nghệ An",
+        "title": "Nghệ An"
+      },
+      {
+        "id": 10441,
+        "value": "Ninh Bình",
+        "title": "Ninh Bình"
+      },
+      {
+        "id": 10442,
+        "value": "Ninh Thuận",
+        "title": "Ninh Thuận"
+      },
+      {
+        "id": 10443,
+        "value": "Phú Thọ",
+        "title": "Phú Thọ"
+      },
+      {
+        "id": 10444,
+        "value": "Phú Yên",
+        "title": "Phú Yên"
+      },
+      {
+        "id": 10445,
+        "value": "Quảng Bình",
+        "title": "Quảng Bình"
+      },
+      {
+        "id": 10446,
+        "value": "Quảng Nam",
+        "title": "Quảng Nam"
+      },
+      {
+        "id": 10447,
+        "value": "Quảng Ngãi",
+        "title": "Quảng Ngãi"
+      },
+      {
+        "id": 10448,
+        "value": "Quảng Ninh",
+        "title": "Quảng Ninh"
+      },
+      {
+        "id": 10449,
+        "value": "Quảng Trị",
+        "title": "Quảng Trị"
+      },
+      {
+        "id": 10450,
+        "value": "Sóc Trăng",
+        "title": "Sóc Trăng"
+      },
+      {
+        "id": 10451,
+        "value": "Sơn La",
+        "title": "Sơn La"
+      },
+      {
+        "id": 10452,
+        "value": "Tây Ninh",
+        "title": "Tây Ninh"
+      },
+      {
+        "id": 10453,
+        "value": "Thái Bình",
+        "title": "Thái Bình"
+      },
+      {
+        "id": 10454,
+        "value": "Thái Nguyên",
+        "title": "Thái Nguyên"
+      },
+      {
+        "id": 10455,
+        "value": "Thanh Hóa",
+        "title": "Thanh Hóa"
+      },
+      {
+        "id": 10456,
+        "value": "Thừa Thiên Huế",
+        "title": "Thừa Thiên Huế"
+      },
+      {
+        "id": 10457,
+        "value": "Tiền Giang",
+        "title": "Tiền Giang"
+      },
+      {
+        "id": 10458,
+        "value": "Trà Vinh",
+        "title": "Trà Vinh"
+      },
+      {
+        "id": 10459,
+        "value": "Tuyên Quang",
+        "title": "Tuyên Quang"
+      },
+      {
+        "id": 10460,
+        "value": "Vĩnh Long",
+        "title": "Vĩnh Long"
+      },
+      {
+        "id": 10461,
+        "value": "Vĩnh Phúc",
+        "title": "Vĩnh Phúc"
+      },
+      {
+        "id": 10462,
+        "value": "Yên Bái",
+        "title": "Yên Bái"
+      }
+    ]
+  },
+  {
+    "id": 88,
+    "title": "region_new",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10463,
+        "value": "hn",
+        "title": "hn"
+      },
+      {
+        "id": 10464,
+        "value": "hcm",
+        "title": "hcm"
+      },
+      {
+        "id": 10465,
+        "value": "secondary_cities",
+        "title": "secondary_cities"
+      },
+      {
+        "id": 10466,
+        "value": "north_rural",
+        "title": "north_rural"
+      },
+      {
+        "id": 10467,
+        "value": "central_rural",
+        "title": "central_rural"
+      },
+      {
+        "id": 10468,
+        "value": "south_rural",
+        "title": "south_rural"
+      }
+    ]
+  },
+  {
+    "id": 89,
+    "title": "region",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10469,
+        "value": "hn",
+        "title": "hn"
+      },
+      {
+        "id": 10470,
+        "value": "hcm",
+        "title": "hcm"
+      },
+      {
+        "id": 10471,
+        "value": "hp",
+        "title": "hp"
+      },
+      {
+        "id": 10472,
+        "value": "dn",
+        "title": "dn"
+      },
+      {
+        "id": 10473,
+        "value": "ct",
+        "title": "ct"
+      },
+      {
+        "id": 10474,
+        "value": "north_rural",
+        "title": "north_rural"
+      },
+      {
+        "id": 10475,
+        "value": "central_rural",
+        "title": "central_rural"
+      },
+      {
+        "id": 10476,
+        "value": "south_rural",
+        "title": "south_rural"
+      }
+    ]
+  },
+  {
+    "id": 90,
+    "title": "region_8",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10477,
+        "value": "Mekong Delta",
+        "title": "Mekong Delta"
+      },
+      {
+        "id": 10478,
+        "value": "South East",
+        "title": "South East"
+      },
+      {
+        "id": 10479,
+        "value": "Northeast",
+        "title": "Northeast"
+      },
+      {
+        "id": 10480,
+        "value": "Red River Delta",
+        "title": "Red River Delta"
+      },
+      {
+        "id": 10481,
+        "value": "South Central",
+        "title": "South Central"
+      },
+      {
+        "id": 10482,
+        "value": "Highlands",
+        "title": "Highlands"
+      },
+      {
+        "id": 10483,
+        "value": "Northwest",
+        "title": "Northwest"
+      },
+      {
+        "id": 10484,
+        "value": "North Central",
+        "title": "North Central"
+      }
+    ]
+  },
+  {
+    "id": 91,
+    "title": "region_3",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10485,
+        "value": "South",
+        "title": "South"
+      },
+      {
+        "id": 10486,
+        "value": "North",
+        "title": "North"
+      },
+      {
+        "id": 10487,
+        "value": "Central",
+        "title": "Central"
+      }
+    ]
+  },
+  {
+    "id": 92,
+    "title": "region_new_5metro_18secondary_3rural",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10488,
+        "value": "Ha Noi",
+        "title": "Ha Noi"
+      },
+      {
+        "id": 10489,
+        "value": "Ho Chi Minh",
+        "title": "Ho Chi Minh"
+      },
+      {
+        "id": 10490,
+        "value": "Hai Phong",
+        "title": "Hai Phong"
+      },
+      {
+        "id": 10491,
+        "value": "Da Nang",
+        "title": "Da Nang"
+      },
+      {
+        "id": 10492,
+        "value": "Can Tho",
+        "title": "Can Tho"
+      },
+      {
+        "id": 10493,
+        "value": "North - Secondary Cities",
+        "title": "North - Secondary Cities"
+      },
+      {
+        "id": 10494,
+        "value": "Central - Secondary Cities",
+        "title": "Central - Secondary Cities"
+      },
+      {
+        "id": 10495,
+        "value": "South - Secondary Cities",
+        "title": "South - Secondary Cities"
+      },
+      {
+        "id": 10496,
+        "value": "North Rural",
+        "title": "North Rural"
+      },
+      {
+        "id": 10497,
+        "value": "Central Rural",
+        "title": "Central Rural"
+      },
+      {
+        "id": 10498,
+        "value": "South Rural",
+        "title": "South Rural"
+      }
+    ]
+  },
+  {
+    "id": 93,
+    "title": "age_group",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10499,
+        "value": "0-19",
+        "title": "0-19"
+      },
+      {
+        "id": 10500,
+        "value": "20-29",
+        "title": "20-29"
+      },
+      {
+        "id": 10501,
+        "value": "30-39",
+        "title": "30-39"
+      },
+      {
+        "id": 10502,
+        "value": "40-49",
+        "title": "40-49"
+      },
+      {
+        "id": 10503,
+        "value": "50-59",
+        "title": "50-59"
+      },
+      {
+        "id": 10504,
+        "value": "60-100",
+        "title": "60-100"
+      }
+    ]
+  },
+  {
+    "id": "207",
+    "title": "district_type_tier",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10873,
+        "value": "Urban T1",
+        "title": "Urban T1"
+      },
+      {
+        "id": 10874,
+        "value": "Urban T2",
+        "title": "Urban T2"
+      },
+      {
+        "id": 10875,
+        "value": "Urban T3",
+        "title": "Urban T3"
+      },
+      {
+        "id": 10877,
+        "value": "Rural",
+        "title": "Rural"
+      },
+      {
+        "id": 10882,
+        "value": "Test option",
+        "title": "Test option"
+      }
+    ]
+  },
+  {
+    "id": 206,
+    "title": "district_type_gso",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10870,
+        "value": "Urban T1",
+        "title": "Urban T1"
+      },
+      {
+        "id": 10871,
+        "value": "Urban T2",
+        "title": "Urban T2"
+      },
+      {
+        "id": 10872,
+        "value": "Rural",
+        "title": "Rural"
+      }
+    ]
+  },
+  {
+    "id": "205",
+    "title": "district_type_cci",
+    "type": "MENU",
+    "options": [
+      {
+        "id": 10867,
+        "value": "Ha Noi",
+        "title": "Ha Noi"
+      },
+      {
+        "id": 10868,
+        "value": "Ho Chi Minh",
+        "title": "Ho Chi Minh"
+      },
+      {
+        "id": 10869,
+        "value": "Secondary City",
+        "title": "Secondary City"
+      },
+      {
+        "id": 10878,
+        "value": "North Rural",
+        "title": "North Rural"
+      },
+      {
+        "id": 10879,
+        "value": "Central Rural",
+        "title": "Central Rural"
+      },
+      {
+        "id": 10880,
+        "value": "Mekong River Delta Rural",
+        "title": "Mekong River Delta Rural"
+      },
+      {
+        "id": 10881,
+        "value": "Southeast Rural",
+        "title": "Southeast Rural"
+      }
+    ]
+  },
+  {
+    "id": 212,
+    "title": "source",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10889,
+        "value": "Online",
+        "title": "Online"
+      },
+      {
+        "id": 10890,
+        "value": "Offline",
+        "title": "Offline"
+      },
+      {
+        "id": 10905,
+        "value": "Không xác định",
+        "title": "Không xác định"
+      },
+      {
+        "id": 10894,
+        "value": "Test",
+        "title": "Test"
+      }
+    ]
+  },
+  {
+    "id": 99,
+    "title": "[industry] Which of the below best describes the industry that you work in?",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10520,
+        "value": "1",
+        "title": "IT"
+      },
+      {
+        "id": 10521,
+        "value": "2",
+        "title": "HR"
+      },
+      {
+        "id": 10522,
+        "value": "3",
+        "title": "Financial Services (Banking/ Finance / Insurance / Accounting)"
+      },
+      {
+        "id": 10523,
+        "value": "4",
+        "title": "Healthcare & Beauty"
+      },
+      {
+        "id": 10524,
+        "value": "5",
+        "title": "Education"
+      },
+      {
+        "id": 10525,
+        "value": "6",
+        "title": "Construction"
+      },
+      {
+        "id": 10526,
+        "value": "7",
+        "title": "Entertainment"
+      },
+      {
+        "id": 10527,
+        "value": "8",
+        "title": "Government Services & Public Sector"
+      },
+      {
+        "id": 10528,
+        "value": "9",
+        "title": "Manufacturing / Factory Work"
+      },
+      {
+        "id": 10529,
+        "value": "10",
+        "title": "Retail"
+      },
+      {
+        "id": 10530,
+        "value": "11",
+        "title": "Agricultures / Fishing / Farming"
+      },
+      {
+        "id": 10531,
+        "value": "12",
+        "title": "Oil & Gas"
+      },
+      {
+        "id": 10532,
+        "value": "13",
+        "title": "Mining & Metallurgy"
+      },
+      {
+        "id": 10533,
+        "value": "14",
+        "title": "Marketing / Advertising / Research"
+      },
+      {
+        "id": 10534,
+        "value": "15",
+        "title": "Transportation"
+      },
+      {
+        "id": 10535,
+        "value": "16",
+        "title": "Hospitality (Travel, Hotel, Restaurant...)"
+      },
+      {
+        "id": 10536,
+        "value": "17",
+        "title": "Sport"
+      },
+      {
+        "id": 10537,
+        "value": "18",
+        "title": "Media & Press (TV, Newspaper, Magazine, Radio Station...)"
+      },
+      {
+        "id": 10538,
+        "value": "19",
+        "title": "Science & Technology"
+      },
+      {
+        "id": 10539,
+        "value": "20",
+        "title": "Resource & environment"
+      },
+      {
+        "id": 10540,
+        "value": "21",
+        "title": "Real estate"
+      },
+      {
+        "id": 10541,
+        "value": "22",
+        "title": "Security"
+      },
+      {
+        "id": 10542,
+        "value": "23",
+        "title": "Management"
+      },
+      {
+        "id": 10543,
+        "value": "24",
+        "title": "Wholesale / Distribution"
+      },
+      {
+        "id": 10544,
+        "value": "25",
+        "title": "Pharmacy"
+      },
+      {
+        "id": 10545,
+        "value": "26",
+        "title": "FMCG"
+      },
+      {
+        "id": 10546,
+        "value": "99",
+        "title": "Other - Write In"
+      }
+    ]
+  },
+  {
+    "id": 101,
+    "title": "Do you smoke cigarette?",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10581,
+        "value": "1",
+        "title": "Yes"
+      },
+      {
+        "id": 10582,
+        "value": "0",
+        "title": "No"
+      }
+    ]
+  },
+  {
+    "id": 102,
+    "title": "Do you own credit card?",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10583,
+        "value": "1",
+        "title": "Yes"
+      },
+      {
+        "id": 10584,
+        "value": "0",
+        "title": "No"
+      }
+    ]
+  },
+  {
+    "id": 103,
+    "title": "[employment_position] What is your employment position?",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10585,
+        "value": "1",
+        "title": "Business owner/ Entrepreneur"
+      },
+      {
+        "id": 10586,
+        "value": "2",
+        "title": "CEO / General Manager / Managing Director"
+      },
+      {
+        "id": 10587,
+        "value": "3",
+        "title": "Manager"
+      },
+      {
+        "id": 10588,
+        "value": "4",
+        "title": "Senior Manager"
+      },
+      {
+        "id": 10589,
+        "value": "5",
+        "title": "Employee"
+      },
+      {
+        "id": 10590,
+        "value": "6",
+        "title": "Unemployed"
+      },
+      {
+        "id": 10591,
+        "value": "7",
+        "title": "Retired"
+      },
+      {
+        "id": 10592,
+        "value": "99",
+        "title": "Other"
+      }
+    ]
+  },
+  {
+    "id": 104,
+    "title": "OWN. Which of the following do you own?<br /><span style=\"color:#0033ff;\">Please choose all that apply</span>",
+    "type": "CHECKBOX",
+    "options": [
+      {
+        "id": 10593,
+        "value": "1",
+        "title": "Car"
+      },
+      {
+        "id": 10594,
+        "value": "2",
+        "title": "Bank Account"
+      },
+      {
+        "id": 10595,
+        "value": "3",
+        "title": "Credit card"
+      },
+      {
+        "id": 10596,
+        "value": "4",
+        "title": "Debit card"
+      },
+      {
+        "id": 10597,
+        "value": "5",
+        "title": "ATM card"
+      },
+      {
+        "id": 10598,
+        "value": "6",
+        "title": "Investment funds"
+      },
+      {
+        "id": 10599,
+        "value": "7",
+        "title": "Insurance (except the government insurance)"
+      },
+      {
+        "id": 10600,
+        "value": "8",
+        "title": "Own family house"
+      },
+      {
+        "id": 10601,
+        "value": "9",
+        "title": "Own family appartment"
+      },
+      {
+        "id": 10602,
+        "value": "10",
+        "title": "Rental property"
+      },
+      {
+        "id": 10603,
+        "value": "98",
+        "title": "Exclusive / None of the above"
+      }
+    ]
+  },
+  {
+    "id": 125,
+    "title": "redirected_status",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10620,
+        "value": "complete",
+        "title": "complete"
+      },
+      {
+        "id": 10621,
+        "value": "screenout",
+        "title": "screenout"
+      },
+      {
+        "id": 10622,
+        "value": "quotafull",
+        "title": "quotafull"
+      },
+      {
+        "id": 10623,
+        "value": "longterm",
+        "title": "longterm"
+      },
+      {
+        "id": 10624,
+        "value": "unengaged",
+        "title": "unengaged"
+      },
+      {
+        "id": 10625,
+        "value": "sniffout",
+        "title": "sniffout"
+      },
+      {
+        "id": 10626,
+        "value": "platform",
+        "title": "platform"
+      },
+      {
+        "id": 10627,
+        "value": "security",
+        "title": "security"
+      }
+    ]
+  },
+  {
+    "id": 98,
+    "title": "[education] Which of the below best describe your education?",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10509,
+        "value": "1",
+        "title": "Graduated Post University (MBA / PHD)"
+      },
+      {
+        "id": 10510,
+        "value": "2",
+        "title": "Graduated Undergraduate University"
+      },
+      {
+        "id": 10511,
+        "value": "8",
+        "title": "Studying University"
+      },
+      {
+        "id": 10512,
+        "value": "3",
+        "title": "Graduated Vocational Graduate (College)"
+      },
+      {
+        "id": 10513,
+        "value": "4",
+        "title": "Graduated High school"
+      },
+      {
+        "id": 10514,
+        "value": "7",
+        "title": "Studying High School"
+      },
+      {
+        "id": 10515,
+        "value": "5",
+        "title": "Graduated Secondary School"
+      },
+      {
+        "id": 10516,
+        "value": "6",
+        "title": "Studying Secondary School"
+      },
+      {
+        "id": 10517,
+        "value": "10",
+        "title": "Graduated elementary/primary school"
+      },
+      {
+        "id": 10518,
+        "value": "9",
+        "title": "Studying elementary/primary school"
+      },
+      {
+        "id": 10519,
+        "value": "11",
+        "title": "Other"
+      }
+    ]
+  },
+  {
+    "id": 100,
+    "title": "[occupation] Which of the below best describes your occupation?",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10547,
+        "value": "1",
+        "title": "Accountant"
+      },
+      {
+        "id": 10548,
+        "value": "2",
+        "title": "Doctor"
+      },
+      {
+        "id": 10549,
+        "value": "3",
+        "title": "Engineer"
+      },
+      {
+        "id": 10550,
+        "value": "4",
+        "title": "Pharmacist"
+      },
+      {
+        "id": 10551,
+        "value": "5",
+        "title": "Saleman"
+      },
+      {
+        "id": 10552,
+        "value": "6",
+        "title": "Security guard"
+      },
+      {
+        "id": 10553,
+        "value": "7",
+        "title": "Consultant"
+      },
+      {
+        "id": 10554,
+        "value": "8",
+        "title": "Customer service"
+      },
+      {
+        "id": 10555,
+        "value": "9",
+        "title": "Teller"
+      },
+      {
+        "id": 10556,
+        "value": "10",
+        "title": "IT Infrastructure (Helpdesk, Network, Technician, Administrator...)"
+      },
+      {
+        "id": 10557,
+        "value": "11",
+        "title": "IT Programming (Developer, Tester, DevOps, BA...)"
+      },
+      {
+        "id": 10558,
+        "value": "12",
+        "title": "Auditor"
+      },
+      {
+        "id": 10559,
+        "value": "13",
+        "title": "Unskilled worker"
+      },
+      {
+        "id": 10560,
+        "value": "14",
+        "title": "Actor/actress/singer"
+      },
+      {
+        "id": 10561,
+        "value": "15",
+        "title": "Mechanic"
+      },
+      {
+        "id": 10562,
+        "value": "16",
+        "title": "Athele"
+      },
+      {
+        "id": 10563,
+        "value": "17",
+        "title": "Office worker"
+      },
+      {
+        "id": 10564,
+        "value": "18",
+        "title": "Tailor"
+      },
+      {
+        "id": 10565,
+        "value": "19",
+        "title": "Tour guide"
+      },
+      {
+        "id": 10566,
+        "value": "20",
+        "title": "Steward/stewardess"
+      },
+      {
+        "id": 10567,
+        "value": "21",
+        "title": "Pilot"
+      },
+      {
+        "id": 10568,
+        "value": "22",
+        "title": "Freelancer"
+      },
+      {
+        "id": 10569,
+        "value": "23",
+        "title": "Teacher/lecturer"
+      },
+      {
+        "id": 10570,
+        "value": "24",
+        "title": "Delivery person"
+      },
+      {
+        "id": 10571,
+        "value": "25",
+        "title": "Driver"
+      },
+      {
+        "id": 10572,
+        "value": "26",
+        "title": "Marketer"
+      },
+      {
+        "id": 10573,
+        "value": "27",
+        "title": "Student"
+      },
+      {
+        "id": 10574,
+        "value": "28",
+        "title": "Housewife"
+      },
+      {
+        "id": 10575,
+        "value": "29",
+        "title": "Retailer"
+      },
+      {
+        "id": 10576,
+        "value": "30",
+        "title": "Entrepreneur / Businessman"
+      },
+      {
+        "id": 10577,
+        "value": "31",
+        "title": "IT Manager / Director"
+      },
+      {
+        "id": 10578,
+        "value": "32",
+        "title": "Lawyer"
+      },
+      {
+        "id": 10579,
+        "value": "33",
+        "title": "Professional Skilled worker"
+      },
+      {
+        "id": 10580,
+        "value": "99",
+        "title": "Other - Write In (Required)"
+      }
+    ]
+  },
+  {
+    "id": 233,
+    "title": "Copy of source : LỖI, DO ĐỂ CHUNG 1 PAGE NÊN KHÔNG BẮT ĐƯỢC BIẾN SRC VÀ LINK",
+    "type": "RADIO",
+    "options": [
+      {
+        "id": 10906,
+        "value": "Online",
+        "title": "Online"
+      },
+      {
+        "id": 10907,
+        "value": "Offline",
+        "title": "Offline"
+      },
+      {
+        "id": 10908,
+        "value": "Không xác định",
+        "title": "Không xác định"
+      },
+      {
+        "id": 10909,
+        "value": "Test",
+        "title": "Test"
+      }
+    ]
+  },
+  {
+    "id": 177,
+    "title": "Occupation2. What is your current profession? <span style=\"color:#3498db;\">MA</span>",
+    "type": "CHECKBOX",
+    "options": [
+      {
+        "id": 10676,
+        "value": "1",
+        "title": "Office worker / white collar (i.e Business, Sales, Auditing, Accounting / Finance, Personal Assistant)"
+      },
+      {
+        "id": 10677,
+        "value": "2",
+        "title": "Skilled Worker / Blue Collar (i.e. Driver, Maid, Cleaner, Hairdresser, Retail assistant, Chef)"
+      },
+      {
+        "id": 10678,
+        "value": "3",
+        "title": "Self Employed (Business owner, Retailer, Freelancer, Artist)"
+      },
+      {
+        "id": 10679,
+        "value": "4",
+        "title": "Specialist (Teacher, Lawyer, Doctor, Nurse vv)"
+      },
+      {
+        "id": 10680,
+        "value": "5",
+        "title": "Government Officer"
+      },
+      {
+        "id": 10681,
+        "value": "6",
+        "title": "Housewife"
+      },
+      {
+        "id": 10682,
+        "value": "7",
+        "title": "Student"
+      },
+      {
+        "id": 10683,
+        "value": "8",
+        "title": "Unemployed"
+      },
+      {
+        "id": 10684,
+        "value": "9",
+        "title": "Retired"
+      },
+      {
+        "id": 10685,
+        "value": "10",
+        "title": "Other"
+      }
+    ]
+  },
+  {
+    "id": 219,
+    "title": "a1",
+    "type": "CHECKBOX",
+    "options": [
+      {
+        "id": 10897,
+        "value": "grid 1",
+        "title": "grid 1"
+      },
+      {
+        "id": 10898,
+        "value": "grid 2",
+        "title": "grid 2"
+      }
+    ]
+  },
+  {
+    "id": 220,
+    "title": "a2",
+    "type": "CHECKBOX",
+    "options": [
+      {
+        "id": 10897,
+        "value": "grid 1",
+        "title": "grid 1"
+      },
+      {
+        "id": 10898,
+        "value": "grid 2",
+        "title": "grid 2"
+      }
+    ]
+  }
+]

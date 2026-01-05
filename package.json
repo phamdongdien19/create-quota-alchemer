@@ -1,0 +1,15 @@
+{
+  "name": "alchemer-bulk-quota",
+  "version": "1.0.0",
+  "description": "Bulk create quotas in Alchemer",
+  "type": "module",
+  "scripts": {
+    "get-structure": "node src/get_survey_structure.js",
+    "create-quotas": "node src/create_quotas.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.0",
+    "csv-parse": "^5.5.0",
+    "dotenv": "^16.3.1"
+  }
+}

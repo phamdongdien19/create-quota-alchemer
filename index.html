@@ -544,15 +544,15 @@
                 <div class="info-box" style="margin-bottom: 16px; background: rgba(0,255,136,0.1);">
                     <p style="margin-bottom: 10px;"><strong>⚡ Thêm nhanh nhóm phổ biến:</strong></p>
                     <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                        <button class="btn btn-sm btn-primary" onclick="quickAddQuestion(93, 'age_group')">👤 Age Group
-                            (93)</button>
-                        <button class="btn btn-sm btn-primary" onclick="quickAddQuestion(75, 'family_income')">💰 Family
-                            Income (75)</button>
-                        <button class="btn btn-sm btn-primary" onclick="quickAddQuestion(87, 'province')">📍 Province
+                        <button class="btn btn-sm btn-primary" onclick="quickAddQuestion(87, 'province')">� Province
                             (87)</button>
+                        <button class="btn btn-sm btn-primary" onclick="quickAddQuestion(93, 'age_group')">� Age Group
+                            (93)</button>
+                        <button class="btn btn-sm btn-primary" onclick="quickAddQuestion(75, 'family_income')">� Family
+                            Income (75)</button>
                         <button class="btn btn-sm btn-primary" onclick="quickAddQuestion(150, 'gender')">⚧ Gender
                             (150)</button>
-                        <button class="btn btn-sm btn-warning" onclick="quickAddMultipleQuestions([93, 75, 87, 150])">🔥
+                        <button class="btn btn-sm btn-warning" onclick="quickAddMultipleQuestions([87, 93, 75, 150])">🔥
                             Thêm tất cả 4 nhóm</button>
                     </div>
                 </div>
@@ -965,17 +965,32 @@ Female	150	gender"></textarea>
 
                 // Add bulk action buttons
                 let html = `<tr style="background: rgba(0,255,136,0.1);">
-                    <td colspan="4">
+                    <td colspan="5">
                         <strong>📋 ${lastLookupQuestionName}</strong> (ID: ${questionId}) - ${options.length} options
                         <div style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;">
                             <button class="btn btn-sm btn-primary" onclick="createAllOptionTemplates()">💾 Tạo Templates cho tất cả</button>
                             <button class="btn btn-sm btn-secondary" onclick="copyAllOptionIds()">📋 Copy tất cả Option IDs</button>
                         </div>
+                        <div style="margin-top: 10px; padding: 10px; background: rgba(255,193,7,0.1); border-radius: 8px;">
+                            <strong>🔀 Gộp nhiều Options thành 1 Quota:</strong>
+                            <div style="margin-top: 8px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+                                <input type="text" id="mergedQuotaName" placeholder="Tên quota gộp (VD: HHI > 30M)" style="flex: 1; min-width: 200px;">
+                                <button class="btn btn-sm btn-warning" onclick="createMergedQuota()">✅ Tạo Quota gộp từ options đã chọn</button>
+                            </div>
+                        </div>
                     </td>
+                </tr>
+                <tr style="background: rgba(255,255,255,0.05);">
+                    <th style="width: 40px;"><input type="checkbox" id="selectAllOptions" onchange="toggleSelectAllOptions(this)"></th>
+                    <th>Option</th>
+                    <th>Value</th>
+                    <th>Option ID</th>
+                    <th>Hành động</th>
                 </tr>`;
 
                 html += options.map(opt => `
                     <tr>
+                        <td><input type="checkbox" class="option-checkbox" data-id="${questionId}-${opt.id}" data-name="${opt.title?.English || opt.value || opt.id}"></td>
                         <td>${opt.title?.English || opt.title || '-'}</td>
                         <td>${opt.value || '-'}</td>
                         <td><code style="background: rgba(0,217,255,0.2); padding: 4px 8px; border-radius: 4px;">${questionId}-${opt.id}</code></td>
@@ -1041,6 +1056,70 @@ Female	150	gender"></textarea>
                 document.body.removeChild(textarea);
                 alert(`✅ Đã copy ${lastLookupOptions.length} dòng!`);
             });
+        }
+
+        function toggleSelectAllOptions(checkbox) {
+            document.querySelectorAll('.option-checkbox').forEach(cb => {
+                cb.checked = checkbox.checked;
+            });
+        }
+
+        function createMergedQuota() {
+            const selectedCheckboxes = document.querySelectorAll('.option-checkbox:checked');
+            if (selectedCheckboxes.length < 2) return alert('Vui lòng chọn ít nhất 2 options để gộp');
+
+            const quotaName = document.getElementById('mergedQuotaName').value.trim();
+            if (!quotaName) return alert('Vui lòng nhập tên cho quota gộp');
+
+            const optionIds = [];
+            const optionNames = [];
+            selectedCheckboxes.forEach(cb => {
+                optionIds.push(cb.dataset.id);
+                optionNames.push(cb.dataset.name);
+            });
+
+            // Create merged logic with multiple values
+            const mergedLogic = {
+                templateName: `${lastLookupQuestionName}: ${quotaName}`,
+                answerType: '17',
+                operator: '12', // is one of
+                key: lastLookupQuestionId,
+                value: optionIds // Array of option IDs
+            };
+
+            // Add to createQuotasList
+            createQuotasList.push({
+                name: quotaName,
+                limit: 100,
+                group: lastLookupQuestionName,
+                status: 'pending',
+                logic: mergedLogic,
+                originalIndex: createQuotasList.length
+            });
+
+            // Also save as template
+            const templates = getTemplates();
+            const templateId = `merged_${quotaName.toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
+            templates[templateId] = {
+                name: `${lastLookupQuestionName}: ${quotaName}`,
+                answerType: '17',
+                operator: '12',
+                key: lastLookupQuestionId,
+                value: optionIds.join(',') // Store as comma-separated for template
+            };
+            saveTemplates(templates);
+            refreshTemplateDropdown();
+            refreshBulkTemplateDropdown();
+
+            renderCreatePreview();
+            document.getElementById('createPreviewCard').classList.remove('hidden');
+
+            // Clear selections
+            document.querySelectorAll('.option-checkbox').forEach(cb => cb.checked = false);
+            document.getElementById('selectAllOptions').checked = false;
+            document.getElementById('mergedQuotaName').value = '';
+
+            alert(`✅ Đã tạo quota gộp: "${quotaName}"\n\nGồm ${optionIds.length} options:\n- ${optionNames.slice(0, 3).join('\n- ')}${optionNames.length > 3 ? '\n- ...' : ''}`);
         }
 
         // ========== QUESTION PICKER ==========
@@ -1709,7 +1788,12 @@ Female	150	gender"></textarea>
                         if (isAnsweredOp) {
                             answersValues = "";
                         } else if (useLogic.answerType === '17') {
-                            answersValues = [useLogic.value];
+                            // Check if value is already an array (merged quota)
+                            if (Array.isArray(useLogic.value)) {
+                                answersValues = useLogic.value;
+                            } else {
+                                answersValues = [useLogic.value];
+                            }
                         } else {
                             answersValues = useLogic.value;
                         }

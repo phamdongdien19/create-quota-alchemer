@@ -652,6 +652,7 @@ Female	150	gender"></textarea>
                         </select>
                         <button class="btn btn-sm btn-primary" onclick="applyBulkTemplate()">✅ Áp dụng</button>
                         <button class="btn btn-sm btn-secondary" onclick="clearSelectedLogic()">🗑️ Xóa Logic</button>
+                        <button class="btn btn-sm btn-warning" onclick="addManualQuota()">➕ Thêm quota thủ công</button>
                     </div>
                 </div>
 
@@ -842,6 +843,17 @@ Female	150	gender"></textarea>
                 value: 'panel'
             }
         };
+
+        // Helper function to escape HTML
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
 
         function getTemplates() {
             const saved = localStorage.getItem('quota_logic_templates');
@@ -1191,15 +1203,17 @@ Female	150	gender"></textarea>
                 return;
             }
 
-            tbody.innerHTML = questions.map(q => `
+            tbody.innerHTML = questions.map(q => {
+                const qName = escapeHtml(q.title?.English || q.shortname || 'Question');
+                return `
                 <tr>
-                    <td><input type="checkbox" class="question-checkbox" data-id="${q.id}" data-name="${q.title?.English || q.shortname || 'Question'}" data-type="${q.type}" onchange="updateSelectedCount()"></td>
+                    <td><input type="checkbox" class="question-checkbox" data-id="${q.id}" data-name="${qName}" data-type="${q.type}" onchange="updateSelectedCount()"></td>
                     <td><code>${q.id}</code></td>
-                    <td>${q.title?.English || q.shortname || '-'}</td>
+                    <td>${qName}</td>
                     <td><span class="status status-pending" style="font-size: 0.75rem;">${q.type}</span></td>
                     <td>--</td>
-                </tr>
-            `).join('');
+                </tr>`;
+            }).join('');
         }
 
         function toggleSelectAllQuestions(checkbox) {
@@ -1589,16 +1603,17 @@ Female	150	gender"></textarea>
 
             let html = '';
             for (const [groupName, items] of Object.entries(groups)) {
+                const safeGroupName = escapeHtml(groupName);
                 // Group header with template selector
                 html += `<tr class="group-header" style="background: rgba(0,217,255,0.1);">
-                    <td><input type="checkbox" class="group-checkbox" data-group="${groupName}" onchange="toggleGroupSelect(this, '${groupName}')"></td>
-                    <td colspan="2"><strong>📁 ${groupName}</strong> (${items.length} quota)</td>
+                    <td><input type="checkbox" class="group-checkbox" data-group="${safeGroupName}" onchange="toggleGroupSelect(this, '${safeGroupName}')"></td>
+                    <td colspan="2"><strong>📁 ${safeGroupName}</strong> (${items.length} quota)</td>
                     <td colspan="2">
-                        <select class="group-template" data-group="${groupName}" style="font-size: 0.85rem; padding: 4px 8px;">
+                        <select class="group-template" data-group="${safeGroupName}" style="font-size: 0.85rem; padding: 4px 8px;">
                             <option value="">-- Template --</option>
                             ${templateOptions}
                         </select>
-                        <button class="btn btn-sm btn-primary" onclick="applyGroupTemplate('${groupName}')" style="margin-left: 8px;">✅</button>
+                        <button class="btn btn-sm btn-primary" onclick="applyGroupTemplate('${safeGroupName}')" style="margin-left: 8px;">✅</button>
                     </td>
                     <td colspan="2"></td>
                 </tr>`;
@@ -1606,12 +1621,12 @@ Female	150	gender"></textarea>
                 // Group items
                 items.forEach(q => {
                     const logicDisplay = q.logic ?
-                        `<span class="status status-success" style="font-size: 0.75rem;">${q.logic.templateName || 'Custom'}</span>` :
+                        `<span class="status status-success" style="font-size: 0.75rem;">${escapeHtml(q.logic.templateName || 'Custom')}</span>` :
                         '<span class="status status-pending" style="font-size: 0.75rem;">—</span>';
                     html += `<tr id="create-row-${q.index}">
-                        <td><input type="checkbox" class="quota-checkbox" data-index="${q.index}" data-group="${groupName}"></td>
+                        <td><input type="checkbox" class="quota-checkbox" data-index="${q.index}" data-group="${safeGroupName}"></td>
                         <td>${q.index + 1}</td>
-                        <td><input type="text" value="${q.name}" onchange="updateCreateName(${q.index}, this.value)" style="width: 100%;"></td>
+                        <td><input type="text" value="${escapeHtml(q.name)}" onchange="updateCreateName(${q.index}, this.value)" style="width: 100%;"></td>
                         <td><input type="number" value="${q.limit}" onchange="updateCreateLimit(${q.index}, this.value)" style="width: 70px;"></td>
                         <td>${logicDisplay}</td>
                         <td><span class="status status-pending">⏳</span></td>
@@ -1724,6 +1739,26 @@ Female	150	gender"></textarea>
             if (createQuotasList.length === 0) {
                 document.getElementById('createPreviewCard').classList.add('hidden');
             }
+        }
+
+        function addManualQuota() {
+            const name = prompt('Nhập tên quota:', 'New Quota');
+            if (!name) return;
+
+            const limit = parseInt(prompt('Nhập limit:', '100')) || 100;
+            const group = prompt('Nhập nhóm (để trống nếu không có):', '') || 'Thủ công';
+
+            createQuotasList.push({
+                name: name,
+                limit: limit,
+                group: group,
+                status: 'pending',
+                logic: null,
+                originalIndex: createQuotasList.length
+            });
+
+            renderCreatePreview();
+            document.getElementById('createPreviewCard').classList.remove('hidden');
         }
 
         function undoDelete() {

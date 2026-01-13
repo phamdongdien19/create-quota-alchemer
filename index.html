@@ -479,25 +479,192 @@
         <!-- CREATE TAB -->
         <div id="createTab" class="tab-content active">
             <div class="card">
-                <div class="card-title">Tạo Quota Mới</div>
-                <div class="info-box">
-                    <p>📋 Copy từ Google Sheet: <strong>Tên [TAB] Limit</strong></p>
+                <div class="card-title">Cấu hình Logic (Mặc định cho mỗi Quota)</div>
+
+                <!-- Template Selector -->
+                <div style="margin-bottom: 16px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                    <label style="margin: 0;">📁 Template:</label>
+                    <select id="logicTemplate" onchange="loadTemplate()" style="flex: 1; min-width: 200px;">
+                        <option value="">-- Chọn template --</option>
+                        <option value="link_panel">link = panel (Hidden Value)</option>
+                    </select>
+                    <button class="btn btn-sm btn-secondary" onclick="saveCurrentAsTemplate()">💾 Lưu</button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteTemplate()">🗑️</button>
                 </div>
-                <textarea id="quotaData" placeholder="Hà Nội	25
-TP. Hồ Chí Minh	50
-Hải Phòng	20"></textarea>
-                <p class="help-text">💡 Logic mặc định: "source is answered"</p>
+
+                <div class="grid-2">
+                    <div>
+                        <label>Loại Logic</label>
+                        <select id="logicAnswerType" onchange="updateLogicTypeUI()">
+                            <option value="2" selected>Hidden Value (Text)</option>
+                            <option value="17">Question Option (Single/Multiple Answer)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label>Toán tử (Operator)</label>
+                        <select id="logicOperator" onchange="updateLogicPreview()">
+                            <option value="4" selected>is exactly equal to (bằng)</option>
+                            <option value="5">is not exactly equal to (không bằng)</option>
+                            <option value="12">is one of the following answers</option>
+                            <option value="13">is not one of the following answers</option>
+                            <option value="20">is answered (đã trả lời)</option>
+                            <option value="21">is not answered (chưa trả lời)</option>
+                            <option value="14">contains (chứa)</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid-2" style="margin-top: 16px;">
+                    <div>
+                        <label id="logicKeyLabel">Hidden Value ID</label>
+                        <input type="text" id="logicKey" value="15" placeholder="VD: 15" oninput="updateLogicPreview()">
+                        <p class="help-text" id="logicKeyHelp">💡 ID của Hidden Value (VD: 15 cho "link")</p>
+                    </div>
+                    <div>
+                        <label id="logicValueLabel">Giá trị (Value)</label>
+                        <input type="text" id="logicValue" value="panel" placeholder="VD: panel"
+                            oninput="updateLogicPreview()">
+                        <p class="help-text" id="logicValueHelp">💡 Giá trị text để so sánh</p>
+                    </div>
+                </div>
+                <div style="margin-top: 15px; display: flex; align-items: center; gap: 20px; flex-wrap: wrap;">
+                    <label class="checkbox-item">
+                        <input type="checkbox" id="enableLogic" checked>
+                        <span>Sử dụng Logic này khi tạo</span>
+                    </label>
+                    <span class="status status-success" style="font-size: 0.9rem;" id="logicPreview">Logic: HV[15] is
+                        exactly equal to "panel"</span>
+                </div>
+            </div>
+
+            <!-- Question Picker Tool -->
+            <div class="card" id="questionPickerCard">
+                <div class="card-title">📋 Chọn Questions để tạo Quota</div>
+
+                <!-- Quick Add - Common Groups -->
+                <div class="info-box" style="margin-bottom: 16px; background: rgba(0,255,136,0.1);">
+                    <p style="margin-bottom: 10px;"><strong>⚡ Thêm nhanh nhóm phổ biến:</strong></p>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button class="btn btn-sm btn-primary" onclick="quickAddQuestion(93, 'age_group')">👤 Age Group
+                            (93)</button>
+                        <button class="btn btn-sm btn-primary" onclick="quickAddQuestion(75, 'family_income')">💰 Family
+                            Income (75)</button>
+                        <button class="btn btn-sm btn-primary" onclick="quickAddQuestion(87, 'province')">📍 Province
+                            (87)</button>
+                        <button class="btn btn-sm btn-primary" onclick="quickAddQuestion(150, 'gender')">⚧ Gender
+                            (150)</button>
+                        <button class="btn btn-sm btn-warning" onclick="quickAddMultipleQuestions([93, 75, 87, 150])">🔥
+                            Thêm tất cả 4 nhóm</button>
+                    </div>
+                </div>
+
+                <div class="info-box" style="margin-bottom: 16px;">
+                    <p>💡 Hoặc chọn thủ công từ danh sách Questions có options (Radio/Checkbox)</p>
+                </div>
+
+                <div style="display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;">
+                    <button class="btn btn-secondary" onclick="loadQuestionList(false)">📋 Tải danh sách
+                        Questions</button>
+                    <button class="btn btn-secondary" onclick="loadQuestionList(true)">🔄 Refresh từ API</button>
+                    <span id="questionCacheStatus" style="align-self: center; font-size: 0.85rem; opacity: 0.7;"></span>
+                </div>
+
+                <div id="questionListResult" class="hidden" style="margin-bottom: 16px;">
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px; flex-wrap: wrap; align-items: center;">
+                        <button class="btn btn-sm btn-primary" onclick="addSelectedQuestionsToPreview()">✅ Thêm
+                            Questions đã chọn vào Xem trước</button>
+                        <span id="selectedQuestionsCount" style="font-size: 0.9rem;">0 đã chọn</span>
+                    </div>
+                    <div
+                        style="max-height: 300px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.1); border-radius: 8px;">
+                        <table class="data-table" style="margin: 0;">
+                            <thead style="position: sticky; top: 0; background: #1a1a2e;">
+                                <tr>
+                                    <th><input type="checkbox" id="selectAllQuestions"
+                                            onchange="toggleSelectAllQuestions(this)"></th>
+                                    <th>ID</th>
+                                    <th>Tên Question</th>
+                                    <th>Loại</th>
+                                    <th>Options</th>
+                                </tr>
+                            </thead>
+                            <tbody id="questionListBody"></tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Manual lookup for single question -->
+                <details style="margin-top: 16px;">
+                    <summary
+                        style="cursor: pointer; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px;">
+                        🔍 Tra cứu thủ công theo Question ID
+                    </summary>
+                    <div style="padding: 16px 0;">
+                        <div class="grid-3">
+                            <div>
+                                <label>Question ID</label>
+                                <input type="text" id="lookupQuestionId" placeholder="VD: 93">
+                            </div>
+                            <div style="display: flex; align-items: flex-end;">
+                                <button class="btn btn-secondary" onclick="lookupQuestionOptions()">� Tra cứu</button>
+                            </div>
+                        </div>
+                        <div id="optionLookupResult" class="hidden" style="margin-top: 16px;">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Option</th>
+                                        <th>Value</th>
+                                        <th>Option ID (dùng cho Logic)</th>
+                                        <th>Hành động</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="optionLookupBody"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </details>
+            </div>
+
+            <div class="card">
+                <div class="card-title">Dữ liệu Quota</div>
+                <div class="info-box">
+                    <p>📋 Copy từ Google Sheet: <strong>Tên [TAB] Limit [TAB] Nhóm (tùy chọn)</strong></p>
+                    <p style="font-size: 0.85rem; opacity: 0.8;">💡 Thêm cột thứ 3 để phân nhóm quota (VD: age_group,
+                        location, gender)</p>
+                </div>
+                <textarea id="quotaData" placeholder="18-29	100	age_group
+30-39	100	age_group
+HCMC	300	location
+Hanoi	300	location
+Male	150	gender
+Female	150	gender"></textarea>
             </div>
 
             <div class="card hidden" id="createPreviewCard">
                 <div class="card-title">Xem trước</div>
+
+                <!-- Bulk Template Apply -->
+                <div class="info-box" style="margin-bottom: 16px;">
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <span>📌 Áp dụng Logic cho các mục đã chọn:</span>
+                        <select id="bulkTemplate" style="flex: 1; min-width: 180px;">
+                            <option value="">-- Chọn template --</option>
+                        </select>
+                        <button class="btn btn-sm btn-primary" onclick="applyBulkTemplate()">✅ Áp dụng</button>
+                        <button class="btn btn-sm btn-secondary" onclick="clearSelectedLogic()">🗑️ Xóa Logic</button>
+                    </div>
+                </div>
+
                 <table class="data-table">
                     <thead>
                         <tr>
+                            <th><input type="checkbox" id="selectAllQuotas" onchange="toggleSelectAll(this)"></th>
                             <th>#</th>
-                            <th>Tên</th>
+                            <th>Tên Quota</th>
                             <th>Limit</th>
+                            <th>Logic</th>
                             <th>Trạng thái</th>
+                            <th>Hành động</th>
                         </tr>
                     </thead>
                     <tbody id="createPreviewBody"></tbody>
@@ -506,6 +673,7 @@ Hải Phòng	20"></textarea>
 
             <div class="actions">
                 <button class="btn btn-secondary" onclick="parseCreateData()">👁️ Xem trước</button>
+                <button class="btn btn-warning hidden" id="undoBtn" onclick="undoDelete()">↩️ Hoàn tác</button>
                 <button class="btn btn-primary" id="createBtn" onclick="createQuotas()">✨ Tạo Quota</button>
             </div>
 
@@ -641,6 +809,7 @@ Hải Phòng	20"></textarea>
         let createQuotasList = [];
         let manageQuotasList = [];
         let deleteQuotasList = [];
+        let createDeletedHistory = []; // History for undo
 
         // Load settings
         window.onload = () => {
@@ -663,6 +832,617 @@ Hải Phòng	20"></textarea>
             };
         }
 
+        // ========== TEMPLATE MANAGEMENT ==========
+        const DEFAULT_TEMPLATES = {
+            'link_panel': {
+                name: 'link = panel (Hidden Value)',
+                answerType: '2',
+                operator: '4',
+                key: '15',
+                value: 'panel'
+            }
+        };
+
+        function getTemplates() {
+            const saved = localStorage.getItem('quota_logic_templates');
+            return saved ? { ...DEFAULT_TEMPLATES, ...JSON.parse(saved) } : { ...DEFAULT_TEMPLATES };
+        }
+
+        function saveTemplates(templates) {
+            // Only save custom templates, not defaults
+            const custom = {};
+            for (const key in templates) {
+                if (!DEFAULT_TEMPLATES[key]) {
+                    custom[key] = templates[key];
+                }
+            }
+            localStorage.setItem('quota_logic_templates', JSON.stringify(custom));
+        }
+
+        function refreshTemplateDropdown() {
+            const select = document.getElementById('logicTemplate');
+            const templates = getTemplates();
+            select.innerHTML = '<option value="">-- Chọn template --</option>';
+            for (const key in templates) {
+                const opt = document.createElement('option');
+                opt.value = key;
+                opt.textContent = templates[key].name;
+                select.appendChild(opt);
+            }
+        }
+
+        function loadTemplate() {
+            const templateId = document.getElementById('logicTemplate').value;
+            if (!templateId) return;
+
+            const templates = getTemplates();
+            const t = templates[templateId];
+            if (!t) return;
+
+            document.getElementById('logicAnswerType').value = t.answerType;
+            document.getElementById('logicOperator').value = t.operator;
+            document.getElementById('logicKey').value = t.key;
+            document.getElementById('logicValue').value = t.value;
+
+            updateLogicTypeUI();
+        }
+
+        function saveCurrentAsTemplate() {
+            const name = prompt('Nhập tên cho template mới:', '');
+            if (!name) return;
+
+            const id = name.toLowerCase().replace(/[^a-z0-9]/g, '_');
+            const templates = getTemplates();
+
+            templates[id] = {
+                name: name,
+                answerType: document.getElementById('logicAnswerType').value,
+                operator: document.getElementById('logicOperator').value,
+                key: document.getElementById('logicKey').value,
+                value: document.getElementById('logicValue').value
+            };
+
+            saveTemplates(templates);
+            refreshTemplateDropdown();
+            document.getElementById('logicTemplate').value = id;
+            alert('✅ Đã lưu template: ' + name);
+        }
+
+        function deleteTemplate() {
+            const templateId = document.getElementById('logicTemplate').value;
+            if (!templateId) return alert('Vui lòng chọn template để xóa');
+            if (DEFAULT_TEMPLATES[templateId]) return alert('Không thể xóa template mặc định');
+
+            if (!confirm('Xóa template này?')) return;
+
+            const templates = getTemplates();
+            delete templates[templateId];
+            saveTemplates(templates);
+            refreshTemplateDropdown();
+            alert('✅ Đã xóa template');
+        }
+
+        // Initialize templates on load
+        document.addEventListener('DOMContentLoaded', refreshTemplateDropdown);
+
+        // ========== OPTION LOOKUP ==========
+        let lastLookupOptions = []; // Store for bulk operations
+        let lastLookupQuestionId = '';
+        let lastLookupQuestionName = '';
+
+        async function lookupQuestionOptions() {
+            const { apiKey, apiSecret, surveyId } = getApiParams();
+            if (!apiKey || !apiSecret || !surveyId) return alert('Vui lòng nhập đầy đủ API credentials');
+
+            const questionId = document.getElementById('lookupQuestionId').value;
+            if (!questionId) return alert('Vui lòng nhập Question ID');
+
+            const resultDiv = document.getElementById('optionLookupResult');
+            const tbody = document.getElementById('optionLookupBody');
+            tbody.innerHTML = '<tr><td colspan="4">⏳ Đang tra cứu...</td></tr>';
+            resultDiv.classList.remove('hidden');
+
+            try {
+                const url = `https://api.alchemer.com/v5/survey/${surveyId}/question/${questionId}?api_token=${apiKey}&api_token_secret=${encodeURIComponent(apiSecret)}`;
+                const res = await fetch(url);
+                const data = await res.json();
+
+                if (!data.result_ok) {
+                    tbody.innerHTML = `<tr><td colspan="4" style="color: #ff5252;">❌ ${data.message || 'Không tìm thấy Question'}</td></tr>`;
+                    return;
+                }
+
+                const question = data.data;
+                const options = question.options || [];
+                lastLookupOptions = options;
+                lastLookupQuestionId = questionId;
+                lastLookupQuestionName = question.title?.English || question.shortname || 'Question';
+
+                if (options.length === 0) {
+                    tbody.innerHTML = `<tr><td colspan="4">⚠️ Question này không có options (có thể là Text Box hoặc Hidden Value)</td></tr>`;
+                    return;
+                }
+
+                // Add bulk action buttons
+                let html = `<tr style="background: rgba(0,255,136,0.1);">
+                    <td colspan="4">
+                        <strong>📋 ${lastLookupQuestionName}</strong> (ID: ${questionId}) - ${options.length} options
+                        <div style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;">
+                            <button class="btn btn-sm btn-primary" onclick="createAllOptionTemplates()">💾 Tạo Templates cho tất cả</button>
+                            <button class="btn btn-sm btn-secondary" onclick="copyAllOptionIds()">📋 Copy tất cả Option IDs</button>
+                        </div>
+                    </td>
+                </tr>`;
+
+                html += options.map(opt => `
+                    <tr>
+                        <td>${opt.title?.English || opt.title || '-'}</td>
+                        <td>${opt.value || '-'}</td>
+                        <td><code style="background: rgba(0,217,255,0.2); padding: 4px 8px; border-radius: 4px;">${questionId}-${opt.id}</code></td>
+                        <td><button class="btn btn-sm btn-primary" onclick="useOptionId('${questionId}-${opt.id}')">📋 Dùng</button></td>
+                    </tr>
+                `).join('');
+
+                tbody.innerHTML = html;
+
+            } catch (e) {
+                tbody.innerHTML = `<tr><td colspan="4" style="color: #ff5252;">❌ Lỗi: ${e.message}</td></tr>`;
+                console.error('Lookup error:', e);
+            }
+        }
+
+        function createAllOptionTemplates() {
+            if (!lastLookupOptions.length) return alert('Chưa có options để tạo template');
+
+            const groupName = prompt('Nhập tên nhóm cho các templates (VD: age_group):', lastLookupQuestionName.toLowerCase().replace(/\s+/g, '_'));
+            if (!groupName) return;
+
+            const templates = getTemplates();
+            let created = 0;
+
+            lastLookupOptions.forEach(opt => {
+                const optName = opt.title?.English || opt.value || opt.id;
+                const templateId = `${groupName}_${String(optName).toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
+
+                templates[templateId] = {
+                    name: `${groupName}: ${optName}`,
+                    answerType: '17',
+                    operator: '12', // is one of
+                    key: lastLookupQuestionId,
+                    value: `${lastLookupQuestionId}-${opt.id}`
+                };
+                created++;
+            });
+
+            saveTemplates(templates);
+            refreshTemplateDropdown();
+            refreshBulkTemplateDropdown();
+
+            alert(`✅ Đã tạo ${created} templates cho nhóm "${groupName}"!\n\nBạn có thể chọn template này trong dropdown khi tạo quota.`);
+        }
+
+        function copyAllOptionIds() {
+            if (!lastLookupOptions.length) return alert('Chưa có options để copy');
+
+            const text = lastLookupOptions.map(opt => {
+                const optName = opt.title?.English || opt.value || opt.id;
+                return `${optName}\t100\t${lastLookupQuestionName}`;
+            }).join('\n');
+
+            navigator.clipboard.writeText(text).then(() => {
+                alert(`✅ Đã copy ${lastLookupOptions.length} dòng vào clipboard!\n\nFormat: Tên [TAB] Limit [TAB] Nhóm\n\nBạn có thể paste vào ô "Dữ liệu Quota".`);
+            }).catch(e => {
+                // Fallback for older browsers
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                alert(`✅ Đã copy ${lastLookupOptions.length} dòng!`);
+            });
+        }
+
+        // ========== QUESTION PICKER ==========
+        let cachedQuestions = null;
+
+        async function loadQuestionList(forceRefresh = false) {
+            const { apiKey, apiSecret, surveyId } = getApiParams();
+            if (!apiKey || !apiSecret || !surveyId) return alert('Vui lòng nhập đầy đủ API credentials');
+
+            const cacheKey = `questions_${surveyId}`;
+            const cacheStatus = document.getElementById('questionCacheStatus');
+            const resultDiv = document.getElementById('questionListResult');
+            const tbody = document.getElementById('questionListBody');
+
+            // Try to load from cache first
+            if (!forceRefresh) {
+                const cached = localStorage.getItem(cacheKey);
+                if (cached) {
+                    const { data, timestamp } = JSON.parse(cached);
+                    cachedQuestions = data;
+                    cacheStatus.textContent = `📦 Từ cache (${new Date(timestamp).toLocaleString()})`;
+                    renderQuestionList(data);
+                    resultDiv.classList.remove('hidden');
+                    return;
+                }
+            }
+
+            // Load from API
+            tbody.innerHTML = '<tr><td colspan="5">⏳ Đang tải từ API...</td></tr>';
+            resultDiv.classList.remove('hidden');
+
+            try {
+                const url = `https://api.alchemer.com/v5/survey/${surveyId}/question?api_token=${apiKey}&api_token_secret=${encodeURIComponent(apiSecret)}`;
+                const res = await fetch(url);
+                const data = await res.json();
+
+                if (!data.result_ok) {
+                    tbody.innerHTML = `<tr><td colspan="5" style="color: #ff5252;">❌ ${data.message || 'Lỗi'}</td></tr>`;
+                    return;
+                }
+
+                // Filter only questions with potential options (Radio, Checkbox, Dropdown, etc.)
+                const questions = (data.data || []).filter(q =>
+                    ['RADIO', 'CHECKBOX', 'MENU', 'SELECT', 'RANK'].includes(q.type) ||
+                    q.type?.includes('RADIO') || q.type?.includes('CHECKBOX')
+                );
+
+                // Save to cache
+                localStorage.setItem(cacheKey, JSON.stringify({
+                    data: questions,
+                    timestamp: Date.now()
+                }));
+                cachedQuestions = questions;
+                cacheStatus.textContent = `✅ Mới tải (${questions.length} questions)`;
+
+                renderQuestionList(questions);
+
+            } catch (e) {
+                tbody.innerHTML = `<tr><td colspan="5" style="color: #ff5252;">❌ Lỗi: ${e.message}</td></tr>`;
+                console.error('Load error:', e);
+            }
+        }
+
+        function renderQuestionList(questions) {
+            const tbody = document.getElementById('questionListBody');
+
+            if (questions.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5">⚠️ Không tìm thấy Questions có options</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = questions.map(q => `
+                <tr>
+                    <td><input type="checkbox" class="question-checkbox" data-id="${q.id}" data-name="${q.title?.English || q.shortname || 'Question'}" data-type="${q.type}" onchange="updateSelectedCount()"></td>
+                    <td><code>${q.id}</code></td>
+                    <td>${q.title?.English || q.shortname || '-'}</td>
+                    <td><span class="status status-pending" style="font-size: 0.75rem;">${q.type}</span></td>
+                    <td>--</td>
+                </tr>
+            `).join('');
+        }
+
+        function toggleSelectAllQuestions(checkbox) {
+            document.querySelectorAll('.question-checkbox').forEach(cb => {
+                cb.checked = checkbox.checked;
+            });
+            updateSelectedCount();
+        }
+
+        function updateSelectedCount() {
+            const count = document.querySelectorAll('.question-checkbox:checked').length;
+            document.getElementById('selectedQuestionsCount').textContent = `${count} đã chọn`;
+        }
+
+        async function addSelectedQuestionsToPreview() {
+            const { apiKey, apiSecret, surveyId } = getApiParams();
+            const selectedCheckboxes = document.querySelectorAll('.question-checkbox:checked');
+
+            if (selectedCheckboxes.length === 0) return alert('Vui lòng chọn ít nhất 1 Question');
+
+            const btn = event.target;
+            btn.disabled = true;
+            btn.textContent = '⏳ Đang tải options...';
+
+            let newQuotas = [];
+            let templates = getTemplates();
+
+            for (const cb of selectedCheckboxes) {
+                const questionId = cb.dataset.id;
+                const questionName = cb.dataset.name;
+
+                try {
+                    const url = `https://api.alchemer.com/v5/survey/${surveyId}/question/${questionId}?api_token=${apiKey}&api_token_secret=${encodeURIComponent(apiSecret)}`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+
+                    if (data.result_ok && data.data.options) {
+                        const groupName = questionName.toLowerCase().replace(/[^a-z0-9]/g, '_');
+
+                        data.data.options.forEach(opt => {
+                            const optName = opt.title?.English || opt.value || opt.id;
+                            const optionId = `${questionId}-${opt.id}`;
+                            const templateId = `${groupName}_${String(optName).toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
+
+                            // Create template for this option
+                            templates[templateId] = {
+                                name: `${questionName}: ${optName}`,
+                                answerType: '17',
+                                operator: '12',
+                                key: questionId,
+                                value: optionId
+                            };
+
+                            // Add quota with logic already set
+                            newQuotas.push({
+                                name: optName,
+                                limit: 100,
+                                group: questionName,
+                                status: 'pending',
+                                logic: {
+                                    templateName: `${questionName}: ${optName}`,
+                                    answerType: '17',
+                                    operator: '12',
+                                    key: questionId,
+                                    value: optionId
+                                },
+                                originalIndex: createQuotasList.length + newQuotas.length
+                            });
+                        });
+                    }
+                } catch (e) {
+                    console.error(`Error loading question ${questionId}:`, e);
+                }
+
+                // Small delay to avoid rate limiting
+                await new Promise(r => setTimeout(r, 200));
+            }
+
+            // Save templates
+            saveTemplates(templates);
+            refreshTemplateDropdown();
+
+            // Add to preview
+            createQuotasList = [...createQuotasList, ...newQuotas];
+            refreshBulkTemplateDropdown();
+            renderCreatePreview();
+
+            document.getElementById('createPreviewCard').classList.remove('hidden');
+            btn.disabled = false;
+            btn.textContent = '✅ Thêm Questions đã chọn vào Xem trước';
+
+            // Uncheck all
+            document.querySelectorAll('.question-checkbox').forEach(cb => cb.checked = false);
+            document.getElementById('selectAllQuestions').checked = false;
+            updateSelectedCount();
+
+            alert(`✅ Đã thêm ${newQuotas.length} quota từ ${selectedCheckboxes.length} Questions!\n\nLogic đã được tự động gán cho mỗi quota.`);
+        }
+
+        // Quick Add functions for common question groups
+        const COMMON_QUESTIONS = {
+            93: 'age_group',
+            75: 'family_income',
+            87: 'province',
+            150: 'gender'
+        };
+
+        async function quickAddQuestion(questionId, groupName) {
+            const { apiKey, apiSecret, surveyId } = getApiParams();
+            if (!apiKey || !apiSecret || !surveyId) return alert('Vui lòng nhập đầy đủ API credentials');
+
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = '⏳...';
+
+            try {
+                const url = `https://api.alchemer.com/v5/survey/${surveyId}/question/${questionId}?api_token=${apiKey}&api_token_secret=${encodeURIComponent(apiSecret)}`;
+                const res = await fetch(url);
+                const data = await res.json();
+
+                if (!data.result_ok || !data.data.options) {
+                    alert(`❌ Không tìm thấy Question ${questionId} hoặc không có options`);
+                    btn.disabled = false;
+                    btn.textContent = originalText;
+                    return;
+                }
+
+                const questionName = data.data.title?.English || groupName;
+                let templates = getTemplates();
+                let newQuotas = [];
+
+                data.data.options.forEach(opt => {
+                    const optName = opt.title?.English || opt.value || opt.id;
+                    const optionId = `${questionId}-${opt.id}`;
+                    const templateId = `${groupName}_${String(optName).toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
+
+                    templates[templateId] = {
+                        name: `${groupName}: ${optName}`,
+                        answerType: '17',
+                        operator: '12',
+                        key: String(questionId),
+                        value: optionId
+                    };
+
+                    newQuotas.push({
+                        name: optName,
+                        limit: 100,
+                        group: groupName,
+                        status: 'pending',
+                        logic: {
+                            templateName: `${groupName}: ${optName}`,
+                            answerType: '17',
+                            operator: '12',
+                            key: String(questionId),
+                            value: optionId
+                        },
+                        originalIndex: createQuotasList.length + newQuotas.length
+                    });
+                });
+
+                saveTemplates(templates);
+                refreshTemplateDropdown();
+                createQuotasList = [...createQuotasList, ...newQuotas];
+                refreshBulkTemplateDropdown();
+                renderCreatePreview();
+                document.getElementById('createPreviewCard').classList.remove('hidden');
+
+                btn.disabled = false;
+                btn.textContent = originalText;
+                alert(`✅ Đã thêm ${newQuotas.length} quota cho nhóm "${groupName}"!`);
+
+            } catch (e) {
+                console.error('Quick add error:', e);
+                alert(`❌ Lỗi: ${e.message}`);
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
+        }
+
+        async function quickAddMultipleQuestions(questionIds) {
+            const { apiKey, apiSecret, surveyId } = getApiParams();
+            if (!apiKey || !apiSecret || !surveyId) return alert('Vui lòng nhập đầy đủ API credentials');
+
+            const btn = event.target;
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = '⏳ Đang tải...';
+
+            let totalAdded = 0;
+            let templates = getTemplates();
+            let newQuotas = [];
+
+            for (const questionId of questionIds) {
+                const groupName = COMMON_QUESTIONS[questionId] || `question_${questionId}`;
+
+                try {
+                    const url = `https://api.alchemer.com/v5/survey/${surveyId}/question/${questionId}?api_token=${apiKey}&api_token_secret=${encodeURIComponent(apiSecret)}`;
+                    const res = await fetch(url);
+                    const data = await res.json();
+
+                    if (data.result_ok && data.data.options) {
+                        data.data.options.forEach(opt => {
+                            const optName = opt.title?.English || opt.value || opt.id;
+                            const optionId = `${questionId}-${opt.id}`;
+                            const templateId = `${groupName}_${String(optName).toLowerCase().replace(/[^a-z0-9]/g, '_')}`;
+
+                            templates[templateId] = {
+                                name: `${groupName}: ${optName}`,
+                                answerType: '17',
+                                operator: '12',
+                                key: String(questionId),
+                                value: optionId
+                            };
+
+                            newQuotas.push({
+                                name: optName,
+                                limit: 100,
+                                group: groupName,
+                                status: 'pending',
+                                logic: {
+                                    templateName: `${groupName}: ${optName}`,
+                                    answerType: '17',
+                                    operator: '12',
+                                    key: String(questionId),
+                                    value: optionId
+                                },
+                                originalIndex: createQuotasList.length + newQuotas.length
+                            });
+                            totalAdded++;
+                        });
+                    }
+                } catch (e) {
+                    console.error(`Error loading question ${questionId}:`, e);
+                }
+
+                await new Promise(r => setTimeout(r, 200));
+            }
+
+            saveTemplates(templates);
+            refreshTemplateDropdown();
+            createQuotasList = [...createQuotasList, ...newQuotas];
+            refreshBulkTemplateDropdown();
+            renderCreatePreview();
+            document.getElementById('createPreviewCard').classList.remove('hidden');
+
+            btn.disabled = false;
+            btn.textContent = originalText;
+            alert(`✅ Đã thêm ${totalAdded} quota từ ${questionIds.length} nhóm!\n\n- age_group\n- family_income\n- province\n- gender`);
+        }
+
+        function useOptionId(optionId) {
+            document.getElementById('logicAnswerType').value = '17';
+            document.getElementById('logicOperator').value = '12';
+            document.getElementById('logicKey').value = optionId.split('-')[0];
+            document.getElementById('logicValue').value = optionId;
+            updateLogicTypeUI();
+            alert('✅ Đã điền Option ID: ' + optionId);
+        }
+
+        function updateLogicUI() {
+            updateLogicPreview();
+        }
+
+        function updateLogicTypeUI() {
+            const answerType = document.getElementById('logicAnswerType').value;
+            const keyLabel = document.getElementById('logicKeyLabel');
+            const keyHelp = document.getElementById('logicKeyHelp');
+            const valueLabel = document.getElementById('logicValueLabel');
+            const valueHelp = document.getElementById('logicValueHelp');
+            const valueInput = document.getElementById('logicValue');
+            const operatorSelect = document.getElementById('logicOperator');
+
+            if (answerType === '17') {
+                // Question Option
+                keyLabel.textContent = 'Question ID';
+                keyHelp.textContent = '💡 ID của câu hỏi (VD: 93 cho câu age_group)';
+                valueLabel.textContent = 'Option ID (QuestionID-OptionID)';
+                valueHelp.textContent = '💡 Format: 93-10500 (xem API để lấy Option ID)';
+                valueInput.placeholder = 'VD: 93-10500';
+                // Set default operator to "is one of"
+                operatorSelect.value = '12';
+            } else {
+                // Hidden Value
+                keyLabel.textContent = 'Hidden Value ID';
+                keyHelp.textContent = '💡 ID của Hidden Value (VD: 15 cho "link")';
+                valueLabel.textContent = 'Giá trị (Value)';
+                valueHelp.textContent = '💡 Giá trị text để so sánh';
+                valueInput.placeholder = 'VD: panel';
+                // Set default operator to "is exactly equal to"
+                operatorSelect.value = '4';
+            }
+            updateLogicPreview();
+        }
+
+        function updateLogicPreview() {
+            const operator = document.getElementById('logicOperator');
+            const operatorText = operator.options[operator.selectedIndex].text.split(' (')[0];
+            const logicKey = document.getElementById('logicKey').value || '?';
+            const logicValue = document.getElementById('logicValue').value || '?';
+            const preview = document.getElementById('logicPreview');
+            const answerType = document.getElementById('logicAnswerType').value;
+
+            const isAnsweredOp = ['20', '21'].includes(operator.value);
+            const typeLabel = answerType === '17' ? 'Q' : 'HV';
+
+            if (isAnsweredOp) {
+                preview.textContent = `Logic: ${typeLabel}[${logicKey}] ${operatorText}`;
+            } else {
+                preview.textContent = `Logic: ${typeLabel}[${logicKey}] ${operatorText} "${logicValue}"`;
+            }
+        }
+
+        // Update preview on input change
+        document.addEventListener('DOMContentLoaded', () => {
+            ['logicAnswerType', 'logicOperator', 'logicKey', 'logicValue'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.addEventListener('change', updateLogicPreview);
+                if (el) el.addEventListener('input', updateLogicPreview);
+            });
+        });
+
         function switchTab(tab) {
             document.querySelectorAll('.tab').forEach((t, i) => {
                 t.classList.toggle('active',
@@ -680,15 +1460,210 @@ Hải Phòng	20"></textarea>
             const data = document.getElementById('quotaData').value.trim();
             if (!data) return alert('Vui lòng dán dữ liệu quota');
 
-            createQuotasList = data.split('\n').map(line => {
+            createQuotasList = data.split('\n').map((line, idx) => {
                 const parts = line.split('\t');
-                return parts.length >= 2 ? { name: parts[0].trim(), limit: parseInt(parts[1]) || 100, status: 'pending' } : null;
+                return parts.length >= 2 ? {
+                    name: parts[0].trim(),
+                    limit: parseInt(parts[1]) || 100,
+                    group: parts[2]?.trim() || 'Chưa phân nhóm',
+                    status: 'pending',
+                    logic: null,
+                    originalIndex: idx
+                } : null;
             }).filter(Boolean);
 
-            document.getElementById('createPreviewBody').innerHTML = createQuotasList.map((q, i) =>
-                `<tr id="create-row-${i}"><td>${i + 1}</td><td>${q.name}</td><td>${q.limit}</td><td><span class="status status-pending">⏳ Chờ</span></td></tr>`
-            ).join('');
+            createDeletedHistory = [];
+            updateUndoVisibility();
+            refreshBulkTemplateDropdown();
+
+            renderCreatePreview();
             document.getElementById('createPreviewCard').classList.remove('hidden');
+        }
+
+        function refreshBulkTemplateDropdown() {
+            const select = document.getElementById('bulkTemplate');
+            const templates = getTemplates();
+            select.innerHTML = '<option value="">-- Chọn template --</option>';
+            for (const key in templates) {
+                const opt = document.createElement('option');
+                opt.value = key;
+                opt.textContent = templates[key].name;
+                select.appendChild(opt);
+            }
+        }
+
+        function getGroups() {
+            const groups = {};
+            createQuotasList.forEach((q, i) => {
+                if (!groups[q.group]) groups[q.group] = [];
+                groups[q.group].push({ ...q, index: i });
+            });
+            return groups;
+        }
+
+        function renderCreatePreview() {
+            const groups = getGroups();
+            const templates = getTemplates();
+            const templateOptions = Object.entries(templates).map(([k, v]) =>
+                `<option value="${k}">${v.name}</option>`
+            ).join('');
+
+            let html = '';
+            for (const [groupName, items] of Object.entries(groups)) {
+                // Group header with template selector
+                html += `<tr class="group-header" style="background: rgba(0,217,255,0.1);">
+                    <td><input type="checkbox" class="group-checkbox" data-group="${groupName}" onchange="toggleGroupSelect(this, '${groupName}')"></td>
+                    <td colspan="2"><strong>📁 ${groupName}</strong> (${items.length} quota)</td>
+                    <td colspan="2">
+                        <select class="group-template" data-group="${groupName}" style="font-size: 0.85rem; padding: 4px 8px;">
+                            <option value="">-- Template --</option>
+                            ${templateOptions}
+                        </select>
+                        <button class="btn btn-sm btn-primary" onclick="applyGroupTemplate('${groupName}')" style="margin-left: 8px;">✅</button>
+                    </td>
+                    <td colspan="2"></td>
+                </tr>`;
+
+                // Group items
+                items.forEach(q => {
+                    const logicDisplay = q.logic ?
+                        `<span class="status status-success" style="font-size: 0.75rem;">${q.logic.templateName || 'Custom'}</span>` :
+                        '<span class="status status-pending" style="font-size: 0.75rem;">—</span>';
+                    html += `<tr id="create-row-${q.index}">
+                        <td><input type="checkbox" class="quota-checkbox" data-index="${q.index}" data-group="${groupName}"></td>
+                        <td>${q.index + 1}</td>
+                        <td><input type="text" value="${q.name}" onchange="updateCreateName(${q.index}, this.value)" style="width: 100%;"></td>
+                        <td><input type="number" value="${q.limit}" onchange="updateCreateLimit(${q.index}, this.value)" style="width: 70px;"></td>
+                        <td>${logicDisplay}</td>
+                        <td><span class="status status-pending">⏳</span></td>
+                        <td><button class="btn btn-sm btn-danger" onclick="deleteCreateRow(${q.index})">🗑️</button></td>
+                    </tr>`;
+                });
+            }
+            document.getElementById('createPreviewBody').innerHTML = html;
+        }
+
+        function toggleGroupSelect(checkbox, groupName) {
+            document.querySelectorAll(`.quota-checkbox[data-group="${groupName}"]`).forEach(cb => {
+                cb.checked = checkbox.checked;
+            });
+        }
+
+        function applyGroupTemplate(groupName) {
+            const select = document.querySelector(`.group-template[data-group="${groupName}"]`);
+            const templateId = select.value;
+            if (!templateId) return alert('Vui lòng chọn template');
+
+            const templates = getTemplates();
+            const t = templates[templateId];
+            if (!t) return;
+
+            let count = 0;
+            createQuotasList.forEach((q, i) => {
+                if (q.group === groupName) {
+                    q.logic = {
+                        templateName: t.name,
+                        answerType: t.answerType,
+                        operator: t.operator,
+                        key: t.key,
+                        value: t.value
+                    };
+                    count++;
+                }
+            });
+
+            renderCreatePreview();
+            alert(`✅ Đã áp dụng "${t.name}" cho ${count} quota trong nhóm "${groupName}"`);
+        }
+
+        function toggleSelectAll(checkbox) {
+            document.querySelectorAll('.quota-checkbox').forEach(cb => {
+                cb.checked = checkbox.checked;
+            });
+        }
+
+        function getSelectedIndices() {
+            const indices = [];
+            document.querySelectorAll('.quota-checkbox:checked').forEach(cb => {
+                indices.push(parseInt(cb.dataset.index));
+            });
+            return indices;
+        }
+
+        function applyBulkTemplate() {
+            const templateId = document.getElementById('bulkTemplate').value;
+            if (!templateId) return alert('Vui lòng chọn template');
+
+            const indices = getSelectedIndices();
+            if (indices.length === 0) return alert('Vui lòng chọn ít nhất 1 quota');
+
+            const templates = getTemplates();
+            const t = templates[templateId];
+            if (!t) return alert('Template không tồn tại');
+
+            indices.forEach(i => {
+                createQuotasList[i].logic = {
+                    templateName: t.name,
+                    answerType: t.answerType,
+                    operator: t.operator,
+                    key: t.key,
+                    value: t.value
+                };
+            });
+
+            renderCreatePreview();
+            document.getElementById('selectAllQuotas').checked = false;
+            alert(`✅ Đã áp dụng "${t.name}" cho ${indices.length} quota`);
+        }
+
+        function clearSelectedLogic() {
+            const indices = getSelectedIndices();
+            if (indices.length === 0) return alert('Vui lòng chọn ít nhất 1 quota');
+
+            indices.forEach(i => {
+                createQuotasList[i].logic = null;
+            });
+
+            renderCreatePreview();
+            document.getElementById('selectAllQuotas').checked = false;
+            alert(`✅ Đã xóa logic của ${indices.length} quota`);
+        }
+
+        function updateCreateName(index, value) {
+            createQuotasList[index].name = value.trim();
+        }
+
+        function updateCreateLimit(index, value) {
+            createQuotasList[index].limit = parseInt(value) || 0;
+        }
+
+        function deleteCreateRow(index) {
+            const item = createQuotasList.splice(index, 1)[0];
+            createDeletedHistory.push({ item, index });
+            renderCreatePreview();
+            updateUndoVisibility();
+            if (createQuotasList.length === 0) {
+                document.getElementById('createPreviewCard').classList.add('hidden');
+            }
+        }
+
+        function undoDelete() {
+            if (createDeletedHistory.length === 0) return;
+            const last = createDeletedHistory.pop();
+            createQuotasList.splice(last.index, 0, last.item);
+            renderCreatePreview();
+            updateUndoVisibility();
+            document.getElementById('createPreviewCard').classList.remove('hidden');
+        }
+
+        function updateUndoVisibility() {
+            const btn = document.getElementById('undoBtn');
+            if (createDeletedHistory.length > 0) {
+                btn.classList.remove('hidden');
+                btn.innerHTML = `↩️ Hoàn tác (${createDeletedHistory.length})`;
+            } else {
+                btn.classList.add('hidden');
+            }
         }
 
         async function createQuotas() {
@@ -700,19 +1675,86 @@ Hải Phòng	20"></textarea>
             const btn = document.getElementById('createBtn');
             btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Đang tạo...';
 
-            const defaultGroups = JSON.stringify([[{ input_value: "212", operator: "20", answers_type: "17", answers_values: [] }]]);
+            const globalEnableLogic = document.getElementById('enableLogic').checked;
+            const globalLogicAnswerType = document.getElementById('logicAnswerType').value;
+            const globalLogicOperator = document.getElementById('logicOperator').value;
+            const globalLogicKey = document.getElementById('logicKey').value;
+            const globalLogicValue = document.getElementById('logicValue').value;
+
             let success = 0, errors = 0;
 
             for (let i = 0; i < createQuotasList.length; i++) {
                 const q = createQuotasList[i];
                 try {
-                    const params = new URLSearchParams({ api_token: apiKey, api_token_secret: apiSecret, _method: 'PUT', name: q.name, limit: q.limit, groups: defaultGroups });
-                    const res = await fetch(`https://api.alchemer.com/v5/survey/${surveyId}/quotas?${params}`);
-                    const data = await res.json();
+                    const params = new URLSearchParams({
+                        api_token: apiKey,
+                        api_token_secret: apiSecret,
+                        _method: 'PUT',
+                        name: q.name,
+                        limit: q.limit
+                    });
+
+                    // Use individual logic if set, otherwise use global logic
+                    let useLogic = q.logic || (globalEnableLogic && globalLogicKey ? {
+                        answerType: globalLogicAnswerType,
+                        operator: globalLogicOperator,
+                        key: globalLogicKey,
+                        value: globalLogicValue
+                    } : null);
+
+                    if (useLogic && useLogic.key) {
+                        const isAnsweredOp = ['20', '21'].includes(useLogic.operator);
+
+                        let answersValues;
+                        if (isAnsweredOp) {
+                            answersValues = "";
+                        } else if (useLogic.answerType === '17') {
+                            answersValues = [useLogic.value];
+                        } else {
+                            answersValues = useLogic.value;
+                        }
+
+                        const groupsObj = [{
+                            rules: [{
+                                input_value: useLogic.key,
+                                operator: useLogic.operator,
+                                answers_type: useLogic.answerType,
+                                answers_values: answersValues
+                            }]
+                        }];
+                        params.append('groups', JSON.stringify(groupsObj));
+                    }
+
+                    const url = `https://api.alchemer.com/v5/survey/${surveyId}/quotas?${params.toString()}`;
+                    const res = await fetch(url);
+
                     const row = document.querySelector(`#create-row-${i} .status`);
-                    if (data.result_ok) { row.className = 'status status-success'; row.textContent = '✅ OK'; success++; }
-                    else { row.className = 'status status-error'; row.textContent = '❌ Lỗi'; errors++; }
-                } catch (e) { errors++; }
+
+                    if (!res.ok) {
+                        row.className = 'status status-error';
+                        row.textContent = `❌ HTTP ${res.status}`;
+                        errors++;
+                        continue;
+                    }
+
+                    const data = await res.json();
+                    if (data.result_ok) {
+                        row.className = 'status status-success';
+                        row.textContent = '✅ OK';
+                        success++;
+                    } else {
+                        row.className = 'status status-error';
+                        row.textContent = `❌ ${data.message || 'Lỗi API'}`;
+                        console.error('API Error:', data);
+                        errors++;
+                    }
+                } catch (e) {
+                    const row = document.querySelector(`#create-row-${i} .status`);
+                    row.className = 'status status-error';
+                    row.textContent = '❌ Lỗi mạng/CORS';
+                    console.error('Fetch error:', e);
+                    errors++;
+                }
                 await new Promise(r => setTimeout(r, 300));
             }
 

@@ -13,12 +13,8 @@ const BASE_URL = `https://api.alchemer.com/v5/survey/${SURVEY_ID}/quotas`;
 
 // Default logic: Question 212 (source) is answered
 // Format theo Alchemer API: [[{rule}]]
-const DEFAULT_GROUPS = JSON.stringify([[{
-    input_value: "212",
-    operator: "20",  // 20 = is answered
-    answers_type: "17",
-    answers_values: []
-}]]);
+// No logic by default
+const DEFAULT_GROUPS = "[]";
 
 /**
  * Tạo quota mới với logic mặc định (source is answered)
@@ -31,7 +27,9 @@ async function createQuota(name, limit) {
         params.append('_method', 'PUT');
         params.append('name', name);
         params.append('limit', limit);
-        params.append('groups', DEFAULT_GROUPS);
+        if (DEFAULT_GROUPS && DEFAULT_GROUPS !== "[]") {
+            params.append('groups', DEFAULT_GROUPS);
+        }
 
         const url = `${BASE_URL}?${params.toString()}`;
         const response = await axios.get(url);
@@ -68,8 +66,7 @@ async function bulkCreateQuotas() {
     });
 
     console.log(`\n🚀 Bắt đầu tạo ${records.length} quota...\n`);
-    console.log(`📌 Logic mặc định: source (Q212) is answered`);
-    console.log(`⚠️ Bạn có thể vào UI để sửa logic sau.\n`);
+    console.log(`📌 Logic: No logic (empty)`);
 
     let success = 0;
     let failed = 0;

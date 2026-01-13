@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "get-structure": "node src/get_survey_structure.js",
+    "get-quotas": "node src/get_quota_structure.js",
     "create-quotas": "node src/create_quotas.js"
   },
   "dependencies": {

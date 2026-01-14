@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alchemer Bulk Quota Manager</title>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -263,6 +264,189 @@
             background: rgba(0, 217, 255, 0.1);
             color: #00d9ff;
             font-weight: 600;
+        }
+
+        .col-logic {
+            max-width: 300px;
+            min-width: 150px;
+        }
+
+        .logic-tag {
+            display: inline-block;
+            padding: 4px 10px;
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            line-height: 1.4;
+            word-break: break-word;
+            border: 1px solid rgba(0, 255, 136, 0.1);
+            font-family: 'Consolas', monospace;
+            transition: all 0.2s;
+        }
+
+        .logic-tag:hover {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: #00ff88;
+        }
+
+        /* Improved Group UI Styles */
+        .group-header {
+            background: rgba(255, 255, 255, 0.02) !important;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .group-header td {
+            padding: 12px 16px !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05) !important;
+        }
+
+        /* Dynamic Group Colors & Neon Glow */
+        .group-color-0 {
+            --g-color: #00d9ff;
+        }
+
+        .group-color-1 {
+            --g-color: #ff5252;
+        }
+
+        .group-color-2 {
+            --g-color: #ffeb3b;
+        }
+
+        .group-color-3 {
+            --g-color: #da70d6;
+        }
+
+        .group-color-4 {
+            --g-color: #00ff88;
+        }
+
+        .group-color-5 {
+            --g-color: #ff9800;
+        }
+
+        .group-header,
+        .child-row {
+            border-left: 5px solid var(--g-color) !important;
+            transition: all 0.3s;
+        }
+
+        .group-header:hover,
+        .child-row:hover {
+            background: rgba(255, 255, 255, 0.05) !important;
+            box-shadow: inset 15px 0 25px -15px var(--g-color);
+        }
+
+        .group-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--g-color);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+
+        .group-toggle {
+            cursor: pointer;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            color: var(--g-color);
+            filter: drop-shadow(0 0 5px var(--g-color));
+        }
+
+        .group-toggle.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        /* Tree structure visualization */
+        .child-row {
+            background: transparent;
+        }
+
+        .child-row.is-hidden {
+            display: none !important;
+        }
+
+        .tree-cell {
+            position: relative;
+            padding-left: 60px !important;
+            /* Increased for deeper alignment */
+        }
+
+        /* Vertical line that connects all children */
+        .tree-line-v {
+            position: absolute;
+            left: -5px;
+            top: -1px;
+            bottom: 0;
+            width: 5px;
+            /* Matches border-left thickness */
+            background: var(--g-color);
+            opacity: 1;
+            /* Solid color */
+            transition: all 0.2s;
+        }
+
+        /* Horizontal branch line */
+        .tree-line-h {
+            position: absolute;
+            left: -5px;
+            top: 50%;
+            width: 25px;
+            height: 2px;
+            background: var(--g-color);
+            opacity: 1;
+            transition: all 0.2s;
+        }
+
+        /* Connection logic */
+        .group-connector-cell {
+            position: relative;
+        }
+
+        .group-connector-line {
+            position: absolute;
+            left: -5px;
+            /* Offset to match parent border */
+            top: 50%;
+            bottom: 0;
+            width: 3px;
+            background: var(--g-color);
+            opacity: 0.3;
+        }
+
+        .last-child .tree-line-v {
+            bottom: 50%;
+            border-bottom-left-radius: 4px;
+        }
+
+        .child-row:hover .tree-line-v,
+        .child-row:hover .tree-line-h {
+            opacity: 0.8 !important;
+            box-shadow: 0 0 8px var(--g-color);
+        }
+
+        .child-row:hover input[type="text"] {
+            text-decoration: underline;
+            color: #00d9ff;
+        }
+
+        .drag-handle {
+            font-size: 1.2rem;
+            opacity: 0.3;
+            transition: opacity 0.2s;
+        }
+
+        .child-row:hover .drag-handle {
+            opacity: 1;
+            color: #00d9ff;
         }
 
         .data-table tr:hover td {
@@ -643,19 +827,22 @@ Female	150	gender"></textarea>
                             <option value="">-- Chọn template --</option>
                         </select>
                         <button class="btn btn-sm btn-primary" onclick="applyBulkTemplate()">✅ Áp dụng</button>
+                        <button class="btn btn-sm btn-warning" onclick="mergeSelectedQuotas()">🔗 Gộp Quota</button>
                         <button class="btn btn-sm btn-secondary" onclick="clearSelectedLogic()">🗑️ Xóa Logic</button>
-                        <button class="btn btn-sm btn-warning" onclick="addManualQuota()">➕ Thêm quota thủ công</button>
+                        <button class="btn btn-sm btn-secondary" onclick="addManualQuota()">➕ Thêm quota thủ
+                            công</button>
                     </div>
                 </div>
 
                 <table class="data-table">
                     <thead>
                         <tr>
+                            <th></th>
                             <th><input type="checkbox" id="selectAllQuotas" onchange="toggleSelectAll(this)"></th>
                             <th>#</th>
-                            <th>Tên Quota</th>
-                            <th>Limit</th>
-                            <th>Logic</th>
+                            <th style="cursor: pointer;" onclick="sortCreateQuotas('name')">Tên Quota ↕️</th>
+                            <th style="cursor: pointer;" onclick="sortCreateQuotas('limit')">Limit ↕️</th>
+                            <th class="col-logic">Logic</th>
                             <th>Trạng thái</th>
                             <th>Hành động</th>
                         </tr>
@@ -1579,47 +1766,97 @@ Female	150	gender"></textarea>
             return groups;
         }
 
+        // ========== RENDER PREVIEW ==========
+        let collapsedGroups = new Set();
+
+        function toggleGroup(groupName) {
+            if (collapsedGroups.has(groupName)) collapsedGroups.delete(groupName);
+            else collapsedGroups.add(groupName);
+            renderCreatePreview();
+        }
+
         function renderCreatePreview() {
             const groups = getGroups();
-            const templates = getTemplates();
-            const templateOptions = Object.entries(templates).map(([k, v]) =>
-                `<option value="${k}">${v.name}</option>`
-            ).join('');
+            const groupNames = Object.keys(groups);
 
             let html = '';
-            for (const [groupName, items] of Object.entries(groups)) {
+            groupNames.forEach((groupName, gIdx) => {
+                const items = groups[groupName];
                 const safeGroupName = escapeHtml(groupName);
-                // Group header with template selector
-                html += `<tr class="group-header" style="background: rgba(0,217,255,0.1);">
-                    <td><input type="checkbox" class="group-checkbox" data-group="${safeGroupName}" onchange="toggleGroupSelect(this, '${safeGroupName}')"></td>
-                    <td colspan="2"><strong>📁 ${safeGroupName}</strong> (${items.length} quota)</td>
-                    <td colspan="2">
-                        <select class="group-template" data-group="${safeGroupName}" style="font-size: 0.85rem; padding: 4px 8px;">
-                            <option value="">-- Template --</option>
-                            ${templateOptions}
-                        </select>
-                        <button class="btn btn-sm btn-primary" onclick="applyGroupTemplate('${safeGroupName}')" style="margin-left: 8px;">✅</button>
+                const isCollapsed = collapsedGroups.has(groupName);
+                const colorIdx = gIdx % 6;
+
+                // Group header
+                html += `<tr class="group-header group-color-${colorIdx}">
+                    <td colspan="2" style="text-align: center;" class="group-connector-cell">
+                        <input type="checkbox" class="group-checkbox" data-group="${safeGroupName}" onchange="toggleGroupSelect(this, '${safeGroupName}')">
+                        ${!isCollapsed ? '<div class="group-connector-line"></div>' : ''}
                     </td>
-                    <td colspan="2"></td>
+                    <td colspan="6">
+                        <div class="group-info">
+                            <div class="group-toggle ${isCollapsed ? 'collapsed' : ''}" onclick="toggleGroup('${safeGroupName}')" style="margin-left: -5px;">▼</div>
+                            <span style="cursor: pointer; display: flex; align-items: center; gap: 8px;" onclick="toggleGroup('${safeGroupName}')">
+                                <span style="font-size: 1.2rem;">📁</span> ${safeGroupName}
+                            </span>
+                            <span style="font-size: 0.8rem; color: #8892b0; font-weight: normal;">(${items.length} mục)</span>
+                        </div>
+                    </td>
                 </tr>`;
 
                 // Group items
-                items.forEach(q => {
+                items.forEach((q, i) => {
                     const logicDisplay = q.logic ?
-                        `<span class="status status-success" style="font-size: 0.75rem;">${escapeHtml(q.logic.templateName || 'Custom')}</span>` :
-                        '<span class="status status-pending" style="font-size: 0.75rem;">—</span>';
-                    html += `<tr id="create-row-${q.index}">
-                        <td><input type="checkbox" class="quota-checkbox" data-index="${q.index}" data-group="${safeGroupName}"></td>
-                        <td>${q.index + 1}</td>
-                        <td><input type="text" value="${escapeHtml(q.name)}" onchange="updateCreateName(${q.index}, this.value)" style="width: 100%;"></td>
-                        <td><input type="number" value="${q.limit}" onchange="updateCreateLimit(${q.index}, this.value)" style="width: 70px;"></td>
+                        `<div class="logic-tag" title="${escapeHtml(q.logic.templateName || 'Custom logic')}">${escapeHtml(q.logic.templateName || 'Custom')}</div>` :
+                        '<span style="color: #444; font-size: 0.75rem;">(Trống logic)</span>';
+
+                    const isLast = i === items.length - 1;
+                    const hiddenClass = isCollapsed ? 'is-hidden' : '';
+
+                    html += `<tr id="create-row-${q.index}" class="draggable-row child-row group-color-${colorIdx} ${hiddenClass} ${isLast ? 'last-child' : ''}" data-index="${q.index}">
+                        <td class="drag-handle" style="cursor: grab;">⠿</td>
+                        <td class="tree-cell">
+                            <div class="tree-line-v"></div>
+                            <div class="tree-line-h"></div>
+                            <input type="checkbox" class="quota-checkbox" data-index="${q.index}" data-group="${safeGroupName}">
+                        </td>
+                        <td><span style="color: #555; font-size: 0.8rem;">#${q.index + 1}</span></td>
+                        <td><input type="text" value="${escapeHtml(q.name)}" onchange="updateCreateName(${q.index}, this.value)" style="width: 100%; border: none; background: transparent; padding: 4px 8px; font-weight: 500;"></td>
+                        <td><input type="number" value="${q.limit}" onchange="updateCreateLimit(${q.index}, this.value)" style="width: 70px; border: none; background: transparent; padding: 4px 8px;"></td>
                         <td>${logicDisplay}</td>
-                        <td><span class="status status-pending">⏳</span></td>
-                        <td><button class="btn btn-sm btn-danger" onclick="deleteCreateRow(${q.index})">🗑️</button></td>
+                        <td style="text-align: center;"><span class="status status-pending" style="background: transparent;">⏳</span></td>
+                        <td>
+                            <div style="display: flex; gap: 4px; justify-content: flex-end;">
+                                <button class="btn btn-sm btn-danger" style="padding: 2px 8px; background: transparent; color: #ff5252; opacity: 0.6;" onclick="deleteCreateRow(${q.index})" title="Xóa">🗑️</button>
+                            </div>
+                        </td>
                     </tr>`;
                 });
-            }
+            });
+
             document.getElementById('createPreviewBody').innerHTML = html;
+            initSortable();
+        }
+
+        function initSortable() {
+            const el = document.getElementById('createPreviewBody');
+            if (window.createSortable) window.createSortable.destroy();
+
+            window.createSortable = new Sortable(el, {
+                animation: 150,
+                handle: '.drag-handle',
+                draggable: '.draggable-row',
+                ghostClass: 'sortable-ghost',
+                onEnd: function (evt) {
+                    const newOrder = [];
+                    const rows = el.querySelectorAll('.draggable-row');
+                    rows.forEach(row => {
+                        newOrder.push(createQuotasList[parseInt(row.dataset.index)]);
+                    });
+                    createQuotasList = newOrder;
+                    // Re-render to update index numbers and internal references
+                    renderCreatePreview();
+                }
+            });
         }
 
         function toggleGroupSelect(checkbox, groupName) {
@@ -1708,6 +1945,68 @@ Female	150	gender"></textarea>
             alert(`✅ Đã xóa logic của ${indices.length} quota`);
         }
 
+        function mergeSelectedQuotas() {
+            const indices = getSelectedIndices().sort((a, b) => b - a); // Sort descending to splice safely
+            if (indices.length < 2) return alert('Vui lòng chọn ít nhất 2 quota để gộp');
+
+            const selectedItems = indices.map(i => createQuotasList[i]);
+
+            // Check if all selected items have simple logic from the same question
+            const questionIds = new Set();
+            const optionIds = [];
+            const names = [];
+            let groupName = selectedItems[0].group;
+
+            for (const item of selectedItems) {
+                if (!item.logic || item.logic.answerType !== '17') {
+                    return alert(`Quota "${item.name}" không có logic Question hoặc logic không hợp lệ để gộp.`);
+                }
+                questionIds.add(item.logic.key);
+
+                // Handle both single value and array values (already merged)
+                if (Array.isArray(item.logic.value)) {
+                    optionIds.push(...item.logic.value);
+                } else if (typeof item.logic.value === 'string' && item.logic.value.includes(',')) {
+                    optionIds.push(...item.logic.value.split(','));
+                } else {
+                    optionIds.push(item.logic.value);
+                }
+                names.push(item.name);
+            }
+
+            if (questionIds.size > 1) {
+                return alert('Chỉ có thể gộp các quota thuộc cùng một Question ID.');
+            }
+
+            const newName = prompt('Nhập tên cho quota gộp mới:', names.join(' + '));
+            if (!newName) return;
+
+            const qId = Array.from(questionIds)[0];
+            const mergedLogic = {
+                templateName: `Merged: ${newName}`,
+                answerType: '17',
+                operator: '12', // is one of
+                key: qId,
+                value: optionIds // Keep as array
+            };
+
+            // 1. Remove old items
+            indices.forEach(i => createQuotasList.splice(i, 1));
+
+            // 2. Add new merged item
+            createQuotasList.push({
+                name: newName,
+                limit: 100,
+                group: groupName,
+                status: 'pending',
+                logic: mergedLogic,
+                originalIndex: createQuotasList.length
+            });
+
+            renderCreatePreview();
+            alert(`✅ Đã gộp ${selectedItems.length} quota thành "${newName}"`);
+        }
+
         function updateCreateName(index, value) {
             createQuotasList[index].name = value.trim();
         }
@@ -1724,6 +2023,29 @@ Female	150	gender"></textarea>
             if (createQuotasList.length === 0) {
                 document.getElementById('createPreviewCard').classList.add('hidden');
             }
+        }
+
+        let createSortOrder = { name: 1, limit: 1 };
+        function sortCreateQuotas(criteria) {
+            const direction = createSortOrder[criteria];
+            createQuotasList.sort((a, b) => {
+                if (criteria === 'limit') return (a.limit - b.limit) * direction;
+                return a.name.localeCompare(b.name) * direction;
+            });
+            createSortOrder[criteria] *= -1; // Toggle for next click
+            renderCreatePreview();
+        }
+
+        function moveCreateRow(index, direction) {
+            const newIndex = index + direction;
+            if (newIndex < 0 || newIndex >= createQuotasList.length) return;
+
+            // Swap items
+            const temp = createQuotasList[index];
+            createQuotasList[index] = createQuotasList[newIndex];
+            createQuotasList[newIndex] = temp;
+
+            renderCreatePreview();
         }
 
         function addManualQuota() {

@@ -17,9 +17,7 @@ admin.initializeApp();
  *   })
  * })
  */
-exports.alchemerProxy = functions.runWith({
-    secrets: ["ALCHEMER_API_TOKEN", "ALCHEMER_API_SECRET"]
-}).https.onRequest((req, res) => {
+exports.alchemerProxy = functions.https.onRequest((req, res) => {
     return cors(req, res, async () => {
         if (req.method === "OPTIONS") {
             res.status(204).send("");

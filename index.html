@@ -938,8 +938,8 @@ Female	150	gender"></textarea>
         let lastLookupQuestionName = '';
 
         async function lookupQuestionOptions() {
-            const { apiKey, apiSecret, surveyId } = getApiParams();
-            if (!apiKey || !apiSecret || !surveyId) return alert('Vui lòng nhập đầy đủ API credentials');
+            const { surveyId } = getApiParams();
+            if (!surveyId) return alert('Vui lòng nhập Survey ID');
 
             const questionId = document.getElementById('lookupQuestionId').value;
             if (!questionId) return alert('Vui lòng nhập Question ID');
@@ -1131,8 +1131,8 @@ Female	150	gender"></textarea>
         let cachedQuestions = null;
 
         async function loadQuestionList(forceRefresh = false) {
-            const { apiKey, apiSecret, surveyId } = getApiParams();
-            if (!apiKey || !apiSecret || !surveyId) return alert('Vui lòng nhập đầy đủ API credentials');
+            const { surveyId } = getApiParams();
+            if (!surveyId) return alert('Vui lòng nhập Survey ID');
 
             const cacheKey = `questions_${surveyId}`;
             const cacheStatus = document.getElementById('questionCacheStatus');
@@ -1767,8 +1767,8 @@ Female	150	gender"></textarea>
 
         async function createQuotas() {
             if (!createQuotasList.length) { parseCreateData(); if (!createQuotasList.length) return; }
-            const { apiKey, apiSecret, surveyId } = getApiParams();
-            if (!apiKey || !apiSecret || !surveyId) return alert('Vui lòng nhập đầy đủ API credentials');
+            const { surveyId } = getApiParams();
+            if (!surveyId) return alert('Vui lòng nhập Survey ID');
             saveSettings();
 
             const btn = document.getElementById('createBtn');
@@ -1860,8 +1860,8 @@ Female	150	gender"></textarea>
 
         // ========== MANAGE ==========
         async function loadExistingQuotas() {
-            const { apiKey, apiSecret, surveyId } = getApiParams();
-            if (!apiKey || !apiSecret || !surveyId) return alert('Vui lòng nhập đầy đủ API credentials');
+            const { surveyId } = getApiParams();
+            if (!surveyId) return alert('Vui lòng nhập Survey ID');
             saveSettings();
 
             const btn = document.getElementById('loadManageBtn');
@@ -1932,7 +1932,7 @@ Female	150	gender"></textarea>
         }
 
         async function updateQuotas() {
-            const { apiKey, apiSecret, surveyId } = getApiParams();
+            const { surveyId } = getApiParams();
             const toUpdate = manageQuotasList.filter((q, i) => {
                 const checkbox = document.querySelector(`.manage-check[data-index="${i}"]`);
                 return checkbox?.checked && q.newLimit !== q.originalLimit;
@@ -1965,8 +1965,8 @@ Female	150	gender"></textarea>
 
         // ========== DELETE ==========
         async function loadDeleteQuotas() {
-            const { apiKey, apiSecret, surveyId } = getApiParams();
-            if (!apiKey || !apiSecret || !surveyId) return alert('Vui lòng nhập đầy đủ API credentials');
+            const { surveyId } = getApiParams();
+            if (!surveyId) return alert('Vui lòng nhập Survey ID');
             saveSettings();
 
             const btn = document.getElementById('loadDeleteBtn');
@@ -1998,7 +1998,7 @@ Female	150	gender"></textarea>
             if (!selected.length) return alert('Chọn ít nhất 1 quota');
             if (!confirm(`Xoá ${selected.length} quota? Không thể hoàn tác!`)) return;
 
-            const { apiKey, apiSecret, surveyId } = getApiParams();
+            const { surveyId } = getApiParams();
             const btn = document.getElementById('deleteBtn');
             btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Đang xoá...';
 

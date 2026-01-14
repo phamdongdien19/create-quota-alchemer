@@ -452,16 +452,8 @@
 
         <!-- API CONFIG -->
         <div class="card">
-            <div class="card-title">Cấu hình API</div>
+            <div class="card-title">Cấu hình API (Server-Side)</div>
             <div class="grid-3">
-                <div>
-                    <label>API Key</label>
-                    <input type="text" id="apiKey" placeholder="Nhập API Key">
-                </div>
-                <div>
-                    <label>API Secret</label>
-                    <input type="password" id="apiSecret" placeholder="Nhập API Secret">
-                </div>
                 <div>
                     <label>Survey ID</label>
                     <input type="text" id="surveyId" placeholder="VD: 8154556">
@@ -814,21 +806,24 @@ Female	150	gender"></textarea>
 
         // Load settings
         window.onload = () => {
-            document.getElementById('apiKey').value = localStorage.getItem('alchemer_apiKey') || '';
-            document.getElementById('apiSecret').value = localStorage.getItem('alchemer_apiSecret') || '';
             document.getElementById('surveyId').value = localStorage.getItem('alchemer_surveyId') || '';
         };
 
+        async function alchemerAPI(path, method = 'GET', params = {}, data = null) {
+            const res = await fetch('/api/alchemer', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ path, method, params, data })
+            });
+            return await res.json();
+        }
+
         function saveSettings() {
-            localStorage.setItem('alchemer_apiKey', document.getElementById('apiKey').value);
-            localStorage.setItem('alchemer_apiSecret', document.getElementById('apiSecret').value);
             localStorage.setItem('alchemer_surveyId', document.getElementById('surveyId').value);
         }
 
         function getApiParams() {
             return {
-                apiKey: document.getElementById('apiKey').value,
-                apiSecret: document.getElementById('apiSecret').value,
                 surveyId: document.getElementById('surveyId').value
             };
         }
@@ -955,11 +950,9 @@ Female	150	gender"></textarea>
             resultDiv.classList.remove('hidden');
 
             try {
-                const url = `https://api.alchemer.com/v5/survey/${surveyId}/question/${questionId}?api_token=${apiKey}&api_token_secret=${encodeURIComponent(apiSecret)}`;
-                const res = await fetch(url);
-                const data = await res.json();
+                const data = await alchemerAPI(`survey/${surveyId}/question/${questionId}`);
 
-                if (!data.result_ok) {
+                if (!data || !data.result_ok) {
                     tbody.innerHTML = `<tr><td colspan="4" style="color: #ff5252;">❌ ${data.message || 'Không tìm thấy Question'}</td></tr>`;
                     return;
                 }
@@ -1164,11 +1157,9 @@ Female	150	gender"></textarea>
             resultDiv.classList.remove('hidden');
 
             try {
-                const url = `https://api.alchemer.com/v5/survey/${surveyId}/question?api_token=${apiKey}&api_token_secret=${encodeURIComponent(apiSecret)}`;
-                const res = await fetch(url);
-                const data = await res.json();
+                const data = await alchemerAPI(`survey/${surveyId}/question`);
 
-                if (!data.result_ok) {
+                if (!data || !data.result_ok) {
                     tbody.innerHTML = `<tr><td colspan="5" style="color: #ff5252;">❌ ${data.message || 'Lỗi'}</td></tr>`;
                     return;
                 }
@@ -1229,7 +1220,7 @@ Female	150	gender"></textarea>
         }
 
         async function addSelectedQuestionsToPreview() {
-            const { apiKey, apiSecret, surveyId } = getApiParams();
+            const { surveyId } = getApiParams();
             const selectedCheckboxes = document.querySelectorAll('.question-checkbox:checked');
 
             if (selectedCheckboxes.length === 0) return alert('Vui lòng chọn ít nhất 1 Question');
@@ -1246,9 +1237,7 @@ Female	150	gender"></textarea>
                 const questionName = cb.dataset.name;
 
                 try {
-                    const url = `https://api.alchemer.com/v5/survey/${surveyId}/question/${questionId}?api_token=${apiKey}&api_token_secret=${encodeURIComponent(apiSecret)}`;
-                    const res = await fetch(url);
-                    const data = await res.json();
+                    const data = await alchemerAPI(`survey/${surveyId}/question/${questionId}`);
 
                     if (data.result_ok && data.data.options) {
                         const groupName = questionName.toLowerCase().replace(/[^a-z0-9]/g, '_');
@@ -1322,8 +1311,8 @@ Female	150	gender"></textarea>
         };
 
         async function quickAddQuestion(questionId, groupName) {
-            const { apiKey, apiSecret, surveyId } = getApiParams();
-            if (!apiKey || !apiSecret || !surveyId) return alert('Vui lòng nhập đầy đủ API credentials');
+            const { surveyId } = getApiParams();
+            if (!surveyId) return alert('Vui lòng nhập Survey ID');
 
             const btn = event.target;
             const originalText = btn.textContent;
@@ -1331,11 +1320,9 @@ Female	150	gender"></textarea>
             btn.textContent = '⏳...';
 
             try {
-                const url = `https://api.alchemer.com/v5/survey/${surveyId}/question/${questionId}?api_token=${apiKey}&api_token_secret=${encodeURIComponent(apiSecret)}`;
-                const res = await fetch(url);
-                const data = await res.json();
+                const data = await alchemerAPI(`survey/${surveyId}/question/${questionId}`);
 
-                if (!data.result_ok || !data.data.options) {
+                if (!data || !data.result_ok || !data.data.options) {
                     alert(`❌ Không tìm thấy Question ${questionId} hoặc không có options`);
                     btn.disabled = false;
                     btn.textContent = originalText;
@@ -1395,8 +1382,8 @@ Female	150	gender"></textarea>
         }
 
         async function quickAddMultipleQuestions(questionIds) {
-            const { apiKey, apiSecret, surveyId } = getApiParams();
-            if (!apiKey || !apiSecret || !surveyId) return alert('Vui lòng nhập đầy đủ API credentials');
+            const { surveyId } = getApiParams();
+            if (!surveyId) return alert('Vui lòng nhập Survey ID');
 
             const btn = event.target;
             const originalText = btn.textContent;
@@ -1411,9 +1398,7 @@ Female	150	gender"></textarea>
                 const groupName = COMMON_QUESTIONS[questionId] || `question_${questionId}`;
 
                 try {
-                    const url = `https://api.alchemer.com/v5/survey/${surveyId}/question/${questionId}?api_token=${apiKey}&api_token_secret=${encodeURIComponent(apiSecret)}`;
-                    const res = await fetch(url);
-                    const data = await res.json();
+                    const data = await alchemerAPI(`survey/${surveyId}/question/${questionId}`);
 
                     if (data.result_ok && data.data.options) {
                         data.data.options.forEach(opt => {
@@ -1800,14 +1785,6 @@ Female	150	gender"></textarea>
             for (let i = 0; i < createQuotasList.length; i++) {
                 const q = createQuotasList[i];
                 try {
-                    const params = new URLSearchParams({
-                        api_token: apiKey,
-                        api_token_secret: apiSecret,
-                        _method: 'PUT',
-                        name: q.name,
-                        limit: q.limit
-                    });
-
                     // Use individual logic if set, otherwise use global logic
                     let useLogic = q.logic || (globalEnableLogic && globalLogicKey ? {
                         answerType: globalLogicAnswerType,
@@ -1815,6 +1792,12 @@ Female	150	gender"></textarea>
                         key: globalLogicKey,
                         value: globalLogicValue
                     } : null);
+
+                    const params = {
+                        _method: 'PUT',
+                        name: q.name,
+                        limit: q.limit
+                    };
 
                     if (useLogic && useLogic.key) {
                         const isAnsweredOp = ['20', '21'].includes(useLogic.operator);
@@ -1841,29 +1824,20 @@ Female	150	gender"></textarea>
                                 answers_values: answersValues
                             }]
                         }];
-                        params.append('groups', JSON.stringify(groupsObj));
+                        params.groups = JSON.stringify(groupsObj);
                     }
 
-                    const url = `https://api.alchemer.com/v5/survey/${surveyId}/quotas?${params.toString()}`;
-                    const res = await fetch(url);
+                    const data = await alchemerAPI(`survey/${surveyId}/quotas`, 'POST', params);
 
                     const row = document.querySelector(`#create-row-${i} .status`);
 
-                    if (!res.ok) {
-                        row.className = 'status status-error';
-                        row.textContent = `❌ HTTP ${res.status}`;
-                        errors++;
-                        continue;
-                    }
-
-                    const data = await res.json();
-                    if (data.result_ok) {
+                    if (data && data.result_ok) {
                         row.className = 'status status-success';
                         row.textContent = '✅ OK';
                         success++;
                     } else {
                         row.className = 'status status-error';
-                        row.textContent = `❌ ${data.message || 'Lỗi API'}`;
+                        row.textContent = `❌ ${data?.message || 'Lỗi API'}`;
                         console.error('API Error:', data);
                         errors++;
                     }
@@ -1894,18 +1868,16 @@ Female	150	gender"></textarea>
             btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Đang tải...';
 
             try {
-                const params = new URLSearchParams({ api_token: apiKey, api_token_secret: apiSecret });
-                const res = await fetch(`https://api.alchemer.com/v5/survey/${surveyId}/quotas?${params}`);
-                const data = await res.json();
+                const data = await alchemerAPI(`survey/${surveyId}/quotas`);
 
-                if (data.result_ok) {
+                if (data && data.result_ok) {
                     // API returns quotas in data.quotas or data.data depending on version
                     const quotas = data.quotas || data.data || [];
                     manageQuotasList = quotas.map(q => ({ ...q, originalLimit: parseInt(q.limit), newLimit: parseInt(q.limit), status: '' }));
                     renderManageTable();
                     document.getElementById('manageCard').classList.remove('hidden');
                     document.getElementById('manageActions').classList.remove('hidden');
-                } else alert('Lỗi: ' + data.message);
+                } else alert('Lỗi: ' + (data?.message || 'Không thể tải danh sách'));
             } catch (e) { alert('Lỗi: ' + e.message); }
 
             btn.disabled = false; btn.innerHTML = '🔄 Tải danh sách Quota';
@@ -1975,11 +1947,9 @@ Female	150	gender"></textarea>
 
             for (const q of toUpdate) {
                 try {
-                    const params = new URLSearchParams({ api_token: apiKey, api_token_secret: apiSecret, _method: 'POST', limit: q.newLimit });
-                    const res = await fetch(`https://api.alchemer.com/v5/survey/${surveyId}/quotas/${q.id}?${params}`);
-                    const data = await res.json();
+                    const data = await alchemerAPI(`survey/${surveyId}/quotas/${q.id}`, 'POST', { _method: 'POST', limit: q.newLimit });
 
-                    if (data.result_ok) { q.originalLimit = q.newLimit; q.status = '✅ Đã lưu'; success++; }
+                    if (data && data.result_ok) { q.originalLimit = q.newLimit; q.status = '✅ Đã lưu'; success++; }
                     else { q.status = '❌ Lỗi'; errors++; }
                 } catch (e) { q.status = '❌ Lỗi'; errors++; }
                 await new Promise(r => setTimeout(r, 300));
@@ -2003,18 +1973,16 @@ Female	150	gender"></textarea>
             btn.disabled = true; btn.innerHTML = '<span class="spinner"></span> Đang tải...';
 
             try {
-                const params = new URLSearchParams({ api_token: apiKey, api_token_secret: apiSecret });
-                const res = await fetch(`https://api.alchemer.com/v5/survey/${surveyId}/quotas?${params}`);
-                const data = await res.json();
+                const data = await alchemerAPI(`survey/${surveyId}/quotas`);
 
-                if (data.result_ok) {
+                if (data && data.result_ok) {
                     deleteQuotasList = data.quotas || data.data || [];
                     document.getElementById('deleteCheckboxes').innerHTML = deleteQuotasList.map(q =>
                         `<div class="checkbox-item"><input type="checkbox" id="del-${q.id}" value="${q.id}" class="delete-check"><label for="del-${q.id}">${q.name} (ID: ${q.id}, Limit: ${q.limit})</label></div>`
                     ).join('');
                     document.getElementById('deleteList').classList.remove('hidden');
                     document.getElementById('deleteBtn').classList.remove('hidden');
-                } else alert('Lỗi: ' + data.message);
+                } else alert('Lỗi: ' + (data?.message || 'Không thể tải danh sách'));
             } catch (e) { alert('Lỗi: ' + e.message); }
 
             btn.disabled = false; btn.innerHTML = '🔄 Tải danh sách';
@@ -2037,10 +2005,8 @@ Female	150	gender"></textarea>
             let success = 0, errors = 0;
             for (const id of selected) {
                 try {
-                    const params = new URLSearchParams({ api_token: apiKey, api_token_secret: apiSecret, _method: 'DELETE' });
-                    const res = await fetch(`https://api.alchemer.com/v5/survey/${surveyId}/quotas/${id}?${params}`);
-                    const data = await res.json();
-                    if (data.result_ok) { document.querySelector(`#del-${id}`)?.closest('.checkbox-item')?.remove(); success++; }
+                    const data = await alchemerAPI(`survey/${surveyId}/quotas/${id}`, 'POST', { _method: 'DELETE' });
+                    if (data && data.result_ok) { document.querySelector(`#del-${id}`)?.closest('.checkbox-item')?.remove(); success++; }
                     else errors++;
                 } catch (e) { errors++; }
                 await new Promise(r => setTimeout(r, 300));

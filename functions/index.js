@@ -1,3 +1,4 @@
+require("dotenv").config();
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 const axios = require("axios");
@@ -53,20 +54,29 @@ exports.alchemerProxy = functions.https.onRequest((req, res) => {
                 api_token_secret: apiSecret
             };
 
-            const response = await axios({
+            const axiosConfig = {
                 url,
                 method,
                 params: requestParams,
-                data,
                 timeout: 30000
-            });
+            };
 
+            // Only include data if it's not a GET or DELETE request
+            if (method !== "GET" && method !== "DELETE" && Object.keys(data).length > 0) {
+                axiosConfig.data = data;
+            }
+
+            const response = await axios(axiosConfig);
             res.status(200).json(response.data);
         } catch (error) {
-            console.error("Alchemer Proxy Error:", error.response?.data || error.message);
-            res.status(error.response?.status || 500).json(
-                error.response?.data || { result_ok: false, message: error.message }
-            );
+            console.error(`Alchemer Proxy Error [${method} ${path}]:`, error.response?.data || error.message);
+            res.status(error.response?.status || 500).json({
+                result_ok: false,
+                message: error.message,
+                details: error.response?.data || null,
+                path: path,
+                method: method
+            });
         }
     });
 });

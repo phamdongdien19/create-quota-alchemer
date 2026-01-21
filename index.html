@@ -648,7 +648,8 @@
 
         <!-- TABS -->
         <div class="tabs">
-            <div class="tab active" onclick="switchTab('create')">✨ Tạo mới</div>
+            <div class="tab active" onclick="switchTab('create')">✨ Tạo Quota</div>
+            <div class="tab" onclick="switchTab('page')">📃 Tạo Trang (Page)</div>
             <div class="tab" onclick="switchTab('manage')">📝 Quản lý Quota</div>
         </div>
 
@@ -1106,9 +1107,100 @@ Female	150	gender"></textarea>
             </div>
         </div>
 
+        <!-- PAGE TAB -->
+        <div id="pageTab" class="tab-content">
+            <div class="card">
+                <div class="card-title">📃 Tạo Trang (Page) hàng loạt</div>
+                <div class="info-box">
+                    <p>📋 Nhập danh sách tên trang, mỗi trang một dòng.</p>
+                </div>
+                <div class="grid-2" style="margin-bottom: 16px;">
+                    <div>
+                        <label>Question IDs cần copy (Tùy chọn)</label>
+                        <input type="text" id="sourceQuestionIds" placeholder="VD: 217, 218, 219">
+                        <p class="help-text">💡 Nhập các ID câu hỏi cách nhau bằng dấu phẩy.</p>
+                        <div class="info-box" style="margin-top: 8px; font-size: 12px;">
+                            <p style="margin-bottom: 4px;"><strong>⚠️ Giới hạn Alchemer API:</strong></p>
+                            <p style="margin-bottom: 4px;">✅ <strong>Được hỗ trợ:</strong> Text/Essay, Textbox,
+                                Checkbox, Radio Button, Dropdown, Hidden Value</p>
+                            <p style="margin: 0;">❌ <strong>Không hỗ trợ:</strong> Ranking (Drag & Drop), Matrix,
+                                Slider, File Upload, Signature, và các loại phức tạp khác</p>
+                        </div>
+                    </div>
+                    <div>
+                        <label>Tạo sau Page ID (Tùy chọn)</label>
+                        <input type="text" id="afterPageId" placeholder="VD: 10">
+                        <p class="help-text">💡 Trang mới sẽ được chèn ngay sau page này. Để trống = tạo ở cuối survey.
+                        </p>
+                    </div>
+                </div>
+                <div class="grid-2" style="margin-bottom: 16px;">
+                    <div>
+                        <label>Source Page ID (Copy logic từ page nguồn)</label>
+                        <input type="text" id="sourcePageId" placeholder="VD: 5">
+                        <p class="help-text">💡 Nhập ID của page nguồn để copy logic. Logic của page và các questions
+                            trong page đó sẽ được copy.</p>
+                    </div>
+                    <div style="display: flex; flex-direction: column; justify-content: center;">
+                        <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                            <input type="checkbox" id="copyLogicCheckbox" checked style="width: 18px; height: 18px;">
+                            <span>📋 Copy Logic (show_rules) từ nguồn</span>
+                        </label>
+                        <p class="help-text">💡 Bao gồm: Display Logic, Skip Logic của page và questions</p>
+                    </div>
+                </div>
+                <div style="margin-bottom: 16px;">
+                    <label>Tên các trang mới (Mỗi dòng 1 tên)</label>
+                    <textarea id="pageData" placeholder="Trang 1
+Trang 2
+Trang 3" style="min-height: 100px;"></textarea>
+                </div>
+            </div>
+
+            <div class="card hidden" id="pagePreviewCard">
+                <div class="card-title">Xem trước Trang</div>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">#</th>
+                            <th>Tên Trang</th>
+                            <th>Trạng thái</th>
+                            <th style="width: 80px;">Hành động</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pagePreviewBody"></tbody>
+                </table>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-secondary" onclick="parsePageData()">👁️ Xem trước</button>
+                <button class="btn btn-danger" onclick="clearPagePlayground()">🧹 Xóa hết</button>
+                <button class="btn btn-primary" id="createPageBtn" onclick="createPages()">🚀 Tạo Trang</button>
+            </div>
+
+            <div class="card hidden" id="pageResultsCard">
+                <div class="card-title">Kết quả</div>
+                <div class="result-summary">
+                    <div class="result-stat">
+                        <div class="result-stat-value total-value" id="pageTotal">0</div>
+                        <div class="result-stat-label">Tổng</div>
+                    </div>
+                    <div class="result-stat">
+                        <div class="result-stat-value success-value" id="pageSuccess">0</div>
+                        <div class="result-stat-label">Thành công</div>
+                    </div>
+                    <div class="result-stat">
+                        <div class="result-stat-value error-value" id="pageError">0</div>
+                        <div class="result-stat-label">Lỗi</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <script>
             let createQuotasList = [];
             let manageQuotasList = [];
+            let createPagesList = [];
 
             let createDeletedHistory = []; // History for undo
 
@@ -1117,7 +1209,7 @@ Female	150	gender"></textarea>
                 document.getElementById('surveyId').value = localStorage.getItem('alchemer_surveyId') || '';
             };
 
-            async function alchemerAPI(path, method = 'GET', params = {}, data = null) {
+            async function alchemerAPI(path, method = 'GET', params = {}, data = {}) {
                 console.log(`[API Request] ${method} ${path}`, { params, data });
                 try {
                     const res = await fetch('/api/alchemer', {
@@ -1845,10 +1937,314 @@ Female	150	gender"></textarea>
                 document.querySelectorAll('.tab').forEach((t, i) => {
                     t.classList.toggle('active',
                         (tab === 'create' && i === 0) ||
-                        (tab === 'manage' && i === 1));
+                        (tab === 'page' && i === 1) ||
+                        (tab === 'manage' && i === 2));
                 });
                 document.getElementById('createTab').classList.toggle('active', tab === 'create');
+                document.getElementById('pageTab').classList.toggle('active', tab === 'page');
                 document.getElementById('manageTab').classList.toggle('active', tab === 'manage');
+            }
+
+            // ========== PAGE MANAGEMENT ==========
+            function parsePageData() {
+                const data = document.getElementById('pageData').value.trim();
+                const questionIdsStr = document.getElementById('sourceQuestionIds').value.trim();
+                const afterId = document.getElementById('afterPageId').value.trim();
+                const sourcePageId = document.getElementById('sourcePageId').value.trim();
+                const copyLogic = document.getElementById('copyLogicCheckbox').checked;
+                if (!data) return alert('Vui lòng nhập tên trang');
+
+                // Parse question IDs from comma-separated string
+                const questionIds = questionIdsStr ? questionIdsStr.split(',').map(id => id.trim()).filter(id => id.length > 0) : [];
+
+                createPagesList = data.split('\n')
+                    .map(line => line.trim())
+                    .filter(line => line.length > 0)
+                    .map((title, idx) => ({
+                        title: title,
+                        status: 'pending',
+                        id: null,
+                        sourceQuestionIds: questionIds,
+                        afterPageId: afterId || null,
+                        sourcePageId: sourcePageId || null,
+                        copyLogic: copyLogic
+                    }));
+
+                renderPagePreview();
+                document.getElementById('pagePreviewCard').classList.remove('hidden');
+                document.getElementById('pageResultsCard').classList.add('hidden');
+            }
+
+            function renderPagePreview() {
+                const tbody = document.getElementById('pagePreviewBody');
+                if (createPagesList.length === 0) {
+                    document.getElementById('pagePreviewCard').classList.add('hidden');
+                    return;
+                }
+
+                tbody.innerHTML = createPagesList.map((p, i) => `
+                    <tr class="${p.status === 'success' ? 'row-success' : p.status === 'error' ? 'row-error' : ''}">
+                        <td>${i + 1}</td>
+                        <td>
+                            <input type="text" value="${escapeHtml(p.title)}" 
+                                onchange="updatePageTitle(${i}, this.value)" 
+                                style="width: 100%; background: transparent; border: none; color: inherit;">
+                        </td>
+                        <td>
+                            <span class="status status-${p.status}">${p.status === 'success' ? '✅ Thành công' : p.status === 'error' ? '❌ Lỗi' : '⏳ Chờ tạo'}</span>
+                        </td>
+                        <td>
+                            <div style="display: flex; gap: 5px;">
+                                <button class="btn btn-sm btn-danger" onclick="deletePageRow(${i})">🗑️</button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+
+            function updatePageTitle(index, newTitle) {
+                if (createPagesList[index]) {
+                    createPagesList[index].title = newTitle;
+                }
+            }
+
+            function deletePageRow(index) {
+                createPagesList.splice(index, 1);
+                renderPagePreview();
+            }
+
+            function clearPagePlayground() {
+                if (!confirm('Xóa toàn bộ danh sách trang đang chuẩn bị?')) return;
+                createPagesList = [];
+                document.getElementById('pageData').value = '';
+                renderPagePreview();
+                document.getElementById('pageResultsCard').classList.add('hidden');
+            }
+
+            async function createPages() {
+                const { surveyId } = getApiParams();
+                if (!surveyId) return alert('Vui lòng nhập Survey ID');
+                if (createPagesList.length === 0) return alert('Chưa có trang nào để tạo. Hãy nhấn "Xem trước" đầu tiên.');
+
+                if (!confirm(`Bắt đầu tạo ${createPagesList.length} trang vào khảo sát ${surveyId}?`)) return;
+
+                const btn = document.getElementById('createPageBtn');
+                btn.disabled = true;
+                btn.textContent = '⏳ Đang tạo...';
+
+                let success = 0;
+                let error = 0;
+
+                document.getElementById('pageResultsCard').classList.remove('hidden');
+                document.getElementById('pageTotal').textContent = createPagesList.length;
+
+                // Cache for source questions to avoid re-fetching
+                const questionsCache = {};
+
+                // Track the last created page ID for sequential insertion
+                let lastCreatedPageId = null;
+
+                for (let i = 0; i < createPagesList.length; i++) {
+                    const page = createPagesList[i];
+                    if (page.status === 'success') continue;
+
+                    try {
+                        // Determine which page to insert after
+                        // First page uses afterPageId from input, subsequent pages use the last created page
+                        let insertAfter = (i === 0) ? page.afterPageId : lastCreatedPageId;
+
+                        // 1. Create the page
+                        const createParams = {
+                            _method: 'PUT',
+                            title: page.title
+                        };
+                        if (insertAfter) {
+                            createParams.after = parseInt(insertAfter, 10);
+                        }
+
+                        console.log(`[Page] Creating page "${page.title}" after ID ${insertAfter}...`, createParams);
+                        const response = await alchemerAPI(`survey/${surveyId}/surveypage`, 'POST', createParams);
+
+                        if (response.result_ok) {
+                            const newPageId = response.data.id;
+                            lastCreatedPageId = newPageId; // Track for next iteration
+                            console.log(`[Page] Created new page with ID: ${newPageId}`);
+
+                            // Copy page show_rules from source page if specified
+                            if (page.sourcePageId && page.copyLogic) {
+                                console.log(`[Copy] Fetching source page ${page.sourcePageId} to copy logic...`);
+                                try {
+                                    const sourcePageRes = await alchemerAPI(`survey/${surveyId}/surveypage/${page.sourcePageId}`);
+
+                                    if (sourcePageRes.result_ok && sourcePageRes.data) {
+                                        const sourcePage = sourcePageRes.data;
+
+                                        // Copy page show_rules if present
+                                        if (sourcePage.show_rules && Object.keys(sourcePage.show_rules).length > 0) {
+                                            console.log(`[Copy] Found show_rules on source page, copying to new page ${newPageId}...`);
+                                            const showRulesJson = JSON.stringify(sourcePage.show_rules);
+
+                                            const updatePageParams = {
+                                                _method: 'POST',
+                                                show_rules: showRulesJson
+                                            };
+
+                                            const updatePageRes = await alchemerAPI(`survey/${surveyId}/surveypage/${newPageId}`, 'POST', updatePageParams);
+
+                                            if (updatePageRes.result_ok) {
+                                                console.log(`[Copy] Successfully copied page show_rules to page ${newPageId}`);
+                                            } else {
+                                                console.warn(`[Copy] Failed to copy page show_rules:`, updatePageRes);
+                                            }
+
+                                            await new Promise(r => setTimeout(r, 200));
+                                        } else {
+                                            console.log(`[Copy] No show_rules found on source page ${page.sourcePageId}`);
+                                        }
+                                    } else {
+                                        console.warn(`[Copy] Failed to fetch source page ${page.sourcePageId}:`, sourcePageRes);
+                                    }
+                                } catch (pageLogicErr) {
+                                    console.warn(`[Copy] Error copying page logic:`, pageLogicErr);
+                                }
+                            }
+
+                            // 2. If sourceQuestionIds exists, copy those specific questions
+                            if (page.sourceQuestionIds && page.sourceQuestionIds.length > 0) {
+                                console.log(`[Copy] Copying ${page.sourceQuestionIds.length} questions to page ${newPageId}...`);
+
+                                for (const qId of page.sourceQuestionIds) {
+                                    console.log(`[Copy] Fetching question ID ${qId}...`);
+
+                                    // Fetch the source question
+                                    const qRes = await alchemerAPI(`survey/${surveyId}/surveyquestion/${qId}`);
+
+                                    if (qRes.result_ok && qRes.data) {
+                                        const q = qRes.data;
+                                        const qType = q._type || q.type;
+
+                                        if (!qType || qType.toLowerCase() === 'page') {
+                                            console.log(`[Copy] Skipping question ${qId} (type: ${qType})`);
+                                            continue;
+                                        }
+
+                                        // Build params
+                                        const titleText = typeof q.title === 'object' ? (q.title.English || q.title.Default || Object.values(q.title)[0] || '') : (q.title || '');
+                                        const qParams = {
+                                            _method: 'PUT',
+                                            type: qType,
+                                            'title[English]': titleText
+                                        };
+
+                                        // Copy description
+                                        if (q.description) {
+                                            const descText = typeof q.description === 'object' ? (q.description.English || q.description.Default || Object.values(q.description)[0]) : q.description;
+                                            if (descText) qParams['description[English]'] = descText;
+                                        }
+
+                                        console.log(`[Copy] Creating question "${titleText}" (${qType}) on page ${newPageId}`);
+                                        const createQRes = await alchemerAPI(`survey/${surveyId}/surveypage/${newPageId}/surveyquestion`, 'POST', qParams);
+
+                                        if (createQRes.result_ok && createQRes.data) {
+                                            const newQuestionId = createQRes.data.id;
+                                            console.log(`[Copy] Created question ID ${newQuestionId} from source ${qId}`);
+
+                                            // Fetch and copy options from the source question
+                                            console.log(`[Copy] Fetching options for source question ${qId}...`);
+                                            const optionsRes = await alchemerAPI(`survey/${surveyId}/surveyquestion/${qId}/surveyoption`);
+
+                                            if (optionsRes.result_ok && optionsRes.data && Array.isArray(optionsRes.data) && optionsRes.data.length > 0) {
+                                                console.log(`[Copy] Found ${optionsRes.data.length} options, copying...`);
+
+                                                for (const opt of optionsRes.data) {
+                                                    const optTitle = typeof opt.title === 'object' ? (opt.title.English || opt.title.Default || Object.values(opt.title)[0] || '') : (opt.title || opt.value || '');
+
+                                                    if (!optTitle) continue;
+
+                                                    const optParams = {
+                                                        _method: 'PUT',
+                                                        'title[English]': optTitle
+                                                    };
+
+                                                    if (opt.value) optParams.value = opt.value;
+
+                                                    const optRes = await alchemerAPI(`survey/${surveyId}/surveyquestion/${newQuestionId}/surveyoption`, 'POST', optParams);
+
+                                                    if (optRes.result_ok) {
+                                                        console.log(`[Copy] Created option: "${optTitle}"`);
+                                                    } else {
+                                                        console.error(`[Copy] Failed to create option "${optTitle}":`, optRes);
+                                                    }
+
+                                                    await new Promise(r => setTimeout(r, 200));
+                                                }
+                                            } else {
+                                                console.log(`[Copy] No options found for question ${qId}`);
+                                            }
+
+                                            // Copy show_rules (display logic) if present and copyLogic is enabled
+                                            if (page.copyLogic && q.show_rules && Object.keys(q.show_rules).length > 0) {
+                                                console.log(`[Copy] Found show_rules for question ${qId}, copying logic...`);
+                                                try {
+                                                    const showRulesJson = JSON.stringify(q.show_rules);
+                                                    const updateParams = {
+                                                        _method: 'POST',
+                                                        show_rules: showRulesJson
+                                                    };
+
+                                                    const updateRes = await alchemerAPI(`survey/${surveyId}/surveyquestion/${newQuestionId}`, 'POST', updateParams);
+
+                                                    if (updateRes.result_ok) {
+                                                        console.log(`[Copy] Successfully copied show_rules to question ${newQuestionId}`);
+                                                    } else {
+                                                        console.warn(`[Copy] Failed to copy show_rules to question ${newQuestionId}:`, updateRes);
+                                                    }
+
+                                                    await new Promise(r => setTimeout(r, 200));
+                                                } catch (logicErr) {
+                                                    console.warn(`[Copy] Error copying show_rules:`, logicErr);
+                                                }
+                                            } else if (!page.copyLogic) {
+                                                console.log(`[Copy] Skipping show_rules copy (copyLogic disabled)`);
+                                            } else {
+                                                console.log(`[Copy] No show_rules found for question ${qId}`);
+                                            }
+                                        } else {
+                                            console.error(`[Copy] Failed to create question from ID ${qId}:`, createQRes);
+                                        }
+                                    } else {
+                                        console.error(`[Copy] Failed to fetch question ID ${qId}:`, qRes);
+                                    }
+
+                                    await new Promise(r => setTimeout(r, 500));
+                                }
+                            }
+
+                            page.status = 'success';
+                            page.id = newPageId;
+                            success++;
+                        } else {
+                            page.status = 'error';
+                            error++;
+                        }
+                    } catch (e) {
+                        page.status = 'error';
+                        error++;
+                        console.error(`Exception creating page "${page.title}":`, e);
+                    }
+
+                    // Update UI
+                    document.getElementById('pageSuccess').textContent = success;
+                    document.getElementById('pageError').textContent = error;
+                    renderPagePreview();
+
+                    // Delay between pages
+                    await new Promise(r => setTimeout(r, 500));
+                }
+
+                btn.disabled = false;
+                btn.textContent = '🚀 Tạo Trang';
+                alert(`Hoàn thành! Thành công: ${success}, Lỗi: ${error}`);
             }
 
             // ========== CREATE ==========

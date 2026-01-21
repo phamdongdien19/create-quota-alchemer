@@ -25,7 +25,8 @@ exports.alchemerProxy = functions.https.onRequest((req, res) => {
             return;
         }
 
-        const { path, method = "GET", params = {}, data = {} } = req.body;
+        const { path, method = "GET", params = {}, data: bodyData } = req.body;
+        const data = bodyData || {};
 
         if (!path) {
             res.status(400).json({ result_ok: false, message: "Path is required" });
